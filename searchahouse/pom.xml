@@ -43,6 +43,18 @@
 
 
 		<!-- ....................................................................................... -->
+		<!-- START: DATA/PERSISTENCE ............................................................... -->
+		<!-- ....................................................................................... -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<!-- ....................................................................................... -->
+		<!-- START: DATA/PERSISTENCE ............................................................... -->
+		<!-- ....................................................................................... -->
+
+
+		<!-- ....................................................................................... -->
 		<!--START: Test integration. ............................................................... -->
 		<!-- ....................................................................................... -->
 		<dependency>
@@ -50,9 +62,35 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<!-- A Java DSL for reading JSON documents -->
+			<!-- JsonPath expressions always refer to a JSON structure in the same 
+				way as XPath expression are used in combination with an XML document. The 
+				"root member object" in JsonPath is always referred to as $ regardless if 
+				it is an object or array. JsonPath expressions can use the dot–notation $.store.book[0].title 
+				or the bracket–notation $['store']['book'][0]['title'] -->
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- ....................................................................................... -->
 		<!--END: Test integration................................................................... -->
 		<!-- ....................................................................................... -->
+
+		<!-- ....................................................................................... -->
+		<!-- START: Miscellaneous................................................................... -->
+		<!-- ....................................................................................... -->
+		<dependency>
+			<!-- The standard Java libraries fail to provide enough methods for manipulation 
+				of its core classes. Apache Commons Lang provides these extra methods. -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<!-- ....................................................................................... -->
+		<!-- END: Miscellaneous..................................................................... -->
+		<!-- ....................................................................................... -->
+
 	</dependencies>
 
 	<build>
