@@ -21,7 +21,7 @@ public class PropertyResourceAssembler implements ResourceAssembler<Property, Pr
 		PropertyResource pr = new PropertyResource(entity);
 
 		// add link to itself ( rel = self )
-		Link selfLink = linkTo(methodOn(PropertyRestEndpoint.class).getProperty(entity.getId())).withSelfRel();
+		Link selfLink = linkTo(methodOn(PropertyRestEndpoint.class).getProperty(entity.getId().toString())).withSelfRel();
 		pr.add(selfLink);
 
 		return pr;

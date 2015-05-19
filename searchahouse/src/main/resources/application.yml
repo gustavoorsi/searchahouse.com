@@ -1,5 +1,13 @@
-#mongodb connection
 spring:
+  profiles: development
   data:
     mongodb:
       uri:  mongodb://127.0.0.1:27017/searchahouse
+      
+---
+
+spring:
+  profiles: integrationTest
+  data:
+    mongodb:
+      uri:  mongodb://127.0.0.1:27017/searchahouseTest

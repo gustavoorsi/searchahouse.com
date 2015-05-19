@@ -1,4 +1,3 @@
-
 package edu.searchahouse.model;
 
 public class Property extends BaseEntity<String> {

@@ -85,5 +85,19 @@ public class ExceptionControllerAdvice {
 	VndErrors propertyNotFoundExceptionHandler(PropertyNotFoundException ex) {
 		return new VndErrors(HttpStatus.NOT_FOUND.getReasonPhrase(), ex.getLocalizedMessage());
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	@ResponseBody
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	VndErrors internalServerErrorHandler(Exception ex) {
+		return new VndErrors(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex.getLocalizedMessage());
+	}
 
 }
