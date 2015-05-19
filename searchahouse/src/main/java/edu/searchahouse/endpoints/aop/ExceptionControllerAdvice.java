@@ -47,6 +47,8 @@ import edu.searchahouse.exceptions.PropertyNotFoundException;
  *  409 - Conflict:
  *  		-> The resource is in a state that is in conflict with the request
  *  		-> Client should attempt to rectify the conflict and then resubmit the request
+ *  422 - Unprocessable Entity:
+ *          -> The resource already exist.
  *   
  * 5XX: Server Error (if the app is responding a 500 code it means we have a bug or didn't thought all possible scenarios.)
  * 

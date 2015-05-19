@@ -4,8 +4,7 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import edu.searchahouse.model.Property;
@@ -18,16 +17,12 @@ import edu.searchahouse.model.repository.mongo.PropertyRepository;
  * @author Gustavo Orsi
  *
  */
-@SpringBootApplication
+@Configuration
 @Profile(value = "integrationTest")
 public class SearchahouseApplicationTest implements CommandLineRunner {
 
 	@Autowired
 	private PropertyRepository propertyRepository;
-
-	public static void main(String[] args) {
-		SpringApplication.run(SearchahouseApplicationTest.class, args);
-	}
 
 	@Override
 	public void run(String... args) throws Exception {

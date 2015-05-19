@@ -11,12 +11,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import edu.searchahouse.SearchahouseApplicationTest;
+import edu.searchahouse.SearchahouseApplication;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.model.repository.mongo.PropertyRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SearchahouseApplicationTest.class)
+@SpringApplicationConfiguration(classes = SearchahouseApplication.class)
 @ActiveProfiles(profiles = { "integrationTest" })
 @WebIntegrationTest("server.port:0")
 public class AbstractRestEndpointTest {

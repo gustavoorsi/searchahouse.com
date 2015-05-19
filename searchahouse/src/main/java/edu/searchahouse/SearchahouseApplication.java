@@ -25,7 +25,7 @@ public class SearchahouseApplication {
 	@Profile("development")
 	@Bean
 	CommandLineRunner init(final PropertyRepository propertyRepository) {
-
+		
 		return new CommandLineRunner() {
 
 			@Override

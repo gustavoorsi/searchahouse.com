@@ -21,6 +21,8 @@ public class Property extends BaseEntity<String> {
 	private PropertyType type;
 
 	private PropertyStatus status;
+	
+	public Property(){}
 
 	public Property(String name, String description, String location, Long price, PropertyType type, PropertyStatus status) {
 		this.name = name;
