@@ -49,18 +49,20 @@ public class PropertyRestEndpoint {
 	// *************************************************************//
 
 	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * GET - Pageable properties
+	 * ---------------------------------------------------------------------------------------------------------------- GET - find
+	 * "Pageable" properties
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
 	 * Return a pageable list of Properties.
 	 * 
-	 * @param pageable the page data. Page number and page size.
-	 * @param assembler the assembler that will construct the property resource as a pageable resource.
+	 * @param pageable
+	 *            the page data. Page number and page size.
+	 * @param assembler
+	 *            the assembler that will construct the property resource as a pageable resource.
 	 * @return A pageable list of properties in json or xml format (default to json)
 	 * 
 	 */
-	@RequestMapping( value = "", method = RequestMethod.GET )
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public HttpEntity<PagedResources<PropertyResource>> getPropertiesByPage( //
 			@PageableDefault(size = 10, page = 0) Pageable pageable, //
 			PagedResourcesAssembler<Property> assembler //
@@ -68,14 +70,15 @@ public class PropertyRestEndpoint {
 
 		Page<Property> properties = this.propertyService.getPropertiesByPage(pageable);
 
-		return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(properties, this.propertyResourceAssembler), HttpStatus.OK);
+		return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(properties,
+				this.propertyResourceAssembler), HttpStatus.OK);
 
 	}
 
 	/**
 	 *
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * GET - Property by id
+	 * ---------------------------------------------------------------------------------------------------------------- GET - find
+	 * a Property by id
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
 	 * Get a property by it's primary key. Throw 404 if not found.
@@ -90,12 +93,10 @@ public class PropertyRestEndpoint {
 
 		return new ResponseEntity<PropertyResource>(this.propertyResourceAssembler.toResource(aProperty), HttpStatus.OK);
 	}
-	
-	
-	
+
 	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * POST - A property
+	 * ---------------------------------------------------------------------------------------------------------------- POST -
+	 * Create a property
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
 	 * Create a new property. Throw 422 if resource already exist.
@@ -103,15 +104,42 @@ public class PropertyRestEndpoint {
 	 * @param propertyId
 	 * @return 201 Created and the property location. 422 if the property already exist.
 	 */
-	@RequestMapping(value = "", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	public HttpEntity<?> createProperty(@RequestBody Property input) {
-		
+
 		Property property = this.propertyService.save(input);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId())).toUri());
+		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId()))
+				.toUri());
 
 		return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+	}
+
+	/**
+	 * ---------------------------------------------------------------------------------------------------------------- PUT -
+	 * Update a property
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Updates and existing property. Throw 402 if resource does not exist or 403 in case the resource exist but could not be
+	 * updated.
+	 * 
+	 * @param propertyId
+	 * @return 204 if updated ok, 402 if resource does not exist or 403 in case the resource exist but could not be updated.
+	 */
+	@RequestMapping(value = "/{propertyId}", method = RequestMethod.PUT)
+	public HttpEntity<?> updateProperty( //
+			@RequestBody Property input,//
+			@PathVariable String propertyId //
+	) {
+
+		Property property = this.propertyService.update(propertyId, input);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId()))
+				.toUri());
+
+		return new ResponseEntity<>( "The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
 	}
 
 }

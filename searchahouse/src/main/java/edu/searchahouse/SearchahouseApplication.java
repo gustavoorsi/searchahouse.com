@@ -1,6 +1,7 @@
 package edu.searchahouse;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Arrays;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +16,6 @@ import edu.searchahouse.model.repository.mongo.PropertyRepository;
 @SpringBootApplication
 public class SearchahouseApplication {
 
-	@Autowired
-	private PropertyRepository propertyRepository;
-
 	public static void main(String[] args) {
 		SpringApplication.run(SearchahouseApplication.class, args);
 	}
@@ -26,26 +24,14 @@ public class SearchahouseApplication {
 	@Bean
 	CommandLineRunner init(final PropertyRepository propertyRepository) {
 		
-		return new CommandLineRunner() {
-
-			@Override
-			public void run(String... arg0) throws Exception {
-				propertyRepository.deleteAll();
-
-				Property p1 = new Property("Property 1", "description 1", "location 1", 100000L, PropertyType.SALE,
-						PropertyStatus.AVAILABLE);
-
-				Property p2 = new Property("Property 2", "description 2", "location 2", 200000L, PropertyType.RENT,
-						PropertyStatus.NOT_AVAILABLE);
-
-				// save a couple of properties
-				propertyRepository.save(p1);
-				propertyRepository.save(p2);
-
-			}
-
-		};
-
+		propertyRepository.deleteAll();
+		
+		return (evt) -> Arrays.asList("1,2".split(",")).forEach(
+				index -> {
+					Property property = new Property("Property" + index, "description" + index, "location" + index, 100000L,
+							PropertyType.SALE, PropertyStatus.AVAILABLE);
+					propertyRepository.save(property);
+				});
 	}
 
 }

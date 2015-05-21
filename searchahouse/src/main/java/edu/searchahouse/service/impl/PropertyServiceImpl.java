@@ -34,6 +34,23 @@ public class PropertyServiceImpl implements PropertyService {
 	public Property save(Property input) {
 		return this.propertyRepository.save(input);
 	}
+
+	@Override
+	public Property update(String propertyId, Property input) {
+		
+		// Check if the property exist, throw property not found exception if not found.
+		Property property = this.propertyRepository.findPropertyById(propertyId).orElseThrow( () -> new PropertyNotFoundException(propertyId) );
+		
+		// let's set the id to the input and save the object (this will update the property in the underlying db).
+		input.setId(property.getId());
+		input.setVersion(property.getVersion());
+		
+		input = this.propertyRepository.save(input);
+		
+		return input;
+	}
+	
+	
 	
 	
 

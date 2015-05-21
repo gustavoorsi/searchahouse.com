@@ -28,7 +28,7 @@ public abstract class BaseEntity<ID> {
 	private LocalDateTime modificationTime;
 
 	@Version
-	private long version;
+	private Long version;
 
 	public ID getId() {
 		return id;
@@ -46,8 +46,12 @@ public abstract class BaseEntity<ID> {
 		return modificationTime;
 	}
 
-	public long getVersion() {
+	public Long getVersion() {
 		return version;
+	}
+	
+	public void setVersion(Long version){
+		this.version = version;
 	}
 
 	public void prePersist() {

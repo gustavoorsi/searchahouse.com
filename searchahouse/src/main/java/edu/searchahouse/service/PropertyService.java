@@ -13,5 +13,7 @@ public interface PropertyService {
 	public Page<Property> getPropertiesByPage( Pageable pageable );
 	
 	public Property save( Property input );
+	
+	public Property update( final String propertyId, Property input );
 
 }

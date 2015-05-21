@@ -36,6 +36,8 @@ public class AbstractRestEndpointTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
 		p1 = propertyRepository.findPropertyByName("Property 1").get();
+		
+		System.out.println( p1 );
 
 	}
 
