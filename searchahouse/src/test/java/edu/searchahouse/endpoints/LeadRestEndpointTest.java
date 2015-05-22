@@ -80,6 +80,20 @@ public class LeadRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( status().isCreated() );
 		//@formatter:on
 	}
+	
+	@Test
+	public void createLead_with_duplicate_email_shouldReturn_400_badrequest_httpcode() throws Exception {
+
+		//@formatter:off
+		mockMvc.perform(post( "/api/v1/lead" )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "{\"firstName\":\"Test lead\",\"lastName\":\"last name test\",\"email\":\"1@example.com\"}" ))
+			.andExpect( status().isBadRequest() )
+			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
+			.andExpect( jsonPath( "$[0].message", containsString("duplicate key") ) );
+		//@formatter:on
+	}
 
 	@Test
 	public void updateLead_shouldReturn_204_nocontent_httpcode() throws Exception {

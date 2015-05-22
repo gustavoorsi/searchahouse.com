@@ -1,5 +1,6 @@
 package edu.searchahouse.endpoints.aop;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.hateoas.VndErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -84,5 +85,21 @@ public class ExceptionControllerAdvice {
 	VndErrors internalServerErrorHandler(Exception ex) {
 		return new VndErrors(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex.getLocalizedMessage());
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	@ResponseBody
+	@ExceptionHandler(DuplicateKeyException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	VndErrors duplicateFieldHandler(DuplicateKeyException ex) {
+		return new VndErrors(HttpStatus.BAD_REQUEST.getReasonPhrase(), ex.getMostSpecificCause().getLocalizedMessage());
+	}
+	
+	
 
 }

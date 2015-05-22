@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+
 /**
  * 
  * An agent is someone that have properties to sell/rent and answer all inquiries by the
@@ -20,6 +22,7 @@ public class Agent extends BaseEntity {
 
 	private String lastName;
 
+	@Indexed( unique = true )
 	private String email;
 
 	private Collection<Property> properties;

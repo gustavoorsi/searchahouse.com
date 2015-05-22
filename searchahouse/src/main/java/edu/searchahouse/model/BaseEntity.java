@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * 
@@ -15,9 +16,8 @@ import org.springframework.data.annotation.Version;
  * 
  * @author Gustavo Orsi
  *
- * @param <ID>
  */
-// @MappedSuperclass
+@Document
 public abstract class BaseEntity {
 
 	@Id

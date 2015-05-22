@@ -3,6 +3,8 @@ package edu.searchahouse.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+
 /**
  * 
  * This is a regular person who wants information about a property. Basically a lead is a possible buyer of a property.
@@ -16,6 +18,7 @@ public class Lead extends BaseEntity {
 
 	private String lastName;
 
+	@Indexed( unique = true )
 	private String email;
 
 	private String mobilePhone;

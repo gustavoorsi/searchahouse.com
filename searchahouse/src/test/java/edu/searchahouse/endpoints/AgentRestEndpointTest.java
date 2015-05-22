@@ -79,6 +79,20 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( status().isCreated() );
 		//@formatter:on
 	}
+	
+	@Test
+	public void createAgent_with_duplicate_email_shouldReturn_400_badrequest_httpcode() throws Exception {
+
+		//@formatter:off
+		mockMvc.perform(post( "/api/v1/agent" )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "{\"firstName\":\"Test agent\",\"lastName\":\"last name test\",\"email\":\"1@example.com\"}" ))
+			.andExpect( status().isBadRequest() )
+			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
+			.andExpect( jsonPath( "$[0].message", containsString("duplicate key") ) );
+		//@formatter:on
+	}
 
 	@Test
 	public void updateAgent_shouldReturn_204_nocontent_httpcode() throws Exception {
