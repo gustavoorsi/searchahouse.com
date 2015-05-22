@@ -1,6 +1,9 @@
 
 package edu.searchahouse.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  * This is a regular person who wants information about a property. Basically a lead is a
@@ -9,7 +12,7 @@ package edu.searchahouse.model;
  * @author Gustavo Orsi
  *
  */
-public class Lead extends BaseEntity<String> {
+public class Lead extends BaseEntity {
 
 	private String firstName;
 
@@ -56,6 +59,16 @@ public class Lead extends BaseEntity<String> {
 
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+	
+	public Map<String, Object> toMap() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		put(map, this.email, "email");
+		put(map, this.firstName, "firstName");
+		put(map, this.lastName, "lastName");
+		put(map, this.mobilePhone, "mobilePhone");
+
+		return map;
 	}
 
 }

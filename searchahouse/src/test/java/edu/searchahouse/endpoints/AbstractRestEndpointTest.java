@@ -1,5 +1,7 @@
 package edu.searchahouse.endpoints;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import edu.searchahouse.SearchahouseApplication;
 import edu.searchahouse.model.Property;
+import edu.searchahouse.model.Property.PropertyStatus;
+import edu.searchahouse.model.Property.PropertyType;
 import edu.searchahouse.model.repository.mongo.PropertyRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,10 +38,19 @@ public class AbstractRestEndpointTest {
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
-		p1 = propertyRepository.findPropertyByName("Property 1").get();
 		
-		System.out.println( p1 );
+		propertyRepository.deleteAll();
+
+		Arrays.asList("1,2".split(",")).forEach(
+				index -> {
+					Property property = new Property("Property" + index, "description" + index, "location" + index, 100000L, PropertyType.SALE,
+							PropertyStatus.AVAILABLE);
+					propertyRepository.save(property);
+				});
+
+		p1 = propertyRepository.findPropertyByName("Property1").get();
+
+		System.out.println(p1);
 
 	}
 

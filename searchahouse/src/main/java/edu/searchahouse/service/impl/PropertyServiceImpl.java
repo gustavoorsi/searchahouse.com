@@ -3,9 +3,14 @@ package edu.searchahouse.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import edu.searchahouse.exceptions.PropertyNotFoundException;
+import edu.searchahouse.model.BaseEntity;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.model.repository.mongo.PropertyRepository;
 import edu.searchahouse.service.PropertyService;
@@ -15,9 +20,15 @@ public class PropertyServiceImpl implements PropertyService {
 
 	private final PropertyRepository propertyRepository;
 
+	private final MongoTemplate mongoTemplate;
+
 	@Autowired
-	public PropertyServiceImpl(PropertyRepository propertyRepository) {
+	public PropertyServiceImpl(//
+			final PropertyRepository propertyRepository, //
+			final MongoTemplate mongoTemplate//
+	) {
 		this.propertyRepository = propertyRepository;
+		this.mongoTemplate = mongoTemplate;
 	}
 
 	@Override
@@ -36,22 +47,24 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public Property update(String propertyId, Property input) {
+	public Property update(String propertyId, Property inputProperty) {
 		
-		// Check if the property exist, throw property not found exception if not found.
-		Property property = this.propertyRepository.findPropertyById(propertyId).orElseThrow( () -> new PropertyNotFoundException(propertyId) );
+		Query query = new Query(Criteria.where("_id").is(propertyId));
+		Update update = createUpdate(inputProperty);
 		
-		// let's set the id to the input and save the object (this will update the property in the underlying db).
-		input.setId(property.getId());
-		input.setVersion(property.getVersion());
+		this.mongoTemplate.upsert(query, update, Property.class);
 		
-		input = this.propertyRepository.save(input);
-		
-		return input;
+		inputProperty.setId( propertyId );
+
+		return inputProperty;
 	}
 	
-	
-	
-	
+	private Update createUpdate( final BaseEntity entity ){
+		Update update = new Update();
+		
+		entity.toMap().forEach( (k,v) -> update.set(k, v) );
+		
+		return update;
+	}
 
 }

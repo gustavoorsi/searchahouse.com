@@ -1,6 +1,9 @@
 package edu.searchahouse.model;
 
-public class Property extends BaseEntity<String> {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Property extends BaseEntity {
 
 	public enum PropertyType {
 		SALE, RENT;
@@ -21,8 +24,9 @@ public class Property extends BaseEntity<String> {
 	private PropertyType type;
 
 	private PropertyStatus status;
-	
-	public Property(){}
+
+	public Property() {
+	}
 
 	public Property(String name, String description, String location, Long price, PropertyType type, PropertyStatus status) {
 		this.name = name;
@@ -81,4 +85,15 @@ public class Property extends BaseEntity<String> {
 		this.status = status;
 	}
 
+	public Map<String, Object> toMap() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		put(map, this.name, "name");
+		put(map, this.description, "description");
+		put(map, this.location, "location");
+		put(map, this.price, "price");
+		put(map, this.status, "status");
+		put(map, this.type, "type");
+
+		return map;
+	}
 }

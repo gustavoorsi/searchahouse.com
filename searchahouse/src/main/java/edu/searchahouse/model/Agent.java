@@ -3,6 +3,8 @@ package edu.searchahouse.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -12,7 +14,7 @@ import java.util.Collection;
  * @author Gustavo Orsi
  *
  */
-public class Agent extends BaseEntity<String> {
+public class Agent extends BaseEntity {
 
 	private String firstName;
 
@@ -66,6 +68,15 @@ public class Agent extends BaseEntity<String> {
 		}
 		getProperties().add(aProperty);
 		return getProperties();
+	}
+	
+	public Map<String, Object> toMap() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		put(map, this.email, "email");
+		put(map, this.firstName, "firstName");
+		put(map, this.lastName, "lastName");
+
+		return map;
 	}
 
 }

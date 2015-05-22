@@ -1,7 +1,7 @@
-
 package edu.searchahouse.model;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -18,10 +18,10 @@ import org.springframework.data.annotation.Version;
  * @param <ID>
  */
 // @MappedSuperclass
-public abstract class BaseEntity<ID> {
+public abstract class BaseEntity {
 
 	@Id
-	private ID id;
+	private String id;
 
 	private LocalDateTime creationTime;
 
@@ -30,11 +30,11 @@ public abstract class BaseEntity<ID> {
 	@Version
 	private Long version;
 
-	public ID getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ID id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -49,8 +49,8 @@ public abstract class BaseEntity<ID> {
 	public Long getVersion() {
 		return version;
 	}
-	
-	public void setVersion(Long version){
+
+	public void setVersion(Long version) {
 		this.version = version;
 	}
 
@@ -77,6 +77,14 @@ public abstract class BaseEntity<ID> {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public abstract Map<String, Object> toMap();
+
+	protected void put(Map<String, Object> map, Object field, String fieldName) {
+		if (field != null) {
+			map.put(fieldName, field);
+		}
 	}
 
 }

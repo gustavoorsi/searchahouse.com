@@ -26,7 +26,7 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 		mockMvc.perform(get( "/api/v1/property/" + p1.getId() ))
 			.andExpect( status().isOk() )
 			.andExpect( content().contentType( MediaTypes.HAL_JSON ) )
-			.andExpect( jsonPath( "$.name", containsString("Property 1") ) )
+			.andExpect( jsonPath( "$.name", containsString("Property1") ) )
 			.andExpect( jsonPath( "$._links.self.href", endsWith("/property/" + p1.getId()) ) );
 		//@formatter:on
 	}
@@ -50,8 +50,8 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( status().isOk() )
 			.andExpect( content().contentType(MediaTypes.HAL_JSON) )
 			.andExpect( jsonPath( "$._embedded.propertyList", hasSize(2)) )
-			.andExpect( jsonPath( "$._embedded.propertyList[0].name", containsString("Property 1") ) )
-			.andExpect( jsonPath( "$._embedded.propertyList[1].name", containsString("Property 2") ) )
+			.andExpect( jsonPath( "$._embedded.propertyList[0].name", containsString("Property1") ) )
+			.andExpect( jsonPath( "$._embedded.propertyList[1].name", containsString("Property2") ) )
 			.andExpect( jsonPath( "$._links.self.templated", is(true)) )
 			.andExpect( jsonPath( "$._links.self.href", endsWith("/property" + "{?page,size,sort}") ) );
 		//@formatter:on
@@ -76,7 +76,7 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 		mockMvc.perform(put( "/api/v1/property/" +  p1.getId() )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.content( "{\"name\":\"Property 1\",\"description\":\"some description\",\"location\":\"bsas\",\"price\":50000,\"type\":\"SALE\",\"status\":\"AVAILABLE\"}" ))
+				.content( "{\"name\":\"new name\",\"description\":\"some description\"}" ))
 			.andExpect( status().isNoContent() );
 		//@formatter:on
 	}
