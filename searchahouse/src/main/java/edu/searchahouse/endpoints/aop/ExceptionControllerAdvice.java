@@ -1,4 +1,3 @@
-
 package edu.searchahouse.endpoints.aop;
 
 import org.springframework.hateoas.VndErrors;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import edu.searchahouse.exceptions.EntityNotFoundException;
-import edu.searchahouse.exceptions.PropertyNotFoundException;
 
 //@formatter:off
 /**
@@ -74,21 +72,6 @@ public class ExceptionControllerAdvice {
 		return new VndErrors(HttpStatus.NOT_FOUND.getReasonPhrase(), ex.getMessage());
 	}
 
-	/**
-	 * 
-	 * Catch <code>PropertyNotFoundException</code> exception thrown by any endpoint and change the return code.
-	 * 
-	 * @param ex
-	 * @return
-	 */
-	@ResponseBody
-	@ExceptionHandler(PropertyNotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	VndErrors propertyNotFoundExceptionHandler(PropertyNotFoundException ex) {
-		return new VndErrors(HttpStatus.NOT_FOUND.getReasonPhrase(), ex.getLocalizedMessage());
-	}
-	
-	
 	/**
 	 * 
 	 * 

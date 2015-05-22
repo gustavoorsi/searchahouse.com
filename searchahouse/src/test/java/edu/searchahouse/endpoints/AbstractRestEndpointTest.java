@@ -14,9 +14,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import edu.searchahouse.SearchahouseApplication;
+import edu.searchahouse.model.Agent;
+import edu.searchahouse.model.Lead;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.model.Property.PropertyStatus;
 import edu.searchahouse.model.Property.PropertyType;
+import edu.searchahouse.model.repository.mongo.AgentRepository;
+import edu.searchahouse.model.repository.mongo.LeadRepository;
 import edu.searchahouse.model.repository.mongo.PropertyRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,12 +37,18 @@ public class AbstractRestEndpointTest {
 	@Autowired
 	protected PropertyRepository propertyRepository;
 
-	protected Property p1;
+	@Autowired
+	protected LeadRepository leadRepository;
 
+	@Autowired
+	protected AgentRepository agentRepository;
+	
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		
+	}
+
+	protected void createPropertiesForTest() {
 		propertyRepository.deleteAll();
 
 		Arrays.asList("1,2".split(",")).forEach(
@@ -47,11 +57,26 @@ public class AbstractRestEndpointTest {
 							PropertyStatus.AVAILABLE);
 					propertyRepository.save(property);
 				});
+	}
 
-		p1 = propertyRepository.findPropertyByName("Property1").get();
+	protected void createLeadsForTest() {
+		leadRepository.deleteAll();
 
-		System.out.println(p1);
+		Arrays.asList("1,2".split(",")).forEach(index -> {
+			Lead lead = new Lead("Lead" + index, "last name " + index, index + "@example.com", "012345678" + index);
 
+			leadRepository.save(lead);
+		});
+	}
+
+	protected void createAgentsForTest() {
+		agentRepository.deleteAll();
+
+		Arrays.asList("1,2".split(",")).forEach(index -> {
+			Agent agent = new Agent("Agent" + index, "last name" + index, index + "@example.com");
+
+			agentRepository.save(agent);
+		});
 	}
 
 }

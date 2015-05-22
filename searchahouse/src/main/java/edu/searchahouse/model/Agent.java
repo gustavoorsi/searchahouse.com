@@ -23,6 +23,8 @@ public class Agent extends BaseEntity {
 	private String email;
 
 	private Collection<Property> properties;
+	
+	public Agent(){}
 
 	public Agent(String firstName, String lastName, String email) {
 		this.firstName = firstName;

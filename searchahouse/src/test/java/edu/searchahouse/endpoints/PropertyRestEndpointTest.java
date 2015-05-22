@@ -2,22 +2,34 @@ package edu.searchahouse.endpoints;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyString;
 import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 
+import edu.searchahouse.model.Property;
+
 public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
+
+	private Property p1;
+
+	@Before
+	public void propertiesForTest() {
+		super.createPropertiesForTest();
+
+		p1 = propertyRepository.findPropertyByName("Property1").get();
+	}
 
 	@Test
 	public void getProperty_shouldReturn_property_and_200_ok_httpcode() throws Exception {

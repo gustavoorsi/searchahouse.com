@@ -1,4 +1,3 @@
-
 package edu.searchahouse.model;
 
 import java.util.HashMap;
@@ -6,8 +5,7 @@ import java.util.Map;
 
 /**
  * 
- * This is a regular person who wants information about a property. Basically a lead is a
- * possible buyer of a property.
+ * This is a regular person who wants information about a property. Basically a lead is a possible buyer of a property.
  * 
  * @author Gustavo Orsi
  *
@@ -21,6 +19,9 @@ public class Lead extends BaseEntity {
 	private String email;
 
 	private String mobilePhone;
+
+	public Lead() {
+	}
 
 	public Lead(String firstName, String lastName, String email, String mobilePhone) {
 		this.firstName = firstName;
@@ -60,7 +61,7 @@ public class Lead extends BaseEntity {
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
 	}
-	
+
 	public Map<String, Object> toMap() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		put(map, this.email, "email");

@@ -49,8 +49,10 @@ public class PropertyRestEndpoint {
 	// *************************************************************//
 
 	/**
-	 * ---------------------------------------------------------------------------------------------------------------- GET - find
-	 * "Pageable" properties
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * GET - find "Pageable" properties
+	 * 
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
 	 * Return a pageable list of Properties.
@@ -70,15 +72,16 @@ public class PropertyRestEndpoint {
 
 		Page<Property> properties = this.propertyService.getPropertiesByPage(pageable);
 
-		return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(properties,
-				this.propertyResourceAssembler), HttpStatus.OK);
+		return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(properties, this.propertyResourceAssembler), HttpStatus.OK);
 
 	}
 
 	/**
 	 *
-	 * ---------------------------------------------------------------------------------------------------------------- GET - find
-	 * a Property by id
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * GET - find a Property by id
+	 * 
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
 	 * Get a property by it's primary key. Throw 404 if not found.
@@ -95,8 +98,10 @@ public class PropertyRestEndpoint {
 	}
 
 	/**
-	 * ---------------------------------------------------------------------------------------------------------------- POST -
-	 * Create a property
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * POST - Create a property
+	 * 
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
 	 * Create a new property. Throw 422 if resource already exist.
@@ -110,19 +115,19 @@ public class PropertyRestEndpoint {
 		Property property = this.propertyService.save(input);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId()))
-				.toUri());
+		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId())).toUri());
 
 		return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
 	}
 
 	/**
-	 * ---------------------------------------------------------------------------------------------------------------- PUT -
-	 * Update a property
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
-	 * Updates and existing property. Throw 402 if resource does not exist or 403 in case the resource exist but could not be
-	 * updated.
+	 * PUT - Update a property
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Updates an existing property. Throw 402 if resource does not exist or 403 in case the resource exist but could not be updated.
 	 * 
 	 * @param propertyId
 	 * @return 204 if updated ok, 402 if resource does not exist or 403 in case the resource exist but could not be updated.
@@ -136,10 +141,9 @@ public class PropertyRestEndpoint {
 		Property property = this.propertyService.update(propertyId, input);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId()))
-				.toUri());
+		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId())).toUri());
 
-		return new ResponseEntity<>( "The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
 	}
 
 }

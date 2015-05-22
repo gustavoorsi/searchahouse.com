@@ -1,4 +1,3 @@
-
 package edu.searchahouse.endpoints.resources.assemblers;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
