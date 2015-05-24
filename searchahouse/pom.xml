@@ -82,7 +82,8 @@
 		<!-- ....................................................................................... -->
 		<dependency>
 			<!-- The standard Java libraries fail to provide enough methods for manipulation 
-				of its core classes. Apache Commons Lang provides these extra methods. -->
+				of its core classes. Apache Commons Lang provides these extra methods. You 
+				can create equals and toString with reflection. -->
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
