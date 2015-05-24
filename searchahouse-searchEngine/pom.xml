@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>edu.searchahouse</groupId>
+	<artifactId>searchengine</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>searchahouse-searchEngine</name>
+	<description>Microservice that handle search operations for Agent, Property and Lead entities. Using elasticsearch as db.</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.2.3.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>edu.searchahouse.searchengine.SearchahouseSearchEngineApplication</start-class>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<!-- ....................................................................................... -->
+		<!-- START: Web and REST. .................................................................. -->
+		<!-- ....................................................................................... -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- ....................................................................................... -->
+		<!-- END: Web and REST...................................................................... -->
+		<!-- ....................................................................................... -->
+
+
+		<!-- ....................................................................................... -->
+		<!-- START: DATA/PERSISTENCE ............................................................... -->
+		<!-- ....................................................................................... -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+		</dependency>
+		<!-- ....................................................................................... -->
+		<!-- START: DATA/PERSISTENCE ............................................................... -->
+		<!-- ....................................................................................... -->
+
+
+		<!-- ....................................................................................... -->
+		<!--START: Test integration. ............................................................... -->
+		<!-- ....................................................................................... -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- A Java DSL for reading JSON documents -->
+			<!-- JsonPath expressions always refer to a JSON structure in the same 
+				way as XPath expression are used in combination with an XML document. The 
+				"root member object" in JsonPath is always referred to as $ regardless if 
+				it is an object or array. JsonPath expressions can use the dot–notation $.store.book[0].title 
+				or the bracket–notation $['store']['book'][0]['title'] -->
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- ....................................................................................... -->
+		<!--END: Test integration................................................................... -->
+		<!-- ....................................................................................... -->
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
