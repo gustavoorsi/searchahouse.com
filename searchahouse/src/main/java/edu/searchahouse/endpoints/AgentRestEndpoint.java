@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.searchahouse.endpoints.resources.AgentResource;
 import edu.searchahouse.endpoints.resources.assemblers.AgentResourceAssembler;
 import edu.searchahouse.model.Agent;
+import edu.searchahouse.model.LeadPortfolio;
+import edu.searchahouse.model.Property;
 import edu.searchahouse.service.AgentService;
 
 @RestController
@@ -126,14 +128,40 @@ public class AgentRestEndpoint {
 	/**
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
+	 * PUT - Add a property to an agent
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Add a property to a agent. Throw 402 if property or agent resource does not exist.
+	 * 
+	 * @param agentId
+	 * @return 204 if updated ok, 402 if resource does not exist or 403 in case the resource exist but could not be updated.
+	 */
+	@RequestMapping(value = "/{agentId}/property/{propertyId}", method = RequestMethod.PUT)
+	public HttpEntity<?> addProperty(//
+			@PathVariable final String agentId, //
+			@PathVariable final String propertyId //
+			) {
+
+		Property property = this.agentService.addProperty(agentId, propertyId);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty( property.getId() ) ).toUri());
+
+		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
+	}
+
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
 	 * PUT - Update an agent
 	 * 
 	 * ----------------------------------------------------------------------------------------------------------------
 	 * 
-	 * Updates an existing agent. Throw 402 if resource does not exist or 403 in case the resource exist but could not be updated.
+	 * Updates an existing agent. Throw 404 if resource does not exist or 403 in case the resource exist but could not be updated.
 	 * 
 	 * @param agentId
-	 * @return 204 if updated ok, 402 if resource does not exist or 403 in case the resource exist but could not be updated.
+	 * @return 204 if updated ok, 404 if resource does not exist or 403 in case the resource exist but could not be updated.
 	 */
 	@RequestMapping(value = "/{agentId}", method = RequestMethod.PUT)
 	public HttpEntity<?> updateAgent( //
@@ -145,6 +173,33 @@ public class AgentRestEndpoint {
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId())).toUri());
+
+		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
+	}
+	
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * PUT - Update contact status of lead for an agent.
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Updates the contact status of a lead of an existing agent. Throw 404 if resource does not exist or 403 in case the resource exist but could not be updated.
+	 * 
+	 * @param agentId
+	 * @return 204 if updated ok, 404 if resource does not exist or 403 in case the resource exist but could not be updated.
+	 */
+	@RequestMapping(value = "/{agentId}/lead/{leadId}", method = RequestMethod.PUT)
+	public HttpEntity<?> updateAgent( //
+			@PathVariable String agentId, //
+			@PathVariable String leadId, //
+			@RequestBody LeadPortfolio input //
+	) {
+
+		this.agentService.updateLeadContactStatus(agentId, leadId, input);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agentId).getAgent(agentId)).toUri());
 
 		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
 	}

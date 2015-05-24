@@ -92,5 +92,19 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( status().isNoContent() );
 		//@formatter:on
 	}
+	
+	@Test
+	public void updateProperty_shouldReturn_404_notfound_httpcode() throws Exception {
+
+		//@formatter:off
+		mockMvc.perform(put( "/api/v1/property/xxx" )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "{\"name\":\"new name\",\"description\":\"some description\"}" ))
+			.andExpect( status().isNotFound() )
+			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
+			.andExpect( jsonPath( "$[0].message",not( isEmptyString() )  ) );
+		//@formatter:on
+	}
 
 }

@@ -83,7 +83,11 @@ public abstract class BaseEntity {
 
 	protected void put(Map<String, Object> map, Object field, String fieldName) {
 		if (field != null) {
+			// if( field instanceof Collection ){
+			// ((Collection) field).stream().forEach( entity -> map.put( fieldName, ((BaseEntity) entity).toMap()) );
+			// } else {
 			map.put(fieldName, field);
+			// }
 		}
 	}
 

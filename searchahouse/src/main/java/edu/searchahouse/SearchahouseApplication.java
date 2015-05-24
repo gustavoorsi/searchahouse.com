@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Lead;
+import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.model.Property.PropertyStatus;
 import edu.searchahouse.model.Property.PropertyType;
@@ -42,10 +43,14 @@ public class SearchahouseApplication {
 							PropertyStatus.AVAILABLE);
 					propertyRepository.save(property);
 
-					Lead lead = new Lead("Lead" + index, "last name " + index, index + "@example.com", "012345678" + index);
+					Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
 					leadRepository.save(lead);
 
-					Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "@example.com");
+					Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
+
+					agent.addLead(new LeadPortfolio(lead));
+					agent.addProperty(property);
+
 					agentRepository.save(agent);
 				});
 

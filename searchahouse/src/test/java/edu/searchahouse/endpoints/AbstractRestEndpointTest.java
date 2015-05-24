@@ -63,7 +63,7 @@ public class AbstractRestEndpointTest {
 		leadRepository.deleteAll();
 
 		Arrays.asList("1,2".split(",")).forEach(index -> {
-			Lead lead = new Lead("Lead" + index, "last name " + index, index + "@example.com", "012345678" + index);
+			Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
 
 			leadRepository.save(lead);
 		});
@@ -73,7 +73,7 @@ public class AbstractRestEndpointTest {
 		agentRepository.deleteAll();
 
 		Arrays.asList("1,2".split(",")).forEach(index -> {
-			Agent agent = new Agent("Agent" + index, "last name" + index, index + "@example.com");
+			Agent agent = new Agent("Agent" + index, "last name" + index, index + "agent@example.com");
 
 			agentRepository.save(agent);
 		});

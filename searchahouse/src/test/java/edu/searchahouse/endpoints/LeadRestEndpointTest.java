@@ -28,7 +28,7 @@ public class LeadRestEndpointTest extends AbstractRestEndpointTest {
 	public void leadsForTest() {
 		super.createLeadsForTest();
 
-		aLead = leadRepository.findLeadByEmail("1@example.com").get();
+		aLead = leadRepository.findLeadByEmail("1lead@example.com").get();
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class LeadRestEndpointTest extends AbstractRestEndpointTest {
 		mockMvc.perform(post( "/api/v1/lead" )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.content( "{\"firstName\":\"Test lead\",\"lastName\":\"last name test\",\"email\":\"1@example.com\"}" ))
+				.content( "{\"firstName\":\"Test lead\",\"lastName\":\"last name test\",\"email\":\"1lead@example.com\"}" ))
 			.andExpect( status().isBadRequest() )
 			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
 			.andExpect( jsonPath( "$[0].message", containsString("duplicate key") ) );

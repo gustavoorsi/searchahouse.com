@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import edu.searchahouse.exceptions.EntityNotFoundException;
+import edu.searchahouse.exceptions.EntityNotUpdatedException;
 
 //@formatter:off
 /**
@@ -85,8 +86,20 @@ public class ExceptionControllerAdvice {
 	VndErrors internalServerErrorHandler(Exception ex) {
 		return new VndErrors(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex.getLocalizedMessage());
 	}
-	
-	
+
+	/**
+	 * 
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	@ResponseBody
+	@ExceptionHandler(EntityNotUpdatedException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	VndErrors entityNotUpdatedExceptionHandler(EntityNotUpdatedException ex) {
+		return new VndErrors(HttpStatus.BAD_REQUEST.getReasonPhrase(), ex.getLocalizedMessage());
+	}
+
 	/**
 	 * 
 	 * 
@@ -99,7 +112,5 @@ public class ExceptionControllerAdvice {
 	VndErrors duplicateFieldHandler(DuplicateKeyException ex) {
 		return new VndErrors(HttpStatus.BAD_REQUEST.getReasonPhrase(), ex.getMostSpecificCause().getLocalizedMessage());
 	}
-	
-	
 
 }

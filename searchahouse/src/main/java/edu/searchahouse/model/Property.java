@@ -3,6 +3,10 @@ package edu.searchahouse.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.annotation.TypeAlias;
+
+//Customizing type mapping to avoid writing the entire Java class name as type information ("_class" : "du.searchahouse.model.Agent").
+@TypeAlias("Property")
 public class Property extends BaseEntity {
 
 	public enum PropertyType {

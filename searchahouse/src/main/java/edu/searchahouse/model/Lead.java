@@ -3,6 +3,7 @@ package edu.searchahouse.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
@@ -12,6 +13,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
  * @author Gustavo Orsi
  *
  */
+//Customizing type mapping to avoid writing the entire Java class name as type information ("_class" : "du.searchahouse.model.Agent").
+@TypeAlias("Lead")
 public class Lead extends BaseEntity {
 
 	private String firstName;

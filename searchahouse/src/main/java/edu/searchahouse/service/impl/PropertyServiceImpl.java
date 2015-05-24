@@ -3,7 +3,7 @@ package edu.searchahouse.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
 
 import edu.searchahouse.exceptions.EntityNotFoundException;
@@ -19,9 +19,9 @@ public class PropertyServiceImpl extends BaseService implements PropertyService 
 	@Autowired
 	public PropertyServiceImpl(//
 			final PropertyRepository propertyRepository, //
-			final MongoTemplate mongoTemplate//
+			final MongoOperations mongoOperations//
 	) {
-		super(mongoTemplate);
+		super(mongoOperations);
 		this.propertyRepository = propertyRepository;
 	}
 

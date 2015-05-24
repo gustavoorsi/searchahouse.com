@@ -19,15 +19,23 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 
 import edu.searchahouse.model.Agent;
+import edu.searchahouse.model.Lead;
+import edu.searchahouse.model.LeadPortfolio;
+import edu.searchahouse.model.Property;
 
 public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 
 	private Agent anAgent;
+	private Property aProperty;
+	private Lead aLead;
 
 	@Before
 	public void agentsForTest() {
 		super.createAgentsForTest();
-		anAgent = agentRepository.findAgentByEmail("1@example.com").get();
+		super.createPropertiesForTest();
+		anAgent = agentRepository.findAgentByEmail("1agent@example.com").get();
+		aProperty = propertyRepository.findPropertyByName("Property1").get();
+		aLead = leadRepository.findLeadByEmail("1lead@example.com").get();
 	}
 
 	@Test
@@ -79,7 +87,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( status().isCreated() );
 		//@formatter:on
 	}
-	
+
 	@Test
 	public void createAgent_with_duplicate_email_shouldReturn_400_badrequest_httpcode() throws Exception {
 
@@ -87,7 +95,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 		mockMvc.perform(post( "/api/v1/agent" )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.content( "{\"firstName\":\"Test agent\",\"lastName\":\"last name test\",\"email\":\"1@example.com\"}" ))
+				.content( "{\"firstName\":\"Test agent\",\"lastName\":\"last name test\",\"email\":\"1agent@example.com\"}" ))
 			.andExpect( status().isBadRequest() )
 			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
 			.andExpect( jsonPath( "$[0].message", containsString("duplicate key") ) );
@@ -103,6 +111,60 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 				.accept(MediaType.APPLICATION_JSON)
 				.content( "{\"firstName\":\"updated first name\",\"email\":\"updated@example.com\"}" ))
 			.andExpect( status().isNoContent() );
+		//@formatter:on
+	}
+
+	@Test
+	public void updateAgent_shouldReturn_404_notfound_httpcode() throws Exception {
+
+		//@formatter:off
+		mockMvc.perform(put( "/api/v1/agent/xxx" )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "{\"firstName\":\"updated first name\",\"email\":\"updated@example.com\"}" ))
+			.andExpect( status().isNotFound() )
+			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
+			.andExpect( jsonPath( "$[0].message",not( isEmptyString() )  ) );
+		//@formatter:on
+	}
+
+	@Test
+	public void addProperty_shouldReturn_204_nocontent_httpcode() throws Exception {
+
+		//@formatter:off
+		mockMvc.perform(put( "/api/v1/agent/" +  anAgent.getId() + "/property/" + aProperty.getId() )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "" ))
+			.andExpect( status().isNoContent() );
+//			.andExpect( header().string("location", "") );
+		//@formatter:on
+	}
+
+	@Test
+	public void change_lead_contactedStatus_shouldReturn_204_nocontent_httpcode() throws Exception {
+
+		anAgent.addLead(new LeadPortfolio(aLead));
+		agentRepository.save(anAgent);
+
+		//@formatter:off
+		mockMvc.perform(put( "/api/v1/agent/" + anAgent.getId() + "/lead/" + aLead.getId() )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "{\"contactStatus\": \"CONTACTED\"}" ))
+			.andExpect( status().isNoContent() );
+		//@formatter:on
+	}
+
+	@Test
+	public void change_lead_contactedStatus_shouldReturn_400_badrequest_httpcode() throws Exception {
+
+		//@formatter:off
+		mockMvc.perform(put( "/api/v1/agent/" + anAgent.getId() + "/lead/" + aLead.getId() )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "{\"contactStatus\": \"CONTACTED\"}" ))
+			.andExpect( status().isBadRequest() );
 		//@formatter:on
 	}
 
