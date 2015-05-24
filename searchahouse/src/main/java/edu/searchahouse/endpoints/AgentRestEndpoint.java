@@ -3,6 +3,8 @@ package edu.searchahouse.endpoints;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -115,7 +117,7 @@ public class AgentRestEndpoint {
 	 * @return 201 Created and the agent location. 422 if the agent already exist.
 	 */
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public HttpEntity<?> createAgent(@RequestBody Agent input) {
+	public HttpEntity<?> createAgent(@Valid @RequestBody Agent input) {
 
 		Agent agent = this.agentService.save(input);
 

@@ -1,8 +1,12 @@
 package edu.searchahouse.endpoints.aop;
 
+import java.util.stream.Collectors;
+
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.hateoas.VndErrors;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -85,6 +89,27 @@ public class ExceptionControllerAdvice {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	VndErrors internalServerErrorHandler(Exception ex) {
 		return new VndErrors(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex.getLocalizedMessage());
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	@ResponseBody
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	VndErrors internalServerErrorHandler(MethodArgumentNotValidException ex) {
+		
+		String errorMessage = ex.getBindingResult().getAllErrors()
+														.stream()
+															.map( ObjectError::getDefaultMessage )
+															.collect( Collectors.toList() ).toString();
+		
+		
+		return new VndErrors(HttpStatus.BAD_REQUEST.getReasonPhrase(), errorMessage );
 	}
 
 	/**

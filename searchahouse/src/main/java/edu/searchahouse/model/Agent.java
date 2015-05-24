@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 //@formatter:off
 /**
@@ -25,14 +27,17 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 //@formatter:on
 public class Agent extends BaseEntity {
 
+	@NotNull( message = "First Name can not be empty." )
 	private String firstName;
 
+	@NotNull( message = "Last Name can not be empty." )
 	private String lastName;
 
+	@NotNull( message = "Email can not be empty." )
+	@Email( message = "Not a valid email." )
 	@Indexed(unique = true)
 	private String email;
 
-//	@DBRef
 	private Collection<Property> properties;
 
 	private Collection<LeadPortfolio> leads;

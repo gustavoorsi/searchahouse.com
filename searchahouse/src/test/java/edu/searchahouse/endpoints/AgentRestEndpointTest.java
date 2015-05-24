@@ -87,6 +87,21 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( status().isCreated() );
 		//@formatter:on
 	}
+	
+	@Test
+	public void createAgent_invalid_input_data_shouldReturn_400_badrequest_httpcode() throws Exception {
+
+		// missing first name.
+		
+		//@formatter:off
+		mockMvc.perform(post( "/api/v1/agent" )
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content( "{\"lastName\":\"last name test\",\"email\":\"testemail@example.com\"}" ))
+			.andExpect( status().isBadRequest() )
+			.andExpect( jsonPath( "$[0].message", not( isEmptyString())) );
+		//@formatter:on
+	}
 
 	@Test
 	public void createAgent_with_duplicate_email_shouldReturn_400_badrequest_httpcode() throws Exception {
