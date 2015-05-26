@@ -1,6 +1,7 @@
 package edu.searchahouse.searchengine.model;
 
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
 @Document(indexName = "searchahouse", type = "property")
 public class Property extends BaseEntity {
@@ -17,7 +18,7 @@ public class Property extends BaseEntity {
 
 	private String description;
 
-	private String location;
+	private GeoPoint location;
 
 	private Long price;
 
@@ -28,7 +29,7 @@ public class Property extends BaseEntity {
 	public Property() {
 	}
 
-	public Property(String name, String description, String location, Long price, PropertyType type, PropertyStatus status) {
+	public Property(String name, String description, GeoPoint location, Long price, PropertyType type, PropertyStatus status) {
 		this.name = name;
 		this.description = description;
 		this.location = location;
@@ -53,11 +54,11 @@ public class Property extends BaseEntity {
 		this.description = description;
 	}
 
-	public String getLocation() {
+	public GeoPoint getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(GeoPoint location) {
 		this.location = location;
 	}
 

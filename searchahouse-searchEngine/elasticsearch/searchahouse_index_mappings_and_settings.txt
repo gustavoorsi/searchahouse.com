@@ -46,7 +46,10 @@ POST ->  http://localhost:9200/searchahouse
       }
    },
    "mappings":{  
-      "lead":{  
+      "lead":{
+         "_all": {
+           "enabled": true
+         },       
          "properties":{  
             "lastName":{  
                "type":"string"
@@ -84,7 +87,7 @@ POST ->  http://localhost:9200/searchahouse
                "analyzer":"synonym"
             },
             "location":{  
-               "type":"string"
+               "type":"geo_point"
             },
             "price":{  
                "type":"long"
