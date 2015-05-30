@@ -1,4 +1,4 @@
-package edu.searchahouse.searchengine.persistence;
+package edu.searchahouse.searchengine.persistence.repository.elasticsearch;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 

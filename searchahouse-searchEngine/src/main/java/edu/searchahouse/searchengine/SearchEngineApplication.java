@@ -2,6 +2,7 @@ package edu.searchahouse.searchengine;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -18,7 +19,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
@@ -28,9 +28,9 @@ import edu.searchahouse.searchengine.model.LeadPortfolio;
 import edu.searchahouse.searchengine.model.Property;
 import edu.searchahouse.searchengine.model.Property.PropertyStatus;
 import edu.searchahouse.searchengine.model.Property.PropertyType;
-import edu.searchahouse.searchengine.persistence.AgentRepository;
-import edu.searchahouse.searchengine.persistence.LeadRepository;
-import edu.searchahouse.searchengine.persistence.PropertyRepository;
+import edu.searchahouse.searchengine.persistence.repository.elasticsearch.AgentRepository;
+import edu.searchahouse.searchengine.persistence.repository.elasticsearch.LeadRepository;
+import edu.searchahouse.searchengine.persistence.repository.elasticsearch.PropertyRepository;
 
 @SpringBootApplication
 public class SearchEngineApplication {
@@ -54,16 +54,19 @@ public class SearchEngineApplication {
 		propertyRepository.deleteAll();
 		leadRepository.deleteAll();
 
-		return (evt) -> Arrays.asList("1,2".split(",")).forEach(
+		return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(
 				index -> {
-					Property property = new Property("Property" + index, "description" + index, new GeoPoint(Double.valueOf(index), Double.valueOf(index)),
+					Property property = new Property("Property" + index, "description" + index, new GeoPoint(Double.valueOf(index) + 10, -Double.valueOf(index) - 10),
 							100000L, PropertyType.SALE, PropertyStatus.AVAILABLE);
+					property.setId( UUID.randomUUID().toString() );
 					propertyRepository.save(property);
 
 					Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
+					lead.setId( UUID.randomUUID().toString() );
 					leadRepository.save(lead);
 
 					Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
+					agent.setId( UUID.randomUUID().toString() );
 
 					agent.addLead(new LeadPortfolio(lead));
 					agent.addProperty(property);
@@ -72,11 +75,11 @@ public class SearchEngineApplication {
 
 					List<Agent> matchingAgents = agentRepository.findAutocompleteAgentsByFirstName("gus");
 
+					// ////////////////////////////////////////////////////
+					// get property by latitude and longitude and order asc
 					GeoDistanceFilterBuilder filter = FilterBuilders.geoDistanceFilter("location")
 							.point(property.getLocation().getLat(), property.getLocation().getLon()).distance(1, DistanceUnit.KILOMETERS);
 
-					// ////////////////////////////////////////////////////
-					// get property by latitute and longitud and order asc
 					SearchQuery searchQuery = new NativeSearchQueryBuilder()
 							.withFilter(filter)
 							.withSort(
