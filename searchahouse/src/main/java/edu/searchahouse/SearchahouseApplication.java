@@ -14,9 +14,9 @@ import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.model.Property.PropertyStatus;
 import edu.searchahouse.model.Property.PropertyType;
-import edu.searchahouse.model.repository.mongo.AgentRepository;
-import edu.searchahouse.model.repository.mongo.LeadRepository;
-import edu.searchahouse.model.repository.mongo.PropertyRepository;
+import edu.searchahouse.persistence.repository.mongo.AgentRepository;
+import edu.searchahouse.persistence.repository.mongo.LeadRepository;
+import edu.searchahouse.persistence.repository.mongo.PropertyRepository;
 
 @SpringBootApplication
 public class SearchahouseApplication {

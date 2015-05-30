@@ -1,4 +1,4 @@
-package edu.searchahouse.model.repository.mongo;
+package edu.searchahouse.persistence.repository.mongo;
 
 import java.util.Optional;
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import edu.searchahouse.exceptions.EntityNotFoundException;
 import edu.searchahouse.model.Property;
-import edu.searchahouse.model.repository.mongo.PropertyRepository;
+import edu.searchahouse.persistence.repository.mongo.PropertyRepository;
 import edu.searchahouse.service.PropertyService;
 
 @Service

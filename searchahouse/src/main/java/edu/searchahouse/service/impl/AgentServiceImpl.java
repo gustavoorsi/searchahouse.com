@@ -17,8 +17,8 @@ import edu.searchahouse.exceptions.EntityNotUpdatedException;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
-import edu.searchahouse.model.repository.mongo.AgentRepository;
-import edu.searchahouse.model.repository.mongo.PropertyRepository;
+import edu.searchahouse.persistence.repository.mongo.AgentRepository;
+import edu.searchahouse.persistence.repository.mongo.PropertyRepository;
 import edu.searchahouse.service.AgentService;
 
 @Service
