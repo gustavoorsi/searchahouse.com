@@ -2,6 +2,7 @@ package edu.searchahouse.searchengine.endpoints;
 
 import java.util.List;
 
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
@@ -62,13 +63,15 @@ public class PropertyRestEndpoint {
 	 */
 	@RequestMapping(value = "/location", method = RequestMethod.GET)
 	public HttpEntity<PagedResources<PropertyResource>> getPropertiesByPage( //
-			@RequestParam(value="longitude", required = true ) final Double longitude, //
-			@RequestParam(value="latitude", required = true ) final Double latitude, //
-			@RequestParam(value="distance", required = false, defaultValue = "1.0" ) final Double distance, //
+			@RequestParam(value = "longitude", required = true) final Double longitude, //
+			@RequestParam(value = "latitude", required = true) final Double latitude, //
+			@RequestParam(value = "distance", required = false, defaultValue = "1.0") final Double distance, //
+			@RequestParam(value = "sortOrder", required = false, defaultValue = "DESC") final String sortOrderAsString, //
 			PagedResourcesAssembler<Property> assembler //
 	) {
 
-		List<Property> properties = this.propertyService.findPropertiesByLocation(new GeoPoint(latitude, longitude), distance);
+		List<Property> properties = this.propertyService.findPropertiesByLocation(new GeoPoint(latitude, longitude), distance,
+				SortOrder.valueOf(sortOrderAsString.toUpperCase()));
 
 		return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(new PageImpl<Property>(properties), this.propertyResourceAssembler),
 				HttpStatus.OK);

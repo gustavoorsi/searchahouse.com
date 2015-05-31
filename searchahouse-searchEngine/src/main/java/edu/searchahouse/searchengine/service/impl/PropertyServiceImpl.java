@@ -35,12 +35,12 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public List<Property> findPropertiesByLocation(final GeoPoint geoPoint, Double distance) {
+	public List<Property> findPropertiesByLocation(final GeoPoint geoPoint, Double distance, final SortOrder sortOrder) {
 		GeoDistanceFilterBuilder filter = FilterBuilders.geoDistanceFilter("location").point(geoPoint.getLat(), geoPoint.getLon())
 				.distance(distance, DistanceUnit.KILOMETERS);
 
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(filter)
-				.withSort(SortBuilders.geoDistanceSort("location").point(geoPoint.getLat(), geoPoint.getLon()).order(SortOrder.ASC)).build();
+				.withSort(SortBuilders.geoDistanceSort("location").point(geoPoint.getLat(), geoPoint.getLon()).order(sortOrder == null ? SortOrder.ASC : sortOrder)).build();
 
 		searchQuery.addIndices("searchahouse");
 		searchQuery.addTypes("property");
