@@ -2,10 +2,28 @@ package edu.searchahouse.searchengine.rabbitmq;
 
 import org.springframework.stereotype.Component;
 
+import edu.searchahouse.searchengine.model.Agent;
+import edu.searchahouse.searchengine.model.Lead;
+import edu.searchahouse.searchengine.model.LeadPortfolio;
+import edu.searchahouse.searchengine.model.Property;
+
 @Component
 public class Receiver {
-	
-	public void receiveMessage(Object message) {
+
+	// @RabbitListener(queues = "SEARCHAHOUSE-QUEUE")
+	public void receiveMessage(Property message) {
+		System.out.println("Received <" + message + ">");
+	}
+
+	public void receiveMessage(Agent message) {
+		System.out.println("Received <" + message + ">");
+	}
+
+	public void receiveMessage(Lead message) {
+		System.out.println("Received <" + message + ">");
+	}
+
+	public void receiveMessage(LeadPortfolio message) {
 		System.out.println("Received <" + message + ">");
 	}
 

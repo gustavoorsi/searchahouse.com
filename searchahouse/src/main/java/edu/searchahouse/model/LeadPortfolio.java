@@ -1,7 +1,5 @@
 package edu.searchahouse.model;
 
-import java.util.ArrayList;
-
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**

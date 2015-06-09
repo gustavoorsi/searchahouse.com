@@ -41,7 +41,7 @@ public class SearchahouseApplication {
 
 		return (evt) -> Arrays.asList("1,2".split(",")).forEach(
 				index -> {
-					Property property = new Property("Property" + index, "description" + index, "location" + index, 100000L, PropertyType.SALE,
+					Property property = new Property("Property" + index, "description" + index, null, 100000L, PropertyType.SALE,
 							PropertyStatus.AVAILABLE);
 					propertyRepository.save(property);
 
