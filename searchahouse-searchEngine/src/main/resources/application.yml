@@ -3,3 +3,6 @@ spring:
   data:
     elasticsearch:
       cluster-nodes: localhost:9300
+      
+server:
+  port: 8081
