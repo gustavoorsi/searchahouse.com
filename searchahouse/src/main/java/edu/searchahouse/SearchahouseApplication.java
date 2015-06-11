@@ -39,22 +39,20 @@ public class SearchahouseApplication {
 		leadRepository.deleteAll();
 		agentRepository.deleteAll();
 
-		return (evt) -> Arrays.asList("1".split(",")).forEach(
-				index -> {
-					Property property = new Property("Property" + index, "description" + index, null, 100000L, PropertyType.SALE,
-							PropertyStatus.AVAILABLE);
-					propertyRepository.save(property);
+		return (evt) -> Arrays.asList("1,2".split(",")).forEach(index -> {
+			Property property = new Property("Property" + index, "description" + index, null, 100000L, PropertyType.SALE, PropertyStatus.AVAILABLE);
+			propertyRepository.save(property);
 
-					Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
-					leadRepository.save(lead);
+			Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
+			leadRepository.save(lead);
 
-					Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
+			Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
 
-					agent.addLead(new LeadPortfolio(lead));
-					agent.addProperty(property);
+			agent.addLead(new LeadPortfolio(lead));
+			agent.addProperty(property);
 
-					agentRepository.save(agent);
-				});
+			agentRepository.save(agent);
+		});
 
 	}
 

@@ -13,15 +13,27 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 @Configuration
 public class RabbitMqProducerConfiguration {
 
-	public final static String amqpQueue = "SEARCHAHOUSE-QUEUE-ENTITIES";
+	public final static String amqpQueueProperty = "SEARCHAHOUSE-QUEUE-PROPERTY";
+	public final static String amqpQueueAgent = "SEARCHAHOUSE-QUEUE-AGENT";
+	public final static String amqpQueueLead = "SEARCHAHOUSE-QUEUE-LEAD";
 	public final static String amqpTopicExchange = "crudmicroservice.entities.updated";
 
 	@Autowired
 	RabbitTemplate rabbitTemplate;
 
 	@Bean
-	Queue queue() {
-		return new Queue(amqpQueue, false);
+	Queue queueProperty() {
+		return new Queue(amqpQueueProperty, false);
+	}
+	
+	@Bean
+	Queue queueAgent() {
+		return new Queue(amqpQueueAgent, false);
+	}
+	
+	@Bean
+	Queue queueLead() {
+		return new Queue(amqpQueueLead, false);
 	}
 
 	@Bean
@@ -30,8 +42,18 @@ public class RabbitMqProducerConfiguration {
 	}
 
 	@Bean
-	Binding binding(Queue queue, TopicExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with(amqpQueue);
+	Binding bindingExchangeAndProperty(Queue queueProperty, TopicExchange exchange) {
+		return BindingBuilder.bind(queueProperty).to(exchange).with(amqpQueueProperty);
+	}
+	
+	@Bean
+	Binding bindingExchangeAndLead(Queue queueLead, TopicExchange exchange) {
+		return BindingBuilder.bind(queueLead).to(exchange).with(amqpQueueLead);
+	}
+	
+	@Bean
+	Binding bindingExchangeAndAgent(Queue queueAgent, TopicExchange exchange) {
+		return BindingBuilder.bind(queueAgent).to(exchange).with(amqpQueueAgent);
 	}
 
 	@Bean
