@@ -13,17 +13,14 @@ import org.springframework.data.mongodb.core.index.Indexed;
  * @author Gustavo Orsi
  *
  */
-//Customizing type mapping to avoid writing the entire Java class name as type information ("_class" : "du.searchahouse.model.Agent").
+//Customizing type mapping to avoid writing the entire Java class name as type information in mongodb ("_class" : "du.searchahouse.model.Lead").
 @TypeAlias("Lead")
 public class Lead extends BaseEntity {
 
 	private String firstName;
-
 	private String lastName;
-
 	@Indexed( unique = true )
 	private String email;
-
 	private String mobilePhone;
 
 	public Lead() {

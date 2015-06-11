@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.annotation.TypeAlias;
 
-//Customizing type mapping to avoid writing the entire Java class name as type information ("_class" : "du.searchahouse.model.Agent").
+//Customizing type mapping to avoid writing the entire Java class name as type information in mongodb ("_class" : "du.searchahouse.model.Property").
 @TypeAlias("Property")
 public class Property extends BaseEntity {
 
@@ -18,15 +18,10 @@ public class Property extends BaseEntity {
 	}
 
 	private String name;
-
 	private String description;
-
 	private String location;
-
 	private Long price;
-
 	private PropertyType type;
-
 	private PropertyStatus status;
 
 	public Property() {
