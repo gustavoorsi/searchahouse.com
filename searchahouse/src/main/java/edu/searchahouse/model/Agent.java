@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
  * @author Gustavo Orsi
  *
  */
-@TypeAlias("Agent") // Customizing type mapping to avoid writing the entire Java class name as type information ("_class" : "du.searchahouse.model.Agent").
+@TypeAlias("Agent") // Customizing type mapping to avoid writing the entire Java class name as type information in mongodb ("_class" : "du.searchahouse.model.Agent").
 //@formatter:on
 public class Agent extends BaseEntity {
 
