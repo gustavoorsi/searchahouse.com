@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import edu.searchahouse.searchengine.model.Agent;
 import edu.searchahouse.searchengine.model.Lead;
-import edu.searchahouse.searchengine.model.LeadPortfolio;
 import edu.searchahouse.searchengine.model.Property;
 
 @Component
@@ -13,19 +12,17 @@ public class Receiver {
 
 	@RabbitListener(queues = "SEARCHAHOUSE-QUEUE-ENTITIES")
 	public void receiveMessage(Property message) {
-		System.out.println("Received <" + message + ">");
+		System.out.println("Received Property<" + message + ">");
 	}
 
+	@RabbitListener(queues = "SEARCHAHOUSE-QUEUE-ENTITIES")
 	public void receiveMessage(Agent message) {
-		System.out.println("Received <" + message + ">");
+		System.out.println("Received Agent<" + message + ">");
 	}
 
+	@RabbitListener(queues = "SEARCHAHOUSE-QUEUE-ENTITIES")
 	public void receiveMessage(Lead message) {
-		System.out.println("Received <" + message + ">");
-	}
-
-	public void receiveMessage(LeadPortfolio message) {
-		System.out.println("Received <" + message + ">");
+		System.out.println("Received Lead<" + message + ">");
 	}
 
 }

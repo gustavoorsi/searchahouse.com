@@ -1,40 +1,33 @@
 package edu.searchahouse.searchengine.configuration;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
-import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.annotation.support.SimpAnnotationMethodMessageHandler;
-import org.springframework.messaging.simp.config.AbstractMessageBrokerConfiguration;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
 
 @Configuration
 @EnableRabbit
-public class RabbitMqConsumerConfiguration extends AbstractMessageBrokerConfiguration {
+public class RabbitMqConsumerConfiguration implements RabbitListenerConfigurer {
 
-	final static String queueName = "SEARCHAHOUSE-QUEUE";
-
-	@Override
-	public SimpAnnotationMethodMessageHandler simpAnnotationMethodMessageHandler() {
-		return super.simpAnnotationMethodMessageHandler();
+	@Bean
+	public MappingJackson2MessageConverter jackson2Converter() {
+		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+		return converter;
 	}
 
 	@Bean
-	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
-		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-		factory.setConnectionFactory(rabbitConnectionFactory());
-		factory.setConcurrentConsumers(3);
-		factory.setMaxConcurrentConsumers(10);
+	public DefaultMessageHandlerMethodFactory myHandlerMethodFactory() {
+		DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
+		factory.setMessageConverter(jackson2Converter());
 		return factory;
 	}
 
-	@Bean
-	public ConnectionFactory rabbitConnectionFactory() {
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
-		connectionFactory.setUsername("guest");
-		connectionFactory.setPassword("guest");
-		return connectionFactory;
+	@Override
+	public void configureRabbitListeners(RabbitListenerEndpointRegistrar registrar) {
+		registrar.setMessageHandlerMethodFactory(myHandlerMethodFactory());
 	}
 
 }

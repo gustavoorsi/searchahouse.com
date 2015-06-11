@@ -18,13 +18,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class Agent extends BaseEntity {
 
 	private String firstName;
-
 	private String lastName;
-
 	private String email;
-
 	private Collection<Property> properties;
-
 	private Collection<LeadPortfolio> leads;
 
 	public Agent() {

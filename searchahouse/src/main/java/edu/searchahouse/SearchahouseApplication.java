@@ -39,7 +39,7 @@ public class SearchahouseApplication {
 		leadRepository.deleteAll();
 		agentRepository.deleteAll();
 
-		return (evt) -> Arrays.asList("1,2".split(",")).forEach(
+		return (evt) -> Arrays.asList("1".split(",")).forEach(
 				index -> {
 					Property property = new Property("Property" + index, "description" + index, null, 100000L, PropertyType.SALE,
 							PropertyStatus.AVAILABLE);

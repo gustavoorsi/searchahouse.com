@@ -13,11 +13,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class Lead extends BaseEntity {
 
 	private String firstName;
-
 	private String lastName;
-
 	private String email;
-
 	private String mobilePhone;
 
 	public Lead() {

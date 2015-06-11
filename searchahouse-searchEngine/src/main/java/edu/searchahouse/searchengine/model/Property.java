@@ -15,15 +15,10 @@ public class Property extends BaseEntity {
 	}
 
 	private String name;
-
 	private String description;
-
 	private GeoPoint location;
-
 	private Long price;
-
 	private PropertyType type;
-
 	private PropertyStatus status;
 
 	public Property() {
