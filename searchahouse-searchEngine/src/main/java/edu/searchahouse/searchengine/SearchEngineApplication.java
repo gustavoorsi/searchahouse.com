@@ -35,74 +35,74 @@ import edu.searchahouse.searchengine.persistence.repository.elasticsearch.Proper
 @SpringBootApplication
 public class SearchEngineApplication {
 
-	@Autowired
-	private ElasticsearchOperations elasticsearchOperations;
+    @Autowired
+    private ElasticsearchOperations elasticsearchOperations;
 
-	public static void main(String[] args) {
-		SpringApplication.run(SearchEngineApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SearchEngineApplication.class, args);
+    }
 
-	@Profile("development")
-	@Bean
-	CommandLineRunner init(//
-			final AgentRepository agentRepository, //
-			final PropertyRepository propertyRepository, //
-			final LeadRepository leadRepository //
-	) {
+    @Profile("development")
+    @Bean
+    CommandLineRunner init(//
+            final AgentRepository agentRepository, //
+            final PropertyRepository propertyRepository, //
+            final LeadRepository leadRepository //
+    ) {
 
-		agentRepository.deleteAll();
-		propertyRepository.deleteAll();
-		leadRepository.deleteAll();
+        agentRepository.deleteAll();
+        propertyRepository.deleteAll();
+        leadRepository.deleteAll();
 
-		return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(
-				index -> {
-					Property property = new Property("Property" + index, "description" + index, new GeoPoint(Double.valueOf(index) + 10, -Double.valueOf(index) - 10),
-							100000L, PropertyType.SALE, PropertyStatus.AVAILABLE);
-					property.setId( UUID.randomUUID().toString() );
-					propertyRepository.save(property);
+        return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(
+                index -> {
+                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), 100000L, PropertyType.SALE,
+                            PropertyStatus.AVAILABLE);
+                    property.setId(UUID.randomUUID().toString());
+                    propertyRepository.save(property);
 
-					Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
-					lead.setId( UUID.randomUUID().toString() );
-					leadRepository.save(lead);
+                    Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
+                    lead.setId(UUID.randomUUID().toString());
+                    leadRepository.save(lead);
 
-					Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
-					agent.setId( UUID.randomUUID().toString() );
+                    Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
+                    agent.setId(UUID.randomUUID().toString());
 
-					agent.addLead(new LeadPortfolio(lead));
-					agent.addProperty(property);
+                    agent.addLead(new LeadPortfolio(lead));
+                    agent.addProperty(property);
 
-					agentRepository.save(agent);
+                    agentRepository.save(agent);
 
-					List<Agent> matchingAgents = agentRepository.findAutocompleteAgentsByFirstName("gus");
+                    List<Agent> matchingAgents = agentRepository.findAutocompleteAgentsByFirstName("gus");
 
-					// ////////////////////////////////////////////////////
-					// get property by latitude and longitude and order asc
-					GeoDistanceFilterBuilder filter = FilterBuilders.geoDistanceFilter("location")
-							.point(property.getLocation().getLat(), property.getLocation().getLon()).distance(1, DistanceUnit.KILOMETERS);
+                    // ////////////////////////////////////////////////////
+                    // get property by latitude and longitude and order asc
+                    GeoDistanceFilterBuilder filter = FilterBuilders.geoDistanceFilter("location")
+                            .point(property.getLocation().getLat(), property.getLocation().getLon()).distance(1, DistanceUnit.KILOMETERS);
 
-					SearchQuery searchQuery = new NativeSearchQueryBuilder()
-							.withFilter(filter)
-							.withSort(
-									SortBuilders.geoDistanceSort("location").point(property.getLocation().getLat(), property.getLocation().getLon())
-											.order(SortOrder.ASC)).build();
+                    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                            .withFilter(filter)
+                            .withSort(
+                                    SortBuilders.geoDistanceSort("location").point(property.getLocation().getLat(), property.getLocation().getLon())
+                                            .order(SortOrder.ASC)).build();
 
-					searchQuery.addIndices("searchahouse");
-					searchQuery.addTypes("property");
+                    searchQuery.addIndices("searchahouse");
+                    searchQuery.addTypes("property");
 
-					List<Property> properties = elasticsearchOperations.queryForList(searchQuery, Property.class);
-					// //////////////////////////////////////////////////
+                    List<Property> properties = elasticsearchOperations.queryForList(searchQuery, Property.class);
+                    // //////////////////////////////////////////////////
 
-					// //////////////////////////////////////////////////
-					// get properties by latitue and longitud
-					CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("location").within(new GeoPoint(1, 1), "1km"));
-					criteriaQuery.addIndices("searchahouse");
-					criteriaQuery.addTypes("property");
-					properties = elasticsearchOperations.queryForList(criteriaQuery, Property.class);
-					// //////////////////////////////////////////////////
+                    // //////////////////////////////////////////////////
+                    // get properties by latitue and longitud
+                    CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("location").within(new GeoPoint(1, 1), "1km"));
+                    criteriaQuery.addIndices("searchahouse");
+                    criteriaQuery.addTypes("property");
+                    properties = elasticsearchOperations.queryForList(criteriaQuery, Property.class);
+                    // //////////////////////////////////////////////////
 
-					System.out.println("");
+                    System.out.println("");
 
-				});
+                });
 
-	}
+    }
 }

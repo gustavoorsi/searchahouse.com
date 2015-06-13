@@ -76,7 +76,7 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 		mockMvc.perform(post( "/api/v1/property" )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.content( "{\"name\":\"Test property\",\"description\":\"some description\",\"location\":\"bsas\",\"price\":50000,\"type\":\"SALE\",\"status\":\"AVAILABLE\"}" ))
+				.content( "{\"name\":\"Test property\",\"description\":\"some description\",\"address\":{\"state\":\"CA\",\"street\":\"a street\"},\"location\":{\"x\":1,\"y\":2},\"price\":50000,\"type\":\"SALE\",\"status\":\"AVAILABLE\"}" ))
 			.andExpect( status().isCreated() );
 		//@formatter:on
 	}

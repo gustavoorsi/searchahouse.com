@@ -11,50 +11,50 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 @Configuration
 public class RabbitMqProducerConfiguration {
 
-	public final static String amqpQueueProperty = "SEARCHAHOUSE-QUEUE-PROPERTY";
-	public final static String amqpQueueAgent = "SEARCHAHOUSE-QUEUE-AGENT";
-	public final static String amqpQueueLead = "SEARCHAHOUSE-QUEUE-LEAD";
-	public final static String amqpTopicExchange = "crudmicroservice.entities.updated";
+    public final static String amqpQueueProperty = "SEARCHAHOUSE-QUEUE-PROPERTY";
+    public final static String amqpQueueAgent = "SEARCHAHOUSE-QUEUE-AGENT";
+    public final static String amqpQueueLead = "SEARCHAHOUSE-QUEUE-LEAD";
+    public final static String amqpTopicExchange = "crudmicroservice.entities.updated";
 
-	@Bean
-	Queue queueProperty() {
-		return new Queue(amqpQueueProperty, false);
-	}
+    @Bean
+    Queue queueProperty() {
+        return new Queue(amqpQueueProperty, false);
+    }
 
-	@Bean
-	Queue queueAgent() {
-		return new Queue(amqpQueueAgent, false);
-	}
+    @Bean
+    Queue queueAgent() {
+        return new Queue(amqpQueueAgent, false);
+    }
 
-	@Bean
-	Queue queueLead() {
-		return new Queue(amqpQueueLead, false);
-	}
+    @Bean
+    Queue queueLead() {
+        return new Queue(amqpQueueLead, false);
+    }
 
-	@Bean
-	TopicExchange exchange() {
-		return new TopicExchange(amqpTopicExchange);
-	}
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange(amqpTopicExchange);
+    }
 
-	@Bean
-	Binding bindingExchangeAndProperty(Queue queueProperty, TopicExchange exchange) {
-		return BindingBuilder.bind(queueProperty).to(exchange).with(amqpQueueProperty);
-	}
+    @Bean
+    Binding bindingExchangeAndProperty(Queue queueProperty, TopicExchange exchange) {
+        return BindingBuilder.bind(queueProperty).to(exchange).with(amqpQueueProperty);
+    }
 
-	@Bean
-	Binding bindingExchangeAndLead(Queue queueLead, TopicExchange exchange) {
-		return BindingBuilder.bind(queueLead).to(exchange).with(amqpQueueLead);
-	}
+    @Bean
+    Binding bindingExchangeAndLead(Queue queueLead, TopicExchange exchange) {
+        return BindingBuilder.bind(queueLead).to(exchange).with(amqpQueueLead);
+    }
 
-	@Bean
-	Binding bindingExchangeAndAgent(Queue queueAgent, TopicExchange exchange) {
-		return BindingBuilder.bind(queueAgent).to(exchange).with(amqpQueueAgent);
-	}
+    @Bean
+    Binding bindingExchangeAndAgent(Queue queueAgent, TopicExchange exchange) {
+        return BindingBuilder.bind(queueAgent).to(exchange).with(amqpQueueAgent);
+    }
 
-	@Bean
-	public MappingJackson2MessageConverter jackson2Converter() {
-		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-		return converter;
-	}
+    @Bean
+    public MappingJackson2MessageConverter jackson2Converter() {
+        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        return converter;
+    }
 
 }

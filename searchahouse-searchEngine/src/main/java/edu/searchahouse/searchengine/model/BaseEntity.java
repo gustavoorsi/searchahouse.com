@@ -1,7 +1,5 @@
 package edu.searchahouse.searchengine.model;
 
-import java.time.LocalDateTime;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -17,63 +15,41 @@ import org.springframework.data.annotation.Version;
  */
 public abstract class BaseEntity {
 
-	@Id
-	private String id;
+    @Id
+    private String id;
 
-	private LocalDateTime creationTime;
+    @Version
+    private Long version;
 
-	private LocalDateTime modificationTime;
+    public String getId() {
+        return id;
+    }
 
-	@Version
-	private Long version;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public Long getVersion() {
+        return version;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
-	public LocalDateTime getCreationTime() {
-		return creationTime;
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
 
-	public LocalDateTime getModificationTime() {
-		return modificationTime;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, false);
+    }
 
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-
-	public void prePersist() {
-		LocalDateTime now = LocalDateTime.now();
-		this.creationTime = now;
-		this.modificationTime = now;
-	}
-
-	public void preUpdate() {
-		this.modificationTime = LocalDateTime.now();
-	}
-
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj, false);
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }

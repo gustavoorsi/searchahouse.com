@@ -29,35 +29,35 @@ import edu.searchahouse.searchengine.persistence.repository.elasticsearch.Proper
 @WebIntegrationTest("server.port:0")
 public class AbstractRestEndpointTest {
 
-	protected MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
-	@Autowired
-	protected WebApplicationContext webApplicationContext;
+    @Autowired
+    protected WebApplicationContext webApplicationContext;
 
-	@Autowired
-	protected PropertyRepository propertyRepository;
+    @Autowired
+    protected PropertyRepository propertyRepository;
 
-	@Before
-	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
-	protected List<Property> createPropertiesForTest() {
-		propertyRepository.deleteAll();
+    protected List<Property> createPropertiesForTest() {
+        propertyRepository.deleteAll();
 
-		List<Property> testProperties = new ArrayList<Property>();
+        List<Property> testProperties = new ArrayList<Property>();
 
-		Arrays.asList("1,2,3".split(",")).forEach(
-				index -> {
-					Property property = new Property("Property" + index, "description" + index, new GeoPoint(Double.valueOf(index) + 10,
-							-Double.valueOf(index) - 10), 100000L, PropertyType.SALE, PropertyStatus.AVAILABLE);
-					property.setId(UUID.randomUUID().toString());
-					propertyRepository.save(property);
-					testProperties.add(property);
-				});
+        Arrays.asList("1,2".split(",")).forEach(
+                index -> {
+                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), 100000L, PropertyType.SALE,
+                            PropertyStatus.AVAILABLE);
+                    property.setId(UUID.randomUUID().toString());
+                    propertyRepository.save(property);
+                    testProperties.add(property);
+                });
 
-		return testProperties;
+        return testProperties;
 
-	}
+    }
 
 }

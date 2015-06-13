@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.data.geo.Point;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import edu.searchahouse.SearchahouseApplication;
+import edu.searchahouse.model.Address;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Lead;
 import edu.searchahouse.model.Property;
@@ -29,54 +31,54 @@ import edu.searchahouse.model.repository.mongo.PropertyRepository;
 @WebIntegrationTest("server.port:0")
 public class AbstractRestEndpointTest {
 
-	protected MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
-	@Autowired
-	protected WebApplicationContext webApplicationContext;
+    @Autowired
+    protected WebApplicationContext webApplicationContext;
 
-	@Autowired
-	protected PropertyRepository propertyRepository;
+    @Autowired
+    protected PropertyRepository propertyRepository;
 
-	@Autowired
-	protected LeadRepository leadRepository;
+    @Autowired
+    protected LeadRepository leadRepository;
 
-	@Autowired
-	protected AgentRepository agentRepository;
-	
-	@Before
-	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
+    @Autowired
+    protected AgentRepository agentRepository;
 
-	protected void createPropertiesForTest() {
-		propertyRepository.deleteAll();
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
-		Arrays.asList("1,2".split(",")).forEach(
-				index -> {
-					Property property = new Property("Property" + index, "description" + index, "location" + index, 100000L, PropertyType.SALE,
-							PropertyStatus.AVAILABLE);
-					propertyRepository.save(property);
-				});
-	}
+    protected void createPropertiesForTest() {
+        propertyRepository.deleteAll();
 
-	protected void createLeadsForTest() {
-		leadRepository.deleteAll();
+        Arrays.asList("1,2".split(",")).forEach(
+                index -> {
+                    Property property = new Property("Property" + index, "description" + index, new Address("CA", "test street"), new Point(1d, 1d), 100000L,
+                            PropertyType.SALE, PropertyStatus.AVAILABLE);
+                    propertyRepository.save(property);
+                });
+    }
 
-		Arrays.asList("1,2".split(",")).forEach(index -> {
-			Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
+    protected void createLeadsForTest() {
+        leadRepository.deleteAll();
 
-			leadRepository.save(lead);
-		});
-	}
+        Arrays.asList("1,2".split(",")).forEach(index -> {
+            Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
 
-	protected void createAgentsForTest() {
-		agentRepository.deleteAll();
+            leadRepository.save(lead);
+        });
+    }
 
-		Arrays.asList("1,2".split(",")).forEach(index -> {
-			Agent agent = new Agent("Agent" + index, "last name" + index, index + "agent@example.com");
+    protected void createAgentsForTest() {
+        agentRepository.deleteAll();
 
-			agentRepository.save(agent);
-		});
-	}
+        Arrays.asList("1,2".split(",")).forEach(index -> {
+            Agent agent = new Agent("Agent" + index, "last name" + index, index + "agent@example.com");
+
+            agentRepository.save(agent);
+        });
+    }
 
 }
