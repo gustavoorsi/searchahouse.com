@@ -1,6 +1,5 @@
 package edu.searchahouse.model;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -20,75 +19,53 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public abstract class BaseEntity {
 
-	@Id
-	private String id;
+    @Id
+    private String id;
 
-	private LocalDateTime creationTime;
+    @Version
+    private Long version;
 
-	private LocalDateTime modificationTime;
+    public String getId() {
+        return id;
+    }
 
-	@Version
-	private Long version;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public Long getVersion() {
+        return version;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
-	public LocalDateTime getCreationTime() {
-		return creationTime;
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
 
-	public LocalDateTime getModificationTime() {
-		return modificationTime;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, false);
+    }
 
-	public Long getVersion() {
-		return version;
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-	public void setVersion(Long version) {
-		this.version = version;
-	}
+    public abstract Map<String, Object> toMap();
 
-	public void prePersist() {
-		LocalDateTime now = LocalDateTime.now();
-		this.creationTime = now;
-		this.modificationTime = now;
-	}
-
-	public void preUpdate() {
-		this.modificationTime = LocalDateTime.now();
-	}
-
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj, false);
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public abstract Map<String, Object> toMap();
-
-	protected void put(Map<String, Object> map, Object field, String fieldName) {
-		if (field != null) {
-			// if( field instanceof Collection ){
-			// ((Collection) field).stream().forEach( entity -> map.put( fieldName, ((BaseEntity) entity).toMap()) );
-			// } else {
-			map.put(fieldName, field);
-			// }
-		}
-	}
+    protected void put(Map<String, Object> map, Object field, String fieldName) {
+        if (field != null) {
+            // if( field instanceof Collection ){
+            // ((Collection) field).stream().forEach( entity -> map.put( fieldName, ((BaseEntity) entity).toMap()) );
+            // } else {
+            map.put(fieldName, field);
+            // }
+        }
+    }
 
 }
