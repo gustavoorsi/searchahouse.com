@@ -1,0 +1,27 @@
+header p {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.footer p {
+	text-align: right;
+}
+
+.text-row {
+	text-align: justify;
+}
+
+.errors {
+	color: red;
+}
+
+@media only screen and (min-width: 150px) and (max-width: 980px)
+{
+	header p {
+		font-size: 90%;
+	}
+	
+	.new-course-content .submit {
+		padding-top: 10px;
+	}
+}

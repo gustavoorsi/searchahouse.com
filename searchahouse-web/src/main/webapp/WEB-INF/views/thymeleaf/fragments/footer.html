@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Layout title</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<!-- CSS resources -->
+	    <link href="../../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+		<link href="../../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+	    
+		<!-- javascript resources -->
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+	    <script src="../../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+	</head>
+	
+	<body>
+		
+		<!--/*  Multiple fragments may be defined in one file */-->
+		<div id="footer" th:fragment="footer">
+		
+			<footer class="footer">
+			  <div class="container">
+				<p class="text-muted">E-learning 2015</p>
+			  </div>
+			</footer>
+			
+	<!-- 		<footer class="footer" th:fragment="footer-admin"> -->
+	<!-- 		  <div class="container"> -->
+	<!-- 			<p class="text-muted">E-learning 2015 - Admin</p> -->
+	<!-- 		  </div> -->
+	<!-- 		</footer> -->
+		</div>
+		
+	</body>
+
+</html>

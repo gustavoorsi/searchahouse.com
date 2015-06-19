@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">searchahouse.com</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<!-- CSS resources -->
+		<link href="../../../../resources/css/bootstrap/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap/bootstrap.css}" />
+		<link href="../../../../resources/css/bootstrap/carousel.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap/carousel.css}" />
+	    
+		<!-- javascript resources -->
+		<link href="../../../../resources/js/jquery/jquery.js" rel="stylesheet" media="screen" th:href="@{/resources/js/jquery/jquery.js}" />
+		<link href="../../../../resources/js/bootstrap/bootstrap.js" rel="stylesheet" media="screen" th:href="@{/resources/js/bootstrap/bootstrap.js}" />
+	</head>
+	
+	<body>
+	
+		<!-- header -->
+		<div th:fragment="header">
+			<!-- navbar navbar-default -->
+			<div class="navbar navbar-default" role="navigation">
+			
+				<!-- navbar-header -->
+				<div class="navbar-header">
+					
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				
+					<span class="navbar-brand">searchahouse.com</span>
+				</div><!-- /navbar-header -->
+			
+				<!-- navbar -->
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Properties</a></li>
+						<li><a href="#">Agents</a></li>
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</div><!-- /navbar -->
+			
+			</div><!-- /navbar navbar-default -->
+		</div><!-- /header -->
+		
+	</body>
+	
+</html>

@@ -14,9 +14,9 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("home/home");
-        registry.addViewController("/login").setViewName("login/login");
-        registry.addViewController("/accessDenied").setViewName("errors/accessDenied");
+        registry.addViewController("/").setViewName("sections/home/home");
+        registry.addViewController("/login").setViewName("sections/login/login");
+        registry.addViewController("/accessDenied").setViewName("sections/errors/accessDenied");
     }
 
     /**
@@ -38,15 +38,15 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
         Properties exceptionMappings = new Properties();
 
-        exceptionMappings.put("java.lang.Exception", "error/error");
-        exceptionMappings.put("java.lang.RuntimeException", "error/error");
+        exceptionMappings.put("java.lang.Exception", "sections/error/error");
+        exceptionMappings.put("java.lang.RuntimeException", "sections/error/error");
 
         exceptionResolver.setExceptionMappings(exceptionMappings);
 
         Properties statusCodes = new Properties();
 
-        statusCodes.put("error/404", "404");
-        statusCodes.put("error/error", "500");
+        statusCodes.put("sections/error/404", "404");
+        statusCodes.put("sections/error/error", "500");
 
         exceptionResolver.setStatusCodes(statusCodes);
 
