@@ -35,7 +35,7 @@ public class ThymeleafConfiguration {
     }
 
     /**
-     * Handles all views except for the ones that are handled by Tiles. This view resolver will be executed as first one by Spring.
+     * Handles all views. This view resolver will be executed as first one by Spring.
      */
     @Bean
     public ViewResolver thymeleafViewResolver() {

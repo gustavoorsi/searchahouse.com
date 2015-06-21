@@ -40,17 +40,17 @@
 
 		<!-- WebJars START: bootstrap and jquery webjar artifacts are managed in 
 			org.springframework.cloud:spring-cloud-netflix:1.0.0.M2. Nevertheless it's 
-			a good idea to explicitly declare them here beuuase even if we decide to 
+			a good idea to explicitly declare them here becuase even if we decide to 
 			get rid of netflix jar we still want to keep these webjars for our ui. -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
-			<version>3.3.4</version>
+			<version>3.3.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>2.1.4</version>
+			<artifactId>angularjs</artifactId>
+			<version>1.4.0</version>
 		</dependency>
 		<!-- WebJars END -->
 		<!-- ....................................................................................... -->
