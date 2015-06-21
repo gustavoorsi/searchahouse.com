@@ -10,36 +10,29 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
 		<!-- CSS resources -->
-	    <link href="../../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
-		<link href="../../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
-	    
-		<!-- javascript resources -->
-		<script src="http://code.jquery.com/jquery-latest.js"></script>
-	    <script src="../../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+		<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+		<link href="http://getbootstrap.com/examples/carousel/carousel.css" rel="stylesheet"/>
 	</head>
 	
 	<body>
 		
-		<!--/*  Multiple fragments may be defined in one file */-->
-		<div id="footer" th:fragment="footer">
-		
-			<footer class="footer">
-			  <div class="container">
-				<p class="text-muted">E-learning 2015</p>
-			  </div>
-			</footer>
-			
-	<!-- 		<footer class="footer" th:fragment="footer-admin"> -->
-	<!-- 		  <div class="container"> -->
-	<!-- 			<p class="text-muted">E-learning 2015 - Admin</p> -->
-	<!-- 		  </div> -->
-	<!-- 		</footer> -->
-		</div>
+
+		<!-- footer -->
+	    <div id="footer" th:fragment="footer">
+	    
+			<div class="container">
+		      <footer>
+		        <p class="pull-right"><a href="#">Back to top</a></p>
+		        <p>© 2015 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+		      </footer>
+	      	</div>
+	    </div>
 		
 		
 		<!-- javascript resources -->
-		<link href="../../../../../resources/js/bootstrap/bootstrap.js" rel="stylesheet" media="screen" th:href="@{/resources/js/bootstrap/bootstrap.js}" />
-		<link href="../../../../../resources/js/angularjs/angular.min.js" rel="stylesheet" media="screen" th:href="@{/resources/js/angularjs/angular.min.js}" />
+		<script src="http://cdn.jsdelivr.net/angularjs/1.4.0/angular.min.js"  th:src="@{/webjars/angularjs/1.4.0/angular.min.js}"></script>
+		<script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js" ></script>
+		<script src="http://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
 	</body>
 
 </html>

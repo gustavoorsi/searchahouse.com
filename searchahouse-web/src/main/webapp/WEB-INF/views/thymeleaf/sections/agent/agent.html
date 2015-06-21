@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html layout:decorator="layouts/basic_layout" lang="en">
+	
+	<head>
+		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Agent</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<!-- CSS resources -->
+		<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+		<link href="http://getbootstrap.com/examples/carousel/carousel.css" rel="stylesheet"/>
+	</head>
+	
+	<body>
+	
+	
+		<div layout:fragment="content">
+		    
+		      <div class="row featurette">
+		        <div class="col-md-7">
+		          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
+		          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+		        </div>
+		        <div class="col-md-5">
+		          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image"/>
+		        </div>
+		      </div>
+		      
+		        <div class="panel panel-default">
+				  <!-- Default panel contents -->
+				  <div class="panel-heading">Properties</div>
+				  <div class="panel-body">
+				    <p>List of properties for this agent.</p>
+				  </div>
+				
+				  <!-- Table -->
+				  <table class="table">
+				  	<thead>
+				  		<tr>
+				  			<th>#</th>
+				  			<th>Name</th>
+				  			<th>Description</th>
+				  			<th>Type</th>
+				  		</tr>
+				  	</thead>
+				  	<tbody th:unless="${#lists.isEmpty(agent.properties)}">
+				  		<tr th:each="property,status : ${agent.properties}">
+				  			<th th:text="${status.count}" scope="row">1</th>
+				  			<td th:text="${property.name}"> <a href="#">Property 1</a></td>
+				  			<td th:text="${property.description}">Located in Beverly hills</td>
+				  			<td th:text="${property.type}">Rent</td>
+				  		</tr>
+				  	</tbody>
+				   
+				  </table>
+				</div>
+		      
+			
+			    
+	    </div><!-- /.body - content -->
+		
+	
+		<!-- javascript resources -->
+		<script src="http://cdn.jsdelivr.net/angularjs/1.4.0/angular.min.js"  th:src="@{/webjars/angularjs/1.4.0/angular.min.js}"></script>
+		<script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js" ></script>
+		<script src="http://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+				
+	</body>
+	
+</html>

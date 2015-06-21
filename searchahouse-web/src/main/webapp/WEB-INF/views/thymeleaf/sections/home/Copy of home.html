@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html layout:decorator="layouts/basic_layout" lan="en">
+	
+	<head>
+		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Home</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<!-- CSS resources -->
+		<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+	</head>
+	
+	<body>
+	
+		<!-- content -->
+		<!--/* Content of this page will be decorated by the elements of basic_layout.html (layouts/basic_layout) */-->
+		<div layout:fragment="content" ng-app="searchahouse" ng-controller="home">
+		
+			<div class="row">
+					
+				<!-- col-xs-12 -->
+				<div class="col-xs-12">
+					<article>
+						<header>
+							<p>Home aaa</p>
+						</header>
+						<footer class="hidden-xs">
+							<p>This is the home screen</p>
+						</footer>
+						<content>
+							<p>Home Screen</p>
+						</content>					
+					</article>
+				</div><!-- /col-xs-12 -->
+
+			</div><!-- /row -->
+			
+			
+			<!-- local javascript resources -->
+			<link href="../../../../../resources/js/searchahouse/home/home.js" rel="stylesheet" media="screen" th:href="@{/resources/js/searchahouse/home/home.js}" />
+		
+		</div> <!-- /content -->
+	
+		<!-- javascript resources () -->
+		<script src="http://cdn.jsdelivr.net/angularjs/1.4.0/angular.min.js"  th:src="@{/webjars/angularjs/1.4.0/angular.min.js}"></script>
+				
+	</body>
+	
+</html>

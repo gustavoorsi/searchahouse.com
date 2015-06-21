@@ -10,51 +10,59 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
 		<!-- CSS resources -->
-		<link href="../../../../resources/css/bootstrap/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap/bootstrap.css}" />
-		<link href="../../../../resources/css/bootstrap/carousel.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap/carousel.css}" />
-	    
-		<!-- javascript resources -->
-		<link href="../../../../resources/js/jquery/jquery.js" rel="stylesheet" media="screen" th:href="@{/resources/js/jquery/jquery.js}" />
-		<link href="../../../../resources/js/bootstrap/bootstrap.js" rel="stylesheet" media="screen" th:href="@{/resources/js/bootstrap/bootstrap.js}" />
+		<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+		<link href="http://getbootstrap.com/examples/carousel/carousel.css" rel="stylesheet"/>
 	</head>
 	
 	<body>
 	
-		<!-- header -->
-		<div th:fragment="header">
-			<!-- navbar navbar-default -->
-			<div class="navbar navbar-default" role="navigation">
+			<!-- header -->
+			<div th:fragment="header">
 			
-				<!-- navbar-header -->
-				<div class="navbar-header">
-					
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				
-					<span class="navbar-brand">searchahouse.com</span>
-				</div><!-- /navbar-header -->
+				<div class="navbar-wrapper">
+			      <div class="container">
 			
-				<!-- navbar -->
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Properties</a></li>
-						<li><a href="#">Agents</a></li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-				</div><!-- /navbar -->
+			        <nav class="navbar navbar-inverse navbar-static-top">
+			          <div class="container">
+			            <div class="navbar-header">
+			              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			                <span class="sr-only">Toggle navigation</span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			              </button>
+			              <a class="navbar-brand" href="/">searchahouse.com</a>
+			            </div>
+			            <div id="navbar" class="navbar-collapse collapse">
+			              <ul class="nav navbar-nav">
+			                <li class="active"><a href="/">Home</a></li>
+			                <li><a href="http://getbootstrap.com/examples/carousel/#about">About</a></li>
+			                <li><a href="http://getbootstrap.com/examples/carousel/#contact">Contact</a></li>
+			                <li class="dropdown">
+			                  <a href="http://getbootstrap.com/examples/carousel/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+			                  <ul class="dropdown-menu">
+			                    <li><a href="http://getbootstrap.com/examples/carousel/#">Action</a></li>
+			                    <li><a href="http://getbootstrap.com/examples/carousel/#">Another action</a></li>
+			                    <li><a href="http://getbootstrap.com/examples/carousel/#">Something else here</a></li>
+			                    <li role="separator" class="divider"></li>
+			                    <li class="dropdown-header">Nav header</li>
+			                    <li><a href="http://getbootstrap.com/examples/carousel/#">Separated link</a></li>
+			                    <li><a href="http://getbootstrap.com/examples/carousel/#">One more separated link</a></li>
+			                  </ul>
+			                </li>
+			              </ul>
+			            </div>
+			          </div>
+			        </nav>
 			
-			</div><!-- /navbar navbar-default -->
-		</div><!-- /header -->
+			      </div>
+			    </div>
+		    </div><!-- /.header -->
 		
 		<!-- javascript resources -->
-		<link href="../../../../../resources/js/bootstrap/bootstrap.js" rel="stylesheet" media="screen" th:href="@{/resources/js/bootstrap/bootstrap.js}" />
-		<link href="../../../../../resources/js/angularjs/angular.min.js" rel="stylesheet" media="screen" th:href="@{/resources/js/angularjs/angular.min.js}" />
+		<script src="http://cdn.jsdelivr.net/angularjs/1.4.0/angular.min.js"  th:src="@{/webjars/angularjs/1.4.0/angular.min.js}"></script>
+		<script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js" ></script>
+		<script src="http://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
 	</body>
 	
 </html>
