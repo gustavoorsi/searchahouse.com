@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.geo.Point;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import edu.searchahouse.model.Address;
 import edu.searchahouse.model.Agent;
@@ -23,6 +24,7 @@ import edu.searchahouse.model.repository.mongo.PropertyRepository;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
+@EnableAsync
 public class SearchahouseApplication {
 
     public static void main(String[] args) {
