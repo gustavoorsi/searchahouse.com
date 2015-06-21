@@ -1,8 +1,16 @@
 package edu.searchahouse.web.model;
 
-import java.awt.Point;
+import org.springframework.data.geo.Point;
 
-public class Property extends BaseEntity{
+public class Property extends BaseEntity {
+
+    public enum PropertyType {
+        SALE, RENT;
+    }
+
+    public enum PropertyStatus {
+        AVAILABLE, NOT_AVAILABLE;
+    }
 
     private String name;
     private String description;
@@ -11,13 +19,18 @@ public class Property extends BaseEntity{
     private Long price;
     private PropertyType type;
     private PropertyStatus status;
-    
-    public Property(){}
 
-    public Property(String name, String description, PropertyType type) {
+    public Property() {
+    }
+
+    public Property(String name, String description, Address address, Point location, Long price, PropertyType type, PropertyStatus status) {
         this.name = name;
         this.description = description;
+        this.address = address;
+        this.location = location;
+        this.price = price;
         this.type = type;
+        this.status = status;
     }
 
     public String getName() {
@@ -34,14 +47,6 @@ public class Property extends BaseEntity{
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public Point getLocation() {
@@ -76,12 +81,12 @@ public class Property extends BaseEntity{
         this.status = status;
     }
 
-    public enum PropertyType {
-        SALE, RENT;
+    public Address getAddress() {
+        return address;
     }
 
-    public enum PropertyStatus {
-        AVAILABLE, NOT_AVAILABLE;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
 }

@@ -37,6 +37,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		
+		<dependency>
+			<!-- needed to consume the rest services that returns in hateoas format -->
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+		</dependency>
 
 		<!-- WebJars START: bootstrap and jquery webjar artifacts are managed in 
 			org.springframework.cloud:spring-cloud-netflix:1.0.0.M2. Nevertheless it's 
@@ -68,6 +74,10 @@
 		<!-- ....................................................................................... -->
 		<!--END: Test integration................................................................... -->
 		<!-- ....................................................................................... -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

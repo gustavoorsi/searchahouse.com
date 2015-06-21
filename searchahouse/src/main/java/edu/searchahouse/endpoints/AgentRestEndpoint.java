@@ -79,7 +79,7 @@ public class AgentRestEndpoint {
 
 		Page<Agent> agents = this.agentService.getAgentsByPage(pageable);
 
-		return new ResponseEntity<PagedResources<AgentResource>>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
+		return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
 
 	}
 
