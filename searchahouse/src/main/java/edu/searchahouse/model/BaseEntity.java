@@ -24,6 +24,10 @@ public abstract class BaseEntity {
 
     @Version
     private Long version;
+    
+    public String getObjectId(){
+    	return id;
+    }
 
     public String getId() {
         return id;

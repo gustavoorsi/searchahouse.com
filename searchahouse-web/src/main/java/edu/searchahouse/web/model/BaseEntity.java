@@ -9,23 +9,27 @@ package edu.searchahouse.web.model;
  */
 public abstract class BaseEntity {
 
-    private String id;
-    private Long version;
+	private String id;
+	private Long version;
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
+	
+	public void setObjectId( String objectId ){
+		this.id = objectId;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public Long getVersion() {
+		return version;
+	}
 
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 
 }

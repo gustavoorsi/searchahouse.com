@@ -18,55 +18,39 @@ import edu.searchahouse.web.service.AgentService;
 @Service
 public class AgentServiceImpl implements AgentService {
 
-    private final RestTemplate restTemplate;
+	private final RestTemplate restTemplate;
 
-    @Autowired
-    public AgentServiceImpl(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+	@Autowired
+	public AgentServiceImpl(final RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
 
-    @Override
-    public Collection<Agent> findTopAgents(int n) {
-        
-        String endpoint = "http://localhost:8080/api/v1/agent";
-        
-        ResponseEntity<PagedResources<Resource<Agent>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
-                new ParameterizedTypeReference<PagedResources<Resource<Agent>>>() {
-                });
+	@Override
+	public Collection<Agent> findTopAgents(int n) {
 
-        Collection<Agent> agents = pagedResourceResponse.getBody().getContent().stream().map(Resource::getContent).collect(Collectors.toList());
+		String endpoint = "http://localhost:8080/api/v1/agent";
 
-        return agents;
-    }
+		ResponseEntity<PagedResources<Resource<Agent>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
+				new ParameterizedTypeReference<PagedResources<Resource<Agent>>>() {
+				});
 
-    // @Override
-    // public Agent findById(String id) {
-    //
-    // Agent agent = new Agent("gustavoooo", "1");
-    //
-    // Collection<Property> properties = new ArrayList<Property>();
-    // properties.add( new Property("House 1", "Located in beverly Hills", PropertyType.RENT) );
-    // properties.add( new Property("House 2", "Located in New York", PropertyType.SALE) );
-    // properties.add( new Property("House 3", "Located in Miami", PropertyType.RENT) );
-    // properties.add( new Property("House 4", "Located in Las Vegas", PropertyType.RENT) );
-    //
-    // agent.setProperties(properties);
-    //
-    // return agent;
-    // }
+		Collection<Agent> agents = pagedResourceResponse.getBody().getContent().stream().map(Resource::getContent).collect(Collectors.toList());
 
-    @Override
-    public Agent findById(final String id) {
+		return agents;
+	}
 
-        String endpoint = "http://localhost:8080/api/v1/agent/" + id;
+	@Override
+	public Agent findById(final String id) {
 
-        ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
-                new ParameterizedTypeReference<Resource<Agent>>() {
-                });
+		String endpoint = "http://localhost:8080/api/v1/agent/" + id;
 
-        Agent agent = resourceResponse.getBody().getContent();
+		ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
+				new ParameterizedTypeReference<Resource<Agent>>() {
+				});
 
-        return agent;
-    }
+		Agent agent = resourceResponse.getBody().getContent();
+
+		return agent;
+	}
 
 }
