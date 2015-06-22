@@ -9,7 +9,7 @@ import edu.searchahouse.searchengine.model.Agent;
 
 public interface AgentRepository extends ElasticsearchRepository<Agent, String> {
 
-	@Query(name = "autocomplete_firstName", value = "{\"match\" : { \"firstName.autocomplete\" : { \"query\" : \"gus\", \"analyzer\" : \"standard\" } } }")
+	@Query(name = "autocomplete_firstName", value = "{\"match\" : { \"firstName.autocomplete\" : { \"query\" : \"?0\", \"analyzer\" : \"standard\" } } }")
 	public List<Agent> findAutocompleteAgentsByFirstName(final String autocompleteFirstName);
 
 }

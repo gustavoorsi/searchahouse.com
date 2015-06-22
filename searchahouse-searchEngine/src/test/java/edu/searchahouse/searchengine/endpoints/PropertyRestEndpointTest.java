@@ -27,7 +27,7 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 	}
 
 	@Test
-	public void searchAllProperties_by_locationy_shouldReturn_all_properties_and_200_ok_httpcode() throws Exception {
+	public void searchAllProperties_by_location_shouldReturn_all_properties_and_200_ok_httpcode() throws Exception {
 
 		//@formatter:off
 		mockMvc.perform(get( "/api/v1/property/location" )
