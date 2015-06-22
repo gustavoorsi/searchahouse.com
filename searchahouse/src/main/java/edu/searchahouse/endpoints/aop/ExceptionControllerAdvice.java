@@ -77,6 +77,22 @@ public class ExceptionControllerAdvice {
 	VndErrors courseNotFoundExceptionHandler(EntityNotFoundException ex) {
 		return new VndErrors(HttpStatus.NOT_FOUND.getReasonPhrase(), ex.getMessage());
 	}
+	
+	/**
+	 * 
+	 * Catch <code>IllegalArgumentException</code> exception thrown by any endpoint and change the return code.
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	@ResponseBody
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	VndErrors illegalArgumentExceptionHandler(IllegalArgumentException ex) {
+		return new VndErrors(HttpStatus.BAD_REQUEST.getReasonPhrase(), ex.getMessage());
+	}
+	
+	
 
 	/**
 	 * 

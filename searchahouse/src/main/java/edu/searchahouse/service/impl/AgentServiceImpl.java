@@ -17,8 +17,8 @@ import edu.searchahouse.exceptions.EntityNotUpdatedException;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
-import edu.searchahouse.model.repository.mongo.AgentRepository;
-import edu.searchahouse.model.repository.mongo.PropertyRepository;
+import edu.searchahouse.repository.mongo.AgentRepository;
+import edu.searchahouse.repository.mongo.PropertyRepository;
 import edu.searchahouse.service.AgentService;
 
 @Service
@@ -40,7 +40,7 @@ public class AgentServiceImpl extends BaseService implements AgentService {
 
 	@Override
 	public Agent findAgentById(String id) {
-		return this.agentRepository.findAgentById(id).orElseThrow(() -> new EntityNotFoundException("Agent"));
+		return this.agentRepository.findAgentById(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Agent"));
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class AgentServiceImpl extends BaseService implements AgentService {
 	@Override
 	public Property addProperty(final String agentId, final String propertyId) {
 
-		Agent agent = this.agentRepository.findAgentById(agentId).orElseThrow(() -> new EntityNotFoundException("Agent"));
-		Property property = this.propertyRepository.findPropertyById(propertyId).orElseThrow(() -> new EntityNotFoundException("Property"));
+		Agent agent = this.agentRepository.findAgentById(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+		Property property = this.propertyRepository.findPropertyById(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Property"));
 
 		agent.addProperty(property);
 

@@ -32,6 +32,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 	@Before
 	public void agentsForTest() {
 		super.createAgentsForTest();
+		super.createLeadsForTest();
 		super.createPropertiesForTest();
 		anAgent = agentRepository.findAgentByEmail("1agent@example.com").get();
 		aProperty = propertyRepository.findPropertyByName("Property1").get();
@@ -54,13 +55,22 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 	public void getAgent_shouldReturn_404_notfound_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(get( "/api/v1/agent/xxx" ))
+		mockMvc.perform(get( "/api/v1/agent/000000000000000000000000" ))
 			.andExpect( status().isNotFound() )
 			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
 			.andExpect( jsonPath( "$[0].message",not( isEmptyString() )  ) );
 		//@formatter:on
 	}
+	
+	@Test
+	public void getAgent_shouldReturn_400_badrequest_httpcode() throws Exception {
 
+		//@formatter:off
+		mockMvc.perform(get( "/api/v1/agent/xxx" ))
+			.andExpect( status().isBadRequest() );
+		//@formatter:on
+	}
+	
 	@Test
 	public void getAgents_shouldReturn_two_agents_and_200_ok_httpcode() throws Exception {
 

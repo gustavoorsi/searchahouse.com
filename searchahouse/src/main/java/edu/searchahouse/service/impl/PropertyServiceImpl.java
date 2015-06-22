@@ -1,5 +1,6 @@
 package edu.searchahouse.service.impl;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import edu.searchahouse.exceptions.EntityNotFoundException;
 import edu.searchahouse.model.Property;
-import edu.searchahouse.model.repository.mongo.PropertyRepository;
+import edu.searchahouse.repository.mongo.PropertyRepository;
 import edu.searchahouse.service.PropertyService;
 
 @Service
@@ -27,7 +28,7 @@ public class PropertyServiceImpl extends BaseService implements PropertyService 
 
 	@Override
 	public Property findPropertyById(String id) {
-		return this.propertyRepository.findPropertyById(id).orElseThrow(() -> new EntityNotFoundException("Property"));
+		return this.propertyRepository.findPropertyById(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Property"));
 	}
 
 	@Override
