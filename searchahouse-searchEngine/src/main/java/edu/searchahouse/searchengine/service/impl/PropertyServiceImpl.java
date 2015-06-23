@@ -14,6 +14,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
+import edu.searchahouse.searchengine.exceptions.EntityNotFoundException;
 import edu.searchahouse.searchengine.model.Agent;
 import edu.searchahouse.searchengine.model.Property;
 import edu.searchahouse.searchengine.persistence.repository.elasticsearch.AgentRepository;
@@ -64,5 +65,22 @@ public class PropertyServiceImpl implements PropertyService {
 
         return (List<Property>) agent.getProperties();
     }
+    
+    @Override
+    public List<Property> findPropertiesByAgentId(String agentId) {
+
+        Agent agent = this.agentRepository.findById(agentId).orElseThrow( () -> new EntityNotFoundException("Agent") );
+
+        return (List<Property>) agent.getProperties();
+    }
+
+	@Override
+	public Property findPropertyById(String propertyId) {
+		
+		Property property = this.propertyRepository.findById(propertyId).orElseThrow( () -> new EntityNotFoundException("Property") );
+		
+		return property;
+	}
+    
 
 }

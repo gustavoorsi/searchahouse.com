@@ -9,10 +9,10 @@ angular.module('myApp', []).controller('AgentController',
 
 			function fetchProperties() {
 				
-				$http.get("http://localhost:8081/api/v1/agent/2agent@example.com/properties")
+				$http.get("http://localhost:8081/api/v1/agent/" + $("#agentId").val() + "/properties")
 					.success( function(response) {
 							$scope.properties = response;
-//							console.log($scope.properties);
+							console.log($scope.properties);
 						});
 
 			}

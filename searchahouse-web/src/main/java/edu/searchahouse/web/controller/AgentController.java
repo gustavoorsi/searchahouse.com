@@ -24,12 +24,12 @@ public class AgentController {
         this.agentService = agentService;
     }
     
-    @RequestMapping(value = "/{email}", method = RequestMethod.GET)
-    public ModelAndView getAgent(final @PathVariable("email") String email) {
+    @RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
+    public ModelAndView getAgent(final @PathVariable("agentId") String agentId) {
 
         Map<String, Object> model = new HashMap<String, Object>();
 
-        Agent agent = this.agentService.findByEmail(email);
+        Agent agent = this.agentService.findById(agentId);
 
         model.put("agent", agent);
 

@@ -23,6 +23,8 @@
 	
 	
 		<div layout:fragment="content" ng-app="myApp" ng-controller="AgentController">
+		
+			  <input type="hidden" id="agentId" th:value="${agent.id}" />
 		    
 		      <div class="row featurette">
 		        <div class="col-md-7">
@@ -54,7 +56,7 @@
 				  	<tbody>
 				  		<tr ng-repeat="property in properties._embedded.propertyList">
 				  			<th scope="row">{{ property.id }}</th>
-				  			<td> <a href="#">{{ property.name }}</a></td>
+				  			<td> <a href="{{ property._links.self.href }}" >{{ property.name }}</a></td>
 				  			<td>{{ property.description }}</td>
 				  			<td>{{ property.type }}</td>
 				  		</tr>

@@ -107,17 +107,17 @@
 		        <div class="col-lg-4">
 		          <img class="img-circle" src="http://ecx.images-amazon.com/images/I/410sbZ5S8LL._SY300_.jpg" alt="First Agent"  width="140" height="140"/>	
 		          <h2 th:text="${agents[0].firstName}">Heading 1</h2>
-		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{email}(email=${agents[0].email})}" role="button">View details »</a></p>
+		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[0].id})}" role="button">View details »</a></p>
 		        </div><!-- /.col-lg-4 -->
 		        <div class="col-lg-4">
 		          <img class="img-circle" src="https://slm-assets3.secondlife.com/assets/5904652/lightbox/Captain%20America%20from%20The%20Avengers%20v.jpg?1342192256" alt="Second Agent"  width="140" height="140"/>
 		          <h2 th:text="${agents[1].firstName}">Heading 2</h2>
-		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{email}(email=${agents[1].email})}" role="button">View details »</a></p>
+		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[1].id})}" role="button">View details »</a></p>
 		        </div><!-- /.col-lg-4 -->
 		        <div class="col-lg-4">
 		          <img class="img-circle" src="http://images5.fanpop.com/image/photos/30800000/Iron-Man-the-avengers-30880583-471-500.jpg" alt="Third Agent"  width="140" height="140"/>
 		          <h2 th:text="${agents[2].firstName}">Heading 3</h2>
-		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{email}(email=${agents[2].email})}" role="button">View details »</a></p>
+		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[2].id})}" role="button">View details »</a></p>
 		        </div><!-- /.col-lg-4 -->
 		      </div><!-- /.row -->
 		      

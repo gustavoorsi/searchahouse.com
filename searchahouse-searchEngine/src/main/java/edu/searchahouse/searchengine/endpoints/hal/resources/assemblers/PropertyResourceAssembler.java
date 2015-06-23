@@ -18,7 +18,7 @@ public class PropertyResourceAssembler implements ResourceAssembler<Property, Pr
 		// add link to itself ( rel = self )
 		// TODO: get the endpoint url that GET a property from micro-service CRUD. (using eureka). For now just hardcode the domain.
 		// add link to itself ( rel = self )
-		Link selfLink = new Link("http://localhost:8080/api/v1/property/" + entity.getId()).withRel("self");
+		Link selfLink = new Link("http://localhost:8081/api/v1/property/" + entity.getId()).withRel("self");
 		pr.add(selfLink);
 
 		return pr;

@@ -28,7 +28,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public Collection<Agent> findTopAgents(int n) {
 
-		String endpoint = "http://localhost:8080/api/v1/agent";
+		String endpoint = "http://localhost:8081/api/v1/agent";
 
 		ResponseEntity<PagedResources<Resource<Agent>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
 				new ParameterizedTypeReference<PagedResources<Resource<Agent>>>() {
@@ -42,7 +42,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public Agent findById(final String id) {
 
-		String endpoint = "http://localhost:8080/api/v1/agent/" + id;
+		String endpoint = "http://localhost:8081/api/v1/agent/" + id;
 
 		ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
 				new ParameterizedTypeReference<Resource<Agent>>() {

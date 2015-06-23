@@ -71,17 +71,17 @@ public class AgentRestEndpoint {
 	 * @return A pageable list of agents in json or xml format (default to json)
 	 * 
 	 */
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public HttpEntity<PagedResources<AgentResource>> getAgentsByPage( //
-			@PageableDefault(size = 10, page = 0) Pageable pageable, //
-			PagedResourcesAssembler<Agent> assembler //
-	) {
-
-		Page<Agent> agents = this.agentService.getAgentsByPage(pageable);
-
-		return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
-
-	}
+//	@RequestMapping(value = "", method = RequestMethod.GET)
+//	public HttpEntity<PagedResources<AgentResource>> getAgentsByPage( //
+//			@PageableDefault(size = 10, page = 0) Pageable pageable, //
+//			PagedResourcesAssembler<Agent> assembler //
+//	) {
+//
+//		Page<Agent> agents = this.agentService.getAgentsByPage(pageable);
+//
+//		return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
+//
+//	}
 
 	/**
 	 *

@@ -3,6 +3,7 @@ package edu.searchahouse.searchengine.endpoints;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -30,18 +31,18 @@ import edu.searchahouse.searchengine.service.PropertyService;
 @RequestMapping("/api/v1/agent")
 public class AgentRestEndpoint {
 
-    // *************************************************************//
-    // *********************** PROPERTIES **************************//
-    // *************************************************************//
-    private final AgentService agentService;
-    private final PropertyService propertyService;
-    private final AgentResourceAssembler agentResourceAssembler;
-    private final PropertyResourceAssembler propertyResourceAssembler;
+	// *************************************************************//
+	// *********************** PROPERTIES **************************//
+	// *************************************************************//
+	private final AgentService agentService;
+	private final PropertyService propertyService;
+	private final AgentResourceAssembler agentResourceAssembler;
+	private final PropertyResourceAssembler propertyResourceAssembler;
 
-    // *************************************************************//
-    // *********************** CONSTRUCTORS ************************//
-    // *************************************************************//
-    //@formatter:off
+	// *************************************************************//
+	// *********************** CONSTRUCTORS ************************//
+	// *************************************************************//
+	//@formatter:off
 	@Autowired
 	public AgentRestEndpoint(
 	        final AgentService agentService, 
@@ -56,94 +57,116 @@ public class AgentRestEndpoint {
 	}
 	//@formatter:on
 
-    // *************************************************************//
-    // ********************* REST ENDPOINTS ************************//
-    // *************************************************************//
+	// *************************************************************//
+	// ********************* REST ENDPOINTS ************************//
+	// *************************************************************//
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * GET - find "Pageable" agents.
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Return a pageable list of Agents.
+	 * 
+	 * @param pageable
+	 *            the page data. Page number and page size.
+	 * @param assembler
+	 *            the assembler that will construct the agent resource as a pageable resource.
+	 * @return A pageable list of properties in json or xml format (default to json)
+	 * 
+	 */
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public HttpEntity<PagedResources<AgentResource>> getAgents(//
+			@PageableDefault(size = 10, page = 0) Pageable pageable, //
+			PagedResourcesAssembler<Agent> assembler //
+	) {
 
-    /**
-     * ----------------------------------------------------------------------------------------------------------------
-     * 
-     * GET - find "Pageable" agents by first name
-     * 
-     * ----------------------------------------------------------------------------------------------------------------
-     * 
-     * Return a pageable list of Agents.
-     * 
-     * @param pageable
-     *            the page data. Page number and page size.
-     * @param assembler
-     *            the assembler that will construct the agent resource as a pageable resource.
-     * @return A pageable list of properties in json or xml format (default to json)
-     * 
-     */
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public HttpEntity<AgentResource> getAgentByEmail( //
-            @RequestParam(value = "email", required = true) String email //
-    ) {
+		Page<Agent> agents = this.agentService.findAll(pageable);
 
-        Agent agent = this.agentService.findAgentByEmail(email);
+		return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
+	}
 
-        return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(agent), HttpStatus.OK);
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * GET - find "agent by id
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Return an agent.
+	 * 
+	 * @param id
+	 *            the id to search for.
+	 * @return An agent in json or xml format (default to json)
+	 * 
+	 */
+	@RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
+	public HttpEntity<AgentResource> getAgent( @PathVariable("agentId") final String agentId	) {
 
-    }
+		Agent agent = this.agentService.findAgentById(agentId);
 
-    /**
-     * ----------------------------------------------------------------------------------------------------------------
-     * 
-     * GET - find "Pageable" agents by first name
-     * 
-     * ----------------------------------------------------------------------------------------------------------------
-     * 
-     * Return a pageable list of Agents.
-     * 
-     * @param pageable
-     *            the page data. Page number and page size.
-     * @param assembler
-     *            the assembler that will construct the agent resource as a pageable resource.
-     * @return A pageable list of properties in json or xml format (default to json)
-     * 
-     */
-    @RequestMapping(value = "/autocomplete/{firstName}", method = RequestMethod.GET)
-    public HttpEntity<PagedResources<AgentResource>> getAgentsByFirstName( //
-            @PathVariable String firstName, //
-            @PageableDefault(size = 10, page = 0) Pageable pageable, //
-            PagedResourcesAssembler<Agent> assembler //
-    ) {
+		return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(agent), HttpStatus.OK);
 
-        List<Agent> agents = this.agentService.findAgentsByFirstName(firstName);
+	}
 
-        return new ResponseEntity<PagedResources<AgentResource>>(assembler.toResource(new PageImpl<Agent>(agents), this.agentResourceAssembler), HttpStatus.OK);
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * GET - find "Pageable" agents by first name
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Return a pageable list of Agents.
+	 * 
+	 * @param pageable
+	 *            the page data. Page number and page size.
+	 * @param assembler
+	 *            the assembler that will construct the agent resource as a pageable resource.
+	 * @return A pageable list of properties in json or xml format (default to json)
+	 * 
+	 */
+	@RequestMapping(value = "/autocomplete/{firstName}", method = RequestMethod.GET)
+	public HttpEntity<PagedResources<AgentResource>> getAgentsByFirstName( //
+			@PathVariable String firstName, //
+			@PageableDefault(size = 10, page = 0) Pageable pageable, //
+			PagedResourcesAssembler<Agent> assembler //
+	) {
 
-    }
+		List<Agent> agents = this.agentService.findAgentsByFirstName(firstName);
 
-    /**
-     * ----------------------------------------------------------------------------------------------------------------
-     * 
-     * GET - find "Pageable" properties of the agent.
-     * 
-     * ----------------------------------------------------------------------------------------------------------------
-     * 
-     * Return a pageable list of properties of the agent.
-     * 
-     * @param pageable
-     *            the page data. Page number and page size.
-     * @param assembler
-     *            the assembler that will construct the property resource as a pageable resource.
-     * @return A pageable list of properties in json or xml format (default to json)
-     * 
-     */
-    @RequestMapping(value = "/{email}/properties", method = RequestMethod.GET)
-    public HttpEntity<PagedResources<PropertyResource>> getAgentProperties( //
-            @PathVariable String email, //
-            @PageableDefault(size = 10, page = 0) Pageable pageable, //
-            PagedResourcesAssembler<Property> assembler //
-    ) {
+		return new ResponseEntity<PagedResources<AgentResource>>(assembler.toResource(new PageImpl<Agent>(agents), this.agentResourceAssembler), HttpStatus.OK);
 
-        List<Property> properties = this.propertyService.findPropertiesByAgentEmail(email);
+	}
 
-        return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(new PageImpl<Property>(properties), this.propertyResourceAssembler),
-                HttpStatus.OK);
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * GET - find "Pageable" properties of the agent.
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Return a pageable list of properties of the agent.
+	 * 
+	 * @param pageable
+	 *            the page data. Page number and page size.
+	 * @param assembler
+	 *            the assembler that will construct the property resource as a pageable resource.
+	 * @return A pageable list of properties in json or xml format (default to json)
+	 * 
+	 */
+	@RequestMapping(value = "/{agentId}/properties", method = RequestMethod.GET)
+	public HttpEntity<PagedResources<PropertyResource>> getAgentProperties( //
+			@PathVariable String agentId, //
+			@PageableDefault(size = 10, page = 0) Pageable pageable, //
+			PagedResourcesAssembler<Property> assembler //
+	) {
 
-    }
+		List<Property> properties = this.propertyService.findPropertiesByAgentId(agentId);
+
+		return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(new PageImpl<Property>(properties), this.propertyResourceAssembler),
+				HttpStatus.OK);
+
+	}
 
 }

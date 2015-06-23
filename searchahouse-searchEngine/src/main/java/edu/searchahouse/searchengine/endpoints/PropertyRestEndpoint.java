@@ -11,6 +11,7 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +45,28 @@ public class PropertyRestEndpoint {
 	// *************************************************************//
 	// ********************* REST ENDPOINTS ************************//
 	// *************************************************************//
+
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * GET - find " property by id
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Return a property.
+	 * 
+	 * @param id
+	 *            the id to search for.
+	 * @return A property in json or xml format (default to json)
+	 * 
+	 */
+	@RequestMapping(value = "/{propertyId}", method = RequestMethod.GET)
+	public HttpEntity<PropertyResource> getPropertyByid(@PathVariable("propertyId") final String propertyId) {
+
+		Property property = this.propertyService.findPropertyById(propertyId);
+
+		return new ResponseEntity<PropertyResource>(this.propertyResourceAssembler.toResource(property), HttpStatus.OK);
+	}
 
 	/**
 	 * ----------------------------------------------------------------------------------------------------------------
