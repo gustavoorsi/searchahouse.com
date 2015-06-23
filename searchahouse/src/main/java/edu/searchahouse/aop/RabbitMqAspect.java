@@ -32,7 +32,7 @@ public class RabbitMqAspect {
      * @param entity
      *            the saved or updated entity.
      */
-    @AfterReturning(value = "execution(* edu.searchahouse.model.repository.mongo.*.*(..))", returning = "entity")
+    @AfterReturning(value = "execution(* edu.searchahouse.repository.mongo.*.*(..))", returning = "entity")
     public void updateElasticsearch(final Property entity) {
         convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueProperty);
     }
@@ -45,7 +45,7 @@ public class RabbitMqAspect {
      * @param entity
      *            the saved or updated entity.
      */
-    @AfterReturning(value = "execution(* edu.searchahouse.model.repository.mongo.*.*(..))", returning = "entity")
+    @AfterReturning(value = "execution(* edu.searchahouse.repository.mongo.*.*(..))", returning = "entity")
     public void updateElasticsearch(final Agent entity) {
         convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueAgent);
     }
@@ -58,7 +58,7 @@ public class RabbitMqAspect {
      * @param entity
      *            the saved or updated entity.
      */
-    @AfterReturning(value = "execution(* edu.searchahouse.model.repository.mongo.*.*(..))", returning = "entity")
+    @AfterReturning(value = "execution(* edu.searchahouse.repository.mongo.*.*(..))", returning = "entity")
     public void updateElasticsearch(final Lead entity) {
         convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueLead);
     }
