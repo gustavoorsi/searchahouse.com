@@ -13,42 +13,33 @@ import edu.searchahouse.searchengine.service.AgentService;
 @Service
 public class AgentServiceImpl implements AgentService {
 
-	private final AgentRepository agentRepository;
+    private final AgentRepository agentRepository;
 
-	private final ElasticsearchOperations elasticsearchOperations;
+    private final ElasticsearchOperations elasticsearchOperations;
 
-	@Autowired
-	public AgentServiceImpl(//
-			final AgentRepository agentRepository, //
-			final ElasticsearchOperations elasticsearchOperations //
-	) {
-		this.agentRepository = agentRepository;
-		this.elasticsearchOperations = elasticsearchOperations;
-	}
+    @Autowired
+    public AgentServiceImpl(//
+            final AgentRepository agentRepository, //
+            final ElasticsearchOperations elasticsearchOperations //
+    ) {
+        this.agentRepository = agentRepository;
+        this.elasticsearchOperations = elasticsearchOperations;
+    }
 
-	@Override
-	public List<Agent> findAgentsByFirstName(final String autocompleteFirstName) {
-		
-		List<Agent> agents = this.agentRepository.findAutocompleteAgentsByFirstName(autocompleteFirstName);
-		
-		return agents;
-	}
+    @Override
+    public List<Agent> findAgentsByFirstName(final String autocompleteFirstName) {
 
-	// @Override
-	// public List<Property> findPropertiesByLocation(final GeoPoint geoPoint, Double distance, final SortOrder sortOrder) {
-	// GeoDistanceFilterBuilder filter = FilterBuilders.geoDistanceFilter("location").point(geoPoint.getLat(), geoPoint.getLon())
-	// .distance(distance, DistanceUnit.KILOMETERS);
-	//
-	// SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(filter)
-	// .withSort(SortBuilders.geoDistanceSort("location").point(geoPoint.getLat(), geoPoint.getLon()).order(sortOrder == null ? SortOrder.ASC :
-	// sortOrder)).build();
-	//
-	// searchQuery.addIndices("searchahouse");
-	// searchQuery.addTypes("property");
-	//
-	// List<Property> properties = elasticsearchOperations.queryForList(searchQuery, Property.class);
-	//
-	// return properties;
-	// }
+        List<Agent> agents = this.agentRepository.findAutocompleteAgentsByFirstName(autocompleteFirstName);
+
+        return agents;
+    }
+
+    @Override
+    public Agent findAgentByEmail(String email) {
+
+        Agent agent = this.agentRepository.findByEmail(email);
+
+        return agent;
+    }
 
 }

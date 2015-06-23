@@ -14,64 +14,136 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.searchahouse.searchengine.endpoints.hal.resources.AgentResource;
+import edu.searchahouse.searchengine.endpoints.hal.resources.PropertyResource;
 import edu.searchahouse.searchengine.endpoints.hal.resources.assemblers.AgentResourceAssembler;
+import edu.searchahouse.searchengine.endpoints.hal.resources.assemblers.PropertyResourceAssembler;
 import edu.searchahouse.searchengine.model.Agent;
+import edu.searchahouse.searchengine.model.Property;
 import edu.searchahouse.searchengine.service.AgentService;
+import edu.searchahouse.searchengine.service.PropertyService;
 
 @RestController
 @RequestMapping("/api/v1/agent")
 public class AgentRestEndpoint {
 
-	// *************************************************************//
-	// *********************** PROPERTIES **************************//
-	// *************************************************************//
-	private final AgentService agentService;
+    // *************************************************************//
+    // *********************** PROPERTIES **************************//
+    // *************************************************************//
+    private final AgentService agentService;
+    private final PropertyService propertyService;
+    private final AgentResourceAssembler agentResourceAssembler;
+    private final PropertyResourceAssembler propertyResourceAssembler;
 
-	private final AgentResourceAssembler agentResourceAssembler;
-
-	// *************************************************************//
-	// *********************** CONSTRUCTORS ************************//
-	// *************************************************************//
+    // *************************************************************//
+    // *********************** CONSTRUCTORS ************************//
+    // *************************************************************//
+    //@formatter:off
 	@Autowired
-	public AgentRestEndpoint(final AgentService agentService, final AgentResourceAssembler agentResourceAssembler) {
+	public AgentRestEndpoint(
+	        final AgentService agentService, 
+	        final PropertyService propertyService, 
+	        final AgentResourceAssembler agentResourceAssembler,
+	        final PropertyResourceAssembler propertyResourceAssembler
+        ) {
 		this.agentService = agentService;
+		this.propertyService = propertyService;
 		this.agentResourceAssembler = agentResourceAssembler;
+		this.propertyResourceAssembler = propertyResourceAssembler;
 	}
+	//@formatter:on
 
-	// *************************************************************//
-	// ********************* REST ENDPOINTS ************************//
-	// *************************************************************//
+    // *************************************************************//
+    // ********************* REST ENDPOINTS ************************//
+    // *************************************************************//
 
-	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * GET - find "Pageable" properties
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Return a pageable list of Properties.
-	 * 
-	 * @param pageable
-	 *            the page data. Page number and page size.
-	 * @param assembler
-	 *            the assembler that will construct the property resource as a pageable resource.
-	 * @return A pageable list of properties in json or xml format (default to json)
-	 * 
-	 */
-	@RequestMapping(value = "/autocomplete/{firstName}", method = RequestMethod.GET)
-	public HttpEntity<PagedResources<AgentResource>> getAgentsByFirstName( //
-			@PathVariable String firstName, //
-			@PageableDefault(size = 10, page = 0) Pageable pageable, //
-			PagedResourcesAssembler<Agent> assembler //
-	) {
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * GET - find "Pageable" agents by first name
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Return a pageable list of Agents.
+     * 
+     * @param pageable
+     *            the page data. Page number and page size.
+     * @param assembler
+     *            the assembler that will construct the agent resource as a pageable resource.
+     * @return A pageable list of properties in json or xml format (default to json)
+     * 
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public HttpEntity<AgentResource> getAgentByEmail( //
+            @RequestParam(value = "email", required = true) String email //
+    ) {
 
-		List<Agent> agents = this.agentService.findAgentsByFirstName(firstName);
+        Agent agent = this.agentService.findAgentByEmail(email);
 
-		return new ResponseEntity<PagedResources<AgentResource>>(assembler.toResource(new PageImpl<Agent>(agents), this.agentResourceAssembler), HttpStatus.OK);
+        return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(agent), HttpStatus.OK);
 
-	}
+    }
+
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * GET - find "Pageable" agents by first name
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Return a pageable list of Agents.
+     * 
+     * @param pageable
+     *            the page data. Page number and page size.
+     * @param assembler
+     *            the assembler that will construct the agent resource as a pageable resource.
+     * @return A pageable list of properties in json or xml format (default to json)
+     * 
+     */
+    @RequestMapping(value = "/autocomplete/{firstName}", method = RequestMethod.GET)
+    public HttpEntity<PagedResources<AgentResource>> getAgentsByFirstName( //
+            @PathVariable String firstName, //
+            @PageableDefault(size = 10, page = 0) Pageable pageable, //
+            PagedResourcesAssembler<Agent> assembler //
+    ) {
+
+        List<Agent> agents = this.agentService.findAgentsByFirstName(firstName);
+
+        return new ResponseEntity<PagedResources<AgentResource>>(assembler.toResource(new PageImpl<Agent>(agents), this.agentResourceAssembler), HttpStatus.OK);
+
+    }
+
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * GET - find "Pageable" properties of the agent.
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Return a pageable list of properties of the agent.
+     * 
+     * @param pageable
+     *            the page data. Page number and page size.
+     * @param assembler
+     *            the assembler that will construct the property resource as a pageable resource.
+     * @return A pageable list of properties in json or xml format (default to json)
+     * 
+     */
+    @RequestMapping(value = "/{email}/properties", method = RequestMethod.GET)
+    public HttpEntity<PagedResources<PropertyResource>> getAgentProperties( //
+            @PathVariable String email, //
+            @PageableDefault(size = 10, page = 0) Pageable pageable, //
+            PagedResourcesAssembler<Property> assembler //
+    ) {
+
+        List<Property> properties = this.propertyService.findPropertiesByAgentEmail(email);
+
+        return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(new PageImpl<Property>(properties), this.propertyResourceAssembler),
+                HttpStatus.OK);
+
+    }
 
 }

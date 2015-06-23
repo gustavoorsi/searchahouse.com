@@ -7,5 +7,7 @@ import edu.searchahouse.searchengine.model.Agent;
 public interface AgentService {
 
 	List<Agent> findAgentsByFirstName(final String autocompleteFirstName);
-
+	
+	Agent findAgentByEmail( final String email );
+	
 }

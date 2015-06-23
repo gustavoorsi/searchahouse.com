@@ -9,6 +9,8 @@ import edu.searchahouse.searchengine.model.Property;
 
 public interface PropertyService {
 
-	public List<Property> findPropertiesByLocation(final GeoPoint geoPoint, final Double distance, final SortOrder sortOrder );
+    public List<Property> findPropertiesByLocation(final GeoPoint geoPoint, final Double distance, final SortOrder sortOrder);
+
+    public List<Property> findPropertiesByAgentEmail(final String email);
 
 }

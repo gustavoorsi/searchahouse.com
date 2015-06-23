@@ -12,12 +12,17 @@
 		<!-- CSS resources -->
 		<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
 		<link href="http://getbootstrap.com/examples/carousel/carousel.css" rel="stylesheet"/>
+		
+		<!-- javascript resources -->
+		<script src="http://cdn.jsdelivr.net/angularjs/1.4.0/angular.min.js"  th:src="@{/webjars/angularjs/1.4.0/angular.min.js}"></script>
+		<script src="http://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+		
 	</head>
 	
 	<body>
 	
 	
-		<div layout:fragment="content">
+		<div layout:fragment="content" ng-app="myApp" ng-controller="AgentController">
 		    
 		      <div class="row featurette">
 		        <div class="col-md-7">
@@ -46,27 +51,31 @@
 				  			<th>Type</th>
 				  		</tr>
 				  	</thead>
-				  	<tbody th:unless="${#lists.isEmpty(agent.properties)}">
-				  		<tr th:each="property,status : ${agent.properties}">
-				  			<th th:text="${status.count}" scope="row">1</th>
-				  			<td th:text="${property.name}"> <a href="#">Property 1</a></td>
-				  			<td th:text="${property.description}">Located in Beverly hills</td>
-				  			<td th:text="${property.type}">Rent</td>
+				  	<tbody>
+				  		<tr ng-repeat="property in properties._embedded.propertyList">
+				  			<th scope="row">{{ property.id }}</th>
+				  			<td> <a href="#">{{ property.name }}</a></td>
+				  			<td>{{ property.description }}</td>
+				  			<td>{{ property.type }}</td>
 				  		</tr>
 				  	</tbody>
+				  	
+				  	
+<!-- 				  	<tbody th:unless="${#lists.isEmpty(agent.properties)}"> -->
+<!-- 				  		<tr th:each="property,status : ${agent.properties}"> -->
+<!-- 				  			<th th:text="${status.count}" scope="row">1</th> -->
+<!-- 				  			<td th:text="${property.name}"> <a href="#">Property 1</a></td> -->
+<!-- 				  			<td th:text="${property.description}">Located in Beverly hills</td> -->
+<!-- 				  			<td th:text="${property.type}">Rent</td> -->
+<!-- 				  		</tr> -->
+<!-- 				  	</tbody> -->
 				   
 				  </table>
 				</div>
 		      
-			
+			<script src="../../../../../resources/js/searchahouse/agent/agent.js"  th:src="@{/resources/js/searchahouse/agent/agent.js}"></script>
 			    
 	    </div><!-- /.body - content -->
-		
-	
-		<!-- javascript resources -->
-		<script src="http://cdn.jsdelivr.net/angularjs/1.4.0/angular.min.js"  th:src="@{/webjars/angularjs/1.4.0/angular.min.js}"></script>
-		<script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js" ></script>
-		<script src="http://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
 				
 	</body>
 	

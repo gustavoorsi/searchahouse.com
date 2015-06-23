@@ -20,5 +20,12 @@ public interface AgentService {
      * @return
      */
     Agent findById( final String id );
+    
+    /**
+     * Find an agent by email
+     * @param email
+     * @return
+     */
+    Agent findByEmail( final String email );
 
 }
