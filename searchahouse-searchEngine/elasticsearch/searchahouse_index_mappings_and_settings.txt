@@ -22,10 +22,8 @@ POST ->  http://localhost:9200/searchahouse
                "tokenizer":"standard",
                "filter":[  
                   "standard",
-                  "lowercase",
-                  "stop",
-                  "kstem",
-				  "state_synonym",
+                  "lowercase",                  
+				  "state_synonym_filter",
                   "state_autocomplete_filter"
                ]
             },			
@@ -42,13 +40,11 @@ POST ->  http://localhost:9200/searchahouse
             },
 			"state_synonym":{  
                "type":"custom",
-               "tokenizer":"standard",
-               "filter":[  
-                  "standard",
-                  "lowercase",
-                  "stop",
-                  "kstem",
-                  "state_synonym"
+			   "tokenizer":"standard",
+               "filter":[ 
+				  "standard",
+                  "lowercase",			   
+                  "state_synonym_filter"
                ]
             }
          },
@@ -70,7 +66,7 @@ POST ->  http://localhost:9200/searchahouse
                   "apartment, unit"
                ]
             },
-			"state_synonym":{
+			"state_synonym_filter":{
 				"type":"synonym",
                "synonyms":[  
                   "New York, ny, nueva york, big apple, ny city"
