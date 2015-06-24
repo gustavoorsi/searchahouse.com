@@ -15,6 +15,7 @@
 		
 		<!-- javascript resources -->
 		<script src="http://cdn.jsdelivr.net/angularjs/1.4.0/angular.min.js"  th:src="@{/webjars/angularjs/1.4.0/angular.min.js}"></script>
+		<script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js" ></script>
 		<script src="http://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
 		
 	</head>
@@ -22,25 +23,21 @@
 	<body>
 	
 	
-		<div layout:fragment="content" ng-app="myApp" ng-controller="AgentController">
+		<div layout:fragment="content" ng-app="myApp" ng-controller="AgentsController">
 		
-			  <input type="hidden" id="agentId" th:value="${agent.id}" />
-		    
 		      <div class="row featurette">
 		        <div class="col-md-7">
 		          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
 		          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
 		        </div>
 		        <div class="col-md-5">
-		          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image"/>
 		        </div>
 		      </div>
 		      
 		        <div class="panel panel-default">
 				  <!-- Default panel contents -->
-				  <div class="panel-heading">Properties</div>
 				  <div class="panel-body">
-				    <p>List of properties for this agent.</p>
+				    <p>List of agents</p>
 				  </div>
 				
 				  <!-- Table -->
@@ -49,33 +46,21 @@
 				  		<tr>
 				  			<th>#</th>
 				  			<th>Name</th>
-				  			<th>Description</th>
-				  			<th>Type</th>
+				  			<th>email</th>
 				  		</tr>
 				  	</thead>
 				  	<tbody>
-				  		<tr ng-repeat="property in properties._embedded.propertyList">
-				  			<th scope="row">{{ property.id }}</th>
-				  			<td> <a href="{{ property._links.self.href }}" >{{ property.name }}</a></td>
-				  			<td>{{ property.description }}</td>
-				  			<td>{{ property.type }}</td>
+				  		<tr ng-repeat="agent in agents._embedded.agentList">
+				  			<th scope="row">{{ agent.id }}</th>
+				  			<td> <a href="agents/{{ agent.id }}" >{{ agent.firstName }}, {{agent.lastName}}</a></td>
+				  			<td>{{ agent.email }}</td>
 				  		</tr>
 				  	</tbody>
-				  	
-				  	
-<!-- 				  	<tbody th:unless="${#lists.isEmpty(agent.properties)}"> -->
-<!-- 				  		<tr th:each="property,status : ${agent.properties}"> -->
-<!-- 				  			<th th:text="${status.count}" scope="row">1</th> -->
-<!-- 				  			<td th:text="${property.name}"> <a href="#">Property 1</a></td> -->
-<!-- 				  			<td th:text="${property.description}">Located in Beverly hills</td> -->
-<!-- 				  			<td th:text="${property.type}">Rent</td> -->
-<!-- 				  		</tr> -->
-<!-- 				  	</tbody> -->
 				   
 				  </table>
 				</div>
 		      
-			<script src="../../../../../resources/js/app/agent/agent.js"  th:src="@{/resources/js/app/agent/agent.js}"></script>
+			<script src="../../../../../resources/js/app/agent/all.js"  th:src="@{/resources/js/app/agent/all.js}"></script>
 			    
 	    </div><!-- /.body - content -->
 				

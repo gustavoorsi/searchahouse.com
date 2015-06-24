@@ -52,19 +52,19 @@ public class AgentServiceImpl implements AgentService {
 
 		return agent;
 	}
-	
+
 	@Override
-    public Agent findByEmail(final String email) {
+	public Agent findByEmail(final String email) {
 
-        String endpoint = "http://localhost:8081/api/v1/agent?email=" + email;
+		String endpoint = "http://localhost:8081/api/v1/agent?email=" + email;
 
-        ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
-                new ParameterizedTypeReference<Resource<Agent>>() {
-                });
+		ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
+				new ParameterizedTypeReference<Resource<Agent>>() {
+				});
 
-        Agent agent = resourceResponse.getBody().getContent();
+		Agent agent = resourceResponse.getBody().getContent();
 
-        return agent;
-    }
+		return agent;
+	}
 
 }

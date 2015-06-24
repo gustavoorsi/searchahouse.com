@@ -17,23 +17,23 @@ import edu.searchahouse.web.service.AgentService;
 @RequestMapping(value = "/agents")
 public class AgentController {
 
-    private final AgentService agentService;
+	private final AgentService agentService;
 
-    @Autowired
-    public AgentController(final AgentService agentService) {
-        this.agentService = agentService;
-    }
-    
-    @RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
-    public ModelAndView getAgent(final @PathVariable("agentId") String agentId) {
+	@Autowired
+	public AgentController(final AgentService agentService) {
+		this.agentService = agentService;
+	}
 
-        Map<String, Object> model = new HashMap<String, Object>();
+	@RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
+	public ModelAndView getAgent(final @PathVariable("agentId") String agentId) {
 
-        Agent agent = this.agentService.findById(agentId);
+		Map<String, Object> model = new HashMap<String, Object>();
 
-        model.put("agent", agent);
+		Agent agent = this.agentService.findById(agentId);
 
-        return new ModelAndView("sections/agent/agent", model);
-    }
+		model.put("agent", agent);
+
+		return new ModelAndView("sections/agent/agent", model);
+	}
 
 }
