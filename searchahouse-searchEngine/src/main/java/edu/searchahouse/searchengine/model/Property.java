@@ -6,14 +6,6 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 @Document(indexName = "searchahouse", type = "property")
 public class Property extends BaseEntity {
 
-    public enum PropertyType {
-        SALE, RENT;
-    }
-
-    public enum PropertyStatus {
-        AVAILABLE, NOT_AVAILABLE;
-    }
-
     private String name;
     private String description;
     private GeoPoint location;
@@ -79,6 +71,14 @@ public class Property extends BaseEntity {
 
     public void setStatus(PropertyStatus status) {
         this.status = status;
+    }
+
+    public enum PropertyType {
+        SALE, RENT;
+    }
+
+    public enum PropertyStatus {
+        AVAILABLE, NOT_AVAILABLE;
     }
 
 }

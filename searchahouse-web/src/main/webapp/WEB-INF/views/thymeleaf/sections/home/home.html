@@ -60,9 +60,11 @@
 		    ================================================== -->
 		    <!-- Wrap the rest of the page in another container to center all the content. -->
 		
-		    <div class="container marketing" ng-controller="AgentAutocompleteController" ng-cloak="ng-cloak">
+		    <div class="container marketing" >
 		
-			    <div class="row">
+				<hr class="featurette-divider" />
+				
+				<div class="row" ng-controller="LocationAutocompleteController" ng-cloak="ng-cloak">
 					  <div class="col-lg-6">
 					    <div class="input-group">
 					      <input type="text" class="form-control" placeholder="Search for..." ng-model="search" ng-change="change()" onclick="select()" autofocus="autofocus" />
@@ -74,17 +76,17 @@
 					  
 					  <div class="col-lg-6">
 					  
-					  	<div ng-if="agents.page.totalElements > 0">
+					  	<div ng-if="locations.page.totalElements > 0">
 					  	
 					  		<ul class="rel-results">
-					          <li ng-repeat="agent in agents._embedded.agentList">
-					            {{ agent.firstName }}, {{ agent.lastName }}
+					          <li ng-repeat="location in locations._embedded.locationList">
+					            {{ location.city }}
 					          </li>
 					        </ul>
 					  	
 					      </div>
 					      
-					      <div ng-if="agents.page.totalElements == 0">
+					      <div ng-if="locations.page.totalElements == 0">
 					        No results found.
 					      </div>
 					  

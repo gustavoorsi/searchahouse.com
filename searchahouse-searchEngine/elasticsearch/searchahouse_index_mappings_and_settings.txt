@@ -17,6 +17,18 @@ POST ->  http://localhost:9200/searchahouse
                   "name_autocomplete_filter"
                ]
             },
+			"state_autocomplete":{  
+               "type":"custom",
+               "tokenizer":"standard",
+               "filter":[  
+                  "standard",
+                  "lowercase",
+                  "stop",
+                  "kstem",
+				  "state_synonym",
+                  "state_autocomplete_filter"
+               ]
+            },			
             "synonym":{  
                "type":"custom",
                "tokenizer":"standard",
@@ -27,10 +39,26 @@ POST ->  http://localhost:9200/searchahouse
                   "kstem",
                   "synonym"
                ]
+            },
+			"state_synonym":{  
+               "type":"custom",
+               "tokenizer":"standard",
+               "filter":[  
+                  "standard",
+                  "lowercase",
+                  "stop",
+                  "kstem",
+                  "state_synonym"
+               ]
             }
          },
          "filter":{  
             "name_autocomplete_filter":{  
+               "type":"edge_ngram",
+               "min_gram":1,
+               "max_gram":20
+            },
+			"state_autocomplete_filter":{  
                "type":"edge_ngram",
                "min_gram":1,
                "max_gram":20
@@ -41,7 +69,13 @@ POST ->  http://localhost:9200/searchahouse
                   "nice, pretty => beautiful",
                   "apartment, unit"
                ]
-            }
+            },
+			"state_synonym":{
+				"type":"synonym",
+               "synonyms":[  
+                  "New York, ny, nueva york, big apple, ny city"
+               ]
+			}
          }
       }
    },
@@ -74,6 +108,33 @@ POST ->  http://localhost:9200/searchahouse
                      "search_analyzer":"standard"
                   }
                }
+            }
+         }
+      },
+	  "location":{  
+         "properties":{  
+            "country":{  
+               "type":"string"
+            },
+			"state":{  
+               "type":"multi_field",
+               "fields":{  
+                  "state":{  
+                     "type":"string",
+                     "analyzer":"state_synonym"
+                  },
+                  "autocomplete":{  
+                     "type":"string",
+                     "index_analyzer":"state_autocomplete",
+                     "search_analyzer":"standard"
+                  }
+               }
+            },
+			"city":{  
+               "type":"string"
+            },
+            "location":{  
+               "type":"geo_point"
             }
          }
       },

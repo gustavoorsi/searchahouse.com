@@ -1,22 +1,24 @@
 // http://www.sitepoint.com/api-calls-angularjs-http-service/
 'use strict';
 
-angular.module('myApp', [])
-  .controller('AgentAutocompleteController', function($scope, $http) {
+var myApp = angular.module('myApp', []);
+
+myApp.controller('LocationAutocompleteController', function($scope, $http) {
     var pendingTask;
 
     $scope.change = function() {
       if (pendingTask) {
         clearTimeout(pendingTask);
       }
-      pendingTask = setTimeout(fetch, 300);
+      pendingTask = setTimeout(fetch, 50);
     };
 
     function fetch() {
     	if ($scope.search.trim()) {
-    		$http.get("http://localhost:8081/api/v1/agent/autocomplete/" + $scope.search )
+    		$http.get("http://localhost:8081/api/v1/location/autocomplete/" + $scope.search )
 	          .success(function(response) {
-	          $scope.agents = response;
+	          $scope.locations = response;
+	          console.log( $scope.locations );
 	        });
     	}
     	
