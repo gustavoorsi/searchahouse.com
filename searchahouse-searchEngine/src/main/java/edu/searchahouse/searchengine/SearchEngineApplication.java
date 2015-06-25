@@ -21,6 +21,7 @@ import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.web.client.RestTemplate;
 
 import edu.searchahouse.searchengine.model.Agent;
 import edu.searchahouse.searchengine.model.Lead;
@@ -42,6 +43,12 @@ public class SearchEngineApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SearchEngineApplication.class, args);
+    }
+    
+    @Bean
+    public RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate;
     }
 
     @Profile("development")

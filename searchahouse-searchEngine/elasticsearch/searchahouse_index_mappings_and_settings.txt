@@ -146,6 +146,21 @@ POST ->  http://localhost:9200/searchahouse
             "location":{  
                "type":"geo_point"
             },
+			"address":{
+				"type" : "object",
+				"properties":{
+					"state":{
+						"type":"string",
+						"analyzer":"state_synonym"
+					},
+					"city":{
+						"type":"string"
+					},
+					"street":{
+						"type":"string"
+					}
+				}
+			},
             "price":{  
                "type":"long"
             },

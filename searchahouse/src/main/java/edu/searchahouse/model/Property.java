@@ -15,7 +15,6 @@ public class Property extends BaseEntity {
     private String description;
     private Address address;
     @Transient
-    private Point location;
     private Long price;
     private PropertyType type;
     private PropertyStatus status;
@@ -78,14 +77,6 @@ public class Property extends BaseEntity {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public Point getLocation() {
-        return location;
-    }
-
-    public void setLocation(Point location) {
-        this.location = location;
     }
 
     public Map<String, Object> toMap() {
