@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.geo.Point;
 
 //Customizing type mapping to avoid writing the entire Java class name as type information in mongodb ("_class" : "du.searchahouse.model.Property").
 @TypeAlias("Property")
@@ -21,7 +20,6 @@ public class Property extends BaseEntity {
     private String name;
     private String description;
     private Address address;
-    private Point location;
     private Long price;
     private PropertyType type;
     private PropertyStatus status;
@@ -29,11 +27,10 @@ public class Property extends BaseEntity {
     public Property() {
     }
 
-    public Property(String name, String description, Address address, Point location, Long price, PropertyType type, PropertyStatus status) {
+    public Property(String name, String description, Address address, Long price, PropertyType type, PropertyStatus status) {
         this.name = name;
         this.description = description;
         this.address = address;
-        this.location = location;
         this.price = price;
         this.type = type;
         this.status = status;
@@ -53,14 +50,6 @@ public class Property extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Point getLocation() {
-        return location;
-    }
-
-    public void setLocation(Point location) {
-        this.location = location;
     }
 
     public Long getPrice() {
@@ -100,7 +89,6 @@ public class Property extends BaseEntity {
         put(map, this.name, "name");
         put(map, this.description, "description");
         put(map, this.address, "address");
-        put(map, this.location, "location");
         put(map, this.price, "price");
         put(map, this.status, "status");
         put(map, this.type, "type");

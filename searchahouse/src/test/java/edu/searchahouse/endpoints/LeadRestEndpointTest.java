@@ -47,12 +47,21 @@ public class LeadRestEndpointTest extends AbstractRestEndpointTest {
 	public void getLead_shouldReturn_404_notfound_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(get( "/api/v1/lead/xxx" ))
+		mockMvc.perform(get( "/api/v1/lead/000000000000000000000000" ))
 			.andExpect( status().isNotFound() )
 			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
 			.andExpect( jsonPath( "$[0].message",not( isEmptyString() )  ) );
 		//@formatter:on
 	}
+	
+	@Test
+    public void getLead_shouldReturn_400_badRequest_httpcode() throws Exception {
+
+        //@formatter:off
+        mockMvc.perform(get( "/api/v1/lead/xxx" ))
+            .andExpect( status().isBadRequest() );
+        //@formatter:on
+    }
 
 	@Test
 	public void getLeads_shouldReturn_two_leads_and_200_ok_httpcode() throws Exception {

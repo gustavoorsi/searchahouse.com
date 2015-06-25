@@ -47,12 +47,21 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 	public void getProperty_shouldReturn_404_notfound_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(get( "/api/v1/property/xxx" ))
+		mockMvc.perform(get( "/api/v1/property/000000000000000000000000" ))
 			.andExpect( status().isNotFound() )
 			.andExpect( content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON) )
 			.andExpect( jsonPath( "$[0].message",not( isEmptyString() )  ) );
 		//@formatter:on
 	}
+	
+	@Test
+    public void getProperty_shouldReturn_400_badRequest_httpcode() throws Exception {
+
+        //@formatter:off
+        mockMvc.perform(get( "/api/v1/property/xxx" ))
+            .andExpect( status().isBadRequest() );
+        //@formatter:on
+    }
 
 	@Test
 	public void getProperties_shouldReturn_two_properties_and_200_ok_httpcode() throws Exception {
@@ -76,7 +85,7 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 		mockMvc.perform(post( "/api/v1/property" )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.content( "{\"name\":\"Test property\",\"description\":\"some description\",\"address\":{\"state\":\"CA\",\"street\":\"a street\"},\"location\":{\"x\":1,\"y\":2},\"price\":50000,\"type\":\"SALE\",\"status\":\"AVAILABLE\"}" ))
+				.content( "{\"name\":\"Test property\",\"description\":\"some description\",\"address\":{\"state\":\"CA\",\"street\":\"a street\"},\"price\":50000,\"type\":\"SALE\",\"status\":\"AVAILABLE\"}" ))
 			.andExpect( status().isCreated() );
 		//@formatter:on
 	}
