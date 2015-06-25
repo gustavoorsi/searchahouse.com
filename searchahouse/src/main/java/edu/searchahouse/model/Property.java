@@ -3,23 +3,19 @@ package edu.searchahouse.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.geo.Point;
 
 //Customizing type mapping to avoid writing the entire Java class name as type information in mongodb ("_class" : "du.searchahouse.model.Property").
 @TypeAlias("Property")
 public class Property extends BaseEntity {
 
-    public enum PropertyType {
-        SALE, RENT;
-    }
-
-    public enum PropertyStatus {
-        AVAILABLE, NOT_AVAILABLE;
-    }
-
     private String name;
     private String description;
     private Address address;
+    @Transient
+    private Point location;
     private Long price;
     private PropertyType type;
     private PropertyStatus status;
@@ -84,6 +80,14 @@ public class Property extends BaseEntity {
         this.address = address;
     }
 
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<String, Object>();
         put(map, this.name, "name");
@@ -94,5 +98,13 @@ public class Property extends BaseEntity {
         put(map, this.type, "type");
 
         return map;
+    }
+
+    public enum PropertyType {
+        SALE, RENT;
+    }
+
+    public enum PropertyStatus {
+        AVAILABLE, NOT_AVAILABLE;
     }
 }

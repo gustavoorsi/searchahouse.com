@@ -54,7 +54,7 @@ public class AbstractRestEndpointTest {
 
         Arrays.asList("1,2".split(",")).forEach(
                 index -> {
-                    Property property = new Property("Property" + index, "description" + index, new Address("CA", "test street"), 100000L, PropertyType.SALE,
+                    Property property = new Property("Property" + index, "description" + index, new Address("CA", "test city", "test street"), 100000L, PropertyType.SALE,
                             PropertyStatus.AVAILABLE);
                     propertyRepository.save(property);
                 });
