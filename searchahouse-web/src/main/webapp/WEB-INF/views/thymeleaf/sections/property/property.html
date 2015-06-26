@@ -36,6 +36,7 @@
 			<div>
 				<h2>Lead Form</h2>
 				<form class="form-horizontal" role="form" th:action="@{/leads/save}" th:object="${lead}" method="POST">
+				  <input type="hidden" id="propertyId" th:value="${property.id}" />	
 				  <div class="form-group">
 				    <label class="control-label col-sm-2" for="firstName">First Name:</label>
 				    <div class="col-sm-10">

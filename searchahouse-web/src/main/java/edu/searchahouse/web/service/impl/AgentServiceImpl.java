@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import edu.searchahouse.web.model.Agent;
+import edu.searchahouse.web.model.Lead;
+import edu.searchahouse.web.model.LeadPortfolio;
 import edu.searchahouse.web.service.AgentService;
 
 @Service
@@ -65,6 +67,24 @@ public class AgentServiceImpl implements AgentService {
 		Agent agent = resourceResponse.getBody().getContent();
 
 		return agent;
+	}
+
+	@Override
+	public void addLeadToAgentForProperty(Lead lead, String propertyId) {
+
+		String endpointGet = "http://localhost:8080/api/v1/agent/property/" + propertyId;
+
+		ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpointGet, HttpMethod.GET, null,
+				new ParameterizedTypeReference<Resource<Agent>>() {
+				});
+
+		Agent agent = resourceResponse.getBody().getContent();
+		
+		
+		String endpointPut = "http://localhost:8080/api/v1/agent";
+		
+		Object result = this.restTemplate.put(endpointPut, request, urlVariables);
+		
 	}
 
 }

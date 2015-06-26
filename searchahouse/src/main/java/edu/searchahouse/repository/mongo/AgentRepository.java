@@ -12,6 +12,9 @@ public interface AgentRepository extends MongoRepository<Agent, ObjectId> {
 
     @Query(value="{ 'id' : ?0 }", fields="{ 'properties' : 0, 'leads' : 0}")
 	Optional<Agent> findAgentById(final ObjectId id);
+    
+    @Query(value="{ 'properties.id' : ?0 }", fields="{ 'properties' : 0, 'leads' : 0}")
+	Optional<Agent> findAgentByProperty(final ObjectId propertyId);
 
 	Optional<Agent> findAgentByEmail(final String email);
 

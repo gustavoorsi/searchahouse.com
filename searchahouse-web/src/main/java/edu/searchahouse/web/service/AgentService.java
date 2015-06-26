@@ -3,6 +3,7 @@ package edu.searchahouse.web.service;
 import java.util.Collection;
 
 import edu.searchahouse.web.model.Agent;
+import edu.searchahouse.web.model.Lead;
 
 public interface AgentService {
 
@@ -30,5 +31,12 @@ public interface AgentService {
 	 * @return
 	 */
 	Agent findByEmail(final String email);
+
+	/**
+	 * add a lead to an agent for a specific property. Guess the agent from the propertyId.
+	 * 
+	 * @param propertyId
+	 */
+	void addLeadToAgentForProperty(Lead lead, final String propertyId);
 
 }

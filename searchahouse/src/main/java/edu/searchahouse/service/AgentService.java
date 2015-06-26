@@ -10,6 +10,8 @@ import edu.searchahouse.model.Property;
 public interface AgentService {
 
 	public Agent findAgentById(String id);
+	
+	public Agent findAgentByPropertyId(String propertyId);
 
 	public Page<Agent> getAgentsByPage(Pageable pageable);
 
