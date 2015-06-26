@@ -158,7 +158,8 @@ POST ->  http://localhost:9200/searchahouse
 					   }
 					},
 					"street":{
-						"type":"string"
+						"type":"string",
+						"index":"not_analyzed"
 					}
 				}
 			},
