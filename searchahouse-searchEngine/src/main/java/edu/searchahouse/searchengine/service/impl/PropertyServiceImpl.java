@@ -8,6 +8,8 @@ import org.elasticsearch.index.query.GeoDistanceFilterBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -70,8 +72,17 @@ public class PropertyServiceImpl implements PropertyService {
     }
     
     @Override
-    public List<Property> searchPropertiesByAddress(String queryValue) {
-        List<Property> properties = this.propertyRepository.findPropertiesByAddress(queryValue);
+    public Page<Property> searchPropertiesByAddress(String queryValue, final boolean isAutocompleteSearch, final Pageable pageable) {
+    	
+    	Page<Property> properties = null;
+    	
+    	if( isAutocompleteSearch ){
+    		properties = this.propertyRepository.findPropertiesByAutocompleteAddress(queryValue, pageable);
+    	} else {
+    		properties = this.propertyRepository.findByAddressStateOrAddressCityOrAddressStreet(queryValue, pageable);
+    	}
+    	
+        
         return properties;
     }
 

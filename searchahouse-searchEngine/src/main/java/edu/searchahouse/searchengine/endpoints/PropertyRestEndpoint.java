@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpEntity;
@@ -104,12 +107,16 @@ public class PropertyRestEndpoint {
 	/**
      * ----------------------------------------------------------------------------------------------------------------
      * 
-     * GET - search "Pageable" properties
+     * GET - search "Pageable" properties by address (street, state, city).
      * 
      * ----------------------------------------------------------------------------------------------------------------
      * 
      * Return a pageable list of Properties.
      * 
+     * @param ac
+     * 			Flag indicating if is an auto-complete search or not.
+     * @param q
+     * 			The query string
      * @param pageable
      *            the page data. Page number and page size.
      * @param assembler
@@ -119,14 +126,15 @@ public class PropertyRestEndpoint {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public HttpEntity<PagedResources<PropertyResource>> searchPropertiesByPage( //
-            @RequestParam(value = "ac", required = true) final Boolean autocomplete, //
+            @RequestParam(value = "ac", required = false, defaultValue = "false") final Boolean autocomplete, //
             @RequestParam(value = "q", required = true) final String queryValue, //
+            @PageableDefault(size = 10, page = 0) Pageable pageable, //
             PagedResourcesAssembler<Property> assembler //
     ) {
 
-        List<Property> properties = this.propertyService.searchPropertiesByAddress(queryValue);
+    	Page<Property> properties = this.propertyService.searchPropertiesByAddress(queryValue, autocomplete, pageable);
 
-        return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(new PageImpl<Property>(properties), this.propertyResourceAssembler),
+        return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(properties, this.propertyResourceAssembler),
                 HttpStatus.OK);
 
     }
