@@ -2,6 +2,7 @@ package edu.searchahouse.searchengine.rabbitmq;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,8 @@ import edu.searchahouse.searchengine.persistence.repository.elasticsearch.LeadRe
 import edu.searchahouse.searchengine.persistence.repository.elasticsearch.PropertyRepository;
 import edu.searchahouse.searchengine.service.PropertyService;
 
+// we don't want to execute the listener while testing.
+@Profile({"test","!integrationTest"})
 @Component
 public class Receiver {
 

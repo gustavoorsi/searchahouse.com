@@ -1,7 +1,9 @@
 package edu.searchahouse.searchengine;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.elasticsearch.common.unit.DistanceUnit;
@@ -23,6 +25,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.web.client.RestTemplate;
 
+import edu.searchahouse.searchengine.model.Address;
 import edu.searchahouse.searchengine.model.Agent;
 import edu.searchahouse.searchengine.model.Lead;
 import edu.searchahouse.searchengine.model.LeadPortfolio;
@@ -44,11 +47,19 @@ public class SearchEngineApplication {
     public static void main(String[] args) {
         SpringApplication.run(SearchEngineApplication.class, args);
     }
-    
+
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate;
+    }
+
+    final static Map<Integer, String[]> ADDRESSES = new HashMap<Integer, String[]>();
+
+    {
+        ADDRESSES.put(1, new String[] { "California", "Beverly Hills", "31340 Mulholland Dr." }); // Anderson Pamela
+        ADDRESSES.put(2, new String[] { "California", "Bel Air", "846 Stradella Rd." }); // Eastwood Clint
+        ADDRESSES.put(3, new String[] { "California", "Hollywood Hills", "2705 Glen Dower Ave" }); // Pitt Brad
     }
 
     @Profile("development")
@@ -69,8 +80,9 @@ public class SearchEngineApplication {
 
         return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(
                 index -> {
-                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), 100000L, PropertyType.SALE,
-                            PropertyStatus.AVAILABLE);
+                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(ADDRESSES.get(Integer
+                            .valueOf(index))[0], ADDRESSES.get(Integer.valueOf(index))[1], ADDRESSES.get(Integer.valueOf(index))[2]), 100000L,
+                            PropertyType.SALE, PropertyStatus.AVAILABLE);
                     property.setId(UUID.randomUUID().toString());
                     propertyRepository.save(property);
 
@@ -119,25 +131,25 @@ public class SearchEngineApplication {
     }
 
     private void populateLocations(final LocationRepository locationRepository) {
-        
+
         final String USA = "usa";
-        
-        Location losAngeles = new Location( USA, "California", "Los Angeles", new GeoPoint(34.0194, -118.4108) );
-        Location sanDiego = new Location( USA, "California", "San Diego", new GeoPoint(32.8153, -117.135) );
-        Location sanFrancisco = new Location( USA, "California", "San Francisco", new GeoPoint(37.7751, -122.4193) );
-        Location oakland = new Location( USA, "California", "Oakland", new GeoPoint(37.7699, -122.2256) );
-        
-        Location newYorkCity = new Location( USA, "New York", "New York City", new GeoPoint(40.6643, -73.9385) );
-        Location yonkers = new Location( USA, "New York", "Yonkers", new GeoPoint(40.9459, -73.8674) );
-        
-        Location vancouver = new Location( USA, "Washington", "Vancouver", new GeoPoint(45.6372, -122.5965) );
-        
-        locationRepository.save( losAngeles );
-        locationRepository.save( sanDiego );
-        locationRepository.save( sanFrancisco );
-        locationRepository.save( oakland );
-        locationRepository.save( newYorkCity );
-        locationRepository.save( yonkers );
-        locationRepository.save( vancouver );
+
+        Location losAngeles = new Location(USA, "California", "Los Angeles", new GeoPoint(34.0194, -118.4108));
+        Location sanDiego = new Location(USA, "California", "San Diego", new GeoPoint(32.8153, -117.135));
+        Location sanFrancisco = new Location(USA, "California", "San Francisco", new GeoPoint(37.7751, -122.4193));
+        Location oakland = new Location(USA, "California", "Oakland", new GeoPoint(37.7699, -122.2256));
+
+        Location newYorkCity = new Location(USA, "New York", "New York City", new GeoPoint(40.6643, -73.9385));
+        Location yonkers = new Location(USA, "New York", "Yonkers", new GeoPoint(40.9459, -73.8674));
+
+        Location vancouver = new Location(USA, "Washington", "Vancouver", new GeoPoint(45.6372, -122.5965));
+
+        locationRepository.save(losAngeles);
+        locationRepository.save(sanDiego);
+        locationRepository.save(sanFrancisco);
+        locationRepository.save(oakland);
+        locationRepository.save(newYorkCity);
+        locationRepository.save(yonkers);
+        locationRepository.save(vancouver);
     }
 }

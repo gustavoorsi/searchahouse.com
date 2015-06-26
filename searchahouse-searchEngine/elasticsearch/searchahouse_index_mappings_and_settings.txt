@@ -10,10 +10,7 @@ POST ->  http://localhost:9200/searchahouse
                "type":"custom",
                "tokenizer":"standard",
                "filter":[  
-                  "standard",
                   "lowercase",
-                  "stop",
-                  "kstem",
                   "name_autocomplete_filter"
                ]
             },
@@ -21,7 +18,6 @@ POST ->  http://localhost:9200/searchahouse
                "type":"custom",
                "tokenizer":"standard",
                "filter":[  
-                  "standard",
                   "lowercase",                  
 				  "state_synonym_filter",
                   "state_autocomplete_filter"
@@ -31,7 +27,6 @@ POST ->  http://localhost:9200/searchahouse
                "type":"custom",
                "tokenizer":"standard",
                "filter":[  
-                  "standard",
                   "lowercase",
                   "stop",
                   "kstem",
@@ -42,7 +37,6 @@ POST ->  http://localhost:9200/searchahouse
                "type":"custom",
 			   "tokenizer":"standard",
                "filter":[ 
-				  "standard",
                   "lowercase",			   
                   "state_synonym_filter"
                ]
@@ -57,7 +51,7 @@ POST ->  http://localhost:9200/searchahouse
 			"state_autocomplete_filter":{  
                "type":"edge_ngram",
                "min_gram":1,
-               "max_gram":20
+               "max_gram":25
             },
             "synonym":{  
                "type":"synonym",

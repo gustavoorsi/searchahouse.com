@@ -17,10 +17,11 @@ public class Property extends BaseEntity {
 	public Property() {
 	}
 
-	public Property(String name, String description, GeoPoint location, Long price, PropertyType type, PropertyStatus status) {
+	public Property(String name, String description, GeoPoint location, Address address, Long price, PropertyType type, PropertyStatus status) {
 		this.name = name;
 		this.description = description;
 		this.location = location;
+		this.address = address;
 		this.price = price;
 		this.type = type;
 		this.status = status;

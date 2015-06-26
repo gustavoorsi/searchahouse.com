@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import edu.searchahouse.searchengine.SearchEngineApplication;
+import edu.searchahouse.searchengine.model.Address;
 import edu.searchahouse.searchengine.model.Property;
 import edu.searchahouse.searchengine.model.Property.PropertyStatus;
 import edu.searchahouse.searchengine.model.Property.PropertyType;
@@ -49,8 +50,8 @@ public class AbstractRestEndpointTest {
 
         Arrays.asList("1,2".split(",")).forEach(
                 index -> {
-                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), 100000L, PropertyType.SALE,
-                            PropertyStatus.AVAILABLE);
+                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(), 100000L,
+                            PropertyType.SALE, PropertyStatus.AVAILABLE);
                     property.setId(UUID.randomUUID().toString());
                     propertyRepository.save(property);
                     testProperties.add(property);
