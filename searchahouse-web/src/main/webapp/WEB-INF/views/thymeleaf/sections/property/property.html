@@ -18,17 +18,24 @@
 	
 	
 		<div layout:fragment="content">
+		
+		
+			<div class="row">
+			  <div class="col-sm-6 col-md-4">
+			    <div class="thumbnail">
+			      <img th:src="@{${property.imageUrl}}" src="https://www.seekingsitters.com/js/homeslider/images/slide2_house.png"/>
+			      <div class="caption">
+			        <h3>Thumbnail label</h3>
+			        <p>...</p>
+			        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		
+		
+		
 		    
-		      <div class="row featurette">
-		        <div class="col-md-7">
-		          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-		          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-		        </div>
-		        <div class="col-md-5">
-		          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image"/>
-		        </div>
-		      </div>
-		      
 		        <div class="panel panel-default">
 				  <!-- Default panel contents -->
 				  <div class="panel-heading">Properties</div>

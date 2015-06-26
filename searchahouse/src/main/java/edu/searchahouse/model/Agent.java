@@ -27,16 +27,18 @@ import org.springframework.data.mongodb.core.index.Indexed;
 //@formatter:on
 public class Agent extends BaseEntity {
 
-	@NotNull( message = "First Name can not be empty." )
+	@NotNull(message = "First Name can not be empty.")
 	private String firstName;
 
-	@NotNull( message = "Last Name can not be empty." )
+	@NotNull(message = "Last Name can not be empty.")
 	private String lastName;
 
-	@NotNull( message = "Email can not be empty." )
-	@Email( message = "Not a valid email." )
+	@NotNull(message = "Email can not be empty.")
+	@Email(message = "Not a valid email.")
 	@Indexed(unique = true)
 	private String email;
+
+	private String imageUrl;
 
 	private Collection<Property> properties;
 
@@ -49,6 +51,14 @@ public class Agent extends BaseEntity {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public String getFirstName() {
@@ -110,6 +120,7 @@ public class Agent extends BaseEntity {
 	public Map<String, Object> toMap() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		put(map, this.email, "email");
+		put(map, this.imageUrl, "imageUrl");
 		put(map, this.firstName, "firstName");
 		put(map, this.lastName, "lastName");
 		put(map, this.properties, "properties");

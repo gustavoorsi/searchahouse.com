@@ -4,89 +4,98 @@ import org.springframework.data.geo.Point;
 
 public class Property extends BaseEntity {
 
-    public enum PropertyType {
-        SALE, RENT;
-    }
+	public enum PropertyType {
+		SALE, RENT;
+	}
 
-    public enum PropertyStatus {
-        AVAILABLE, NOT_AVAILABLE;
-    }
+	public enum PropertyStatus {
+		AVAILABLE, NOT_AVAILABLE;
+	}
 
-    private String name;
-    private String description;
-    private Address address;
-    private Point location;
-    private Long price;
-    private PropertyType type;
-    private PropertyStatus status;
+	private String name;
+	private String imageUrl;
+	private String description;
+	private Address address;
+	private Point location;
+	private Long price;
+	private PropertyType type;
+	private PropertyStatus status;
 
-    public Property() {
-    }
+	public Property() {
+	}
 
-    public Property(String name, String description, Address address, Point location, Long price, PropertyType type, PropertyStatus status) {
-        this.name = name;
-        this.description = description;
-        this.address = address;
-        this.location = location;
-        this.price = price;
-        this.type = type;
-        this.status = status;
-    }
+	public Property(String name, String description, Address address, Point location, Long price, PropertyType type, PropertyStatus status) {
+		this.name = name;
+		this.description = description;
+		this.address = address;
+		this.location = location;
+		this.price = price;
+		this.type = type;
+		this.status = status;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getImageUrl() {
+		return imageUrl;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Point getLocation() {
-        return location;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setLocation(Point location) {
-        this.location = location;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public Long getPrice() {
-        return price;
-    }
+	public Point getLocation() {
+		return location;
+	}
 
-    public void setPrice(Long price) {
-        this.price = price;
-    }
+	public void setLocation(Point location) {
+		this.location = location;
+	}
 
-    public PropertyType getType() {
-        return type;
-    }
+	public Long getPrice() {
+		return price;
+	}
 
-    public void setType(PropertyType type) {
-        this.type = type;
-    }
+	public void setPrice(Long price) {
+		this.price = price;
+	}
 
-    public PropertyStatus getStatus() {
-        return status;
-    }
+	public PropertyType getType() {
+		return type;
+	}
 
-    public void setStatus(PropertyStatus status) {
-        this.status = status;
-    }
+	public void setType(PropertyType type) {
+		this.type = type;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public PropertyStatus getStatus() {
+		return status;
+	}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public void setStatus(PropertyStatus status) {
+		this.status = status;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
 }

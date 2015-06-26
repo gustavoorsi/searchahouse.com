@@ -64,6 +64,24 @@ public class SearchEngineApplication {
         VALUES.put(5, new String[][] {{ "New York", "Brooklyn", "379 Kings Hwy" },{"https://pbs.twimg.com/profile_images/514415805652422657/VVLin2v4.png"}}); // Eastwood Clint
         VALUES.put(6, new String[][] {{ "California", "Hollywood Hills", "2705 Glen Dower Ave" },{"http://www.avaay.com/wp-content/uploads/2015/04/bizarre-house-4.jpg"}}); // Pitt Brad
     }
+    
+    @Bean
+    CommandLineRunner deleteAll(//
+            final AgentRepository agentRepository, //
+            final PropertyRepository propertyRepository, //
+            final LeadRepository leadRepository, //
+            final LocationRepository locationRepository //
+    ) {
+    	
+    	return (args) -> 
+	    			{
+	    				agentRepository.deleteAll();
+	        	        propertyRepository.deleteAll();
+	        	        leadRepository.deleteAll();
+	        	        locationRepository.deleteAll();
+	    			};
+    	
+    }
 
     @Profile("development")
     @Bean
@@ -73,11 +91,6 @@ public class SearchEngineApplication {
             final LeadRepository leadRepository, //
             final LocationRepository locationRepository //
     ) {
-
-        agentRepository.deleteAll();
-        propertyRepository.deleteAll();
-        leadRepository.deleteAll();
-        locationRepository.deleteAll();
 
         populateLocations(locationRepository);
 
