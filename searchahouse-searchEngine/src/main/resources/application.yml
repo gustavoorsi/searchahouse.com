@@ -1,16 +1,16 @@
+server:
+  port: 8081
+
 spring:
-  profiles: development
   data:
     elasticsearch:
       cluster-nodes: localhost:9300
-      
-server:
-  port: 8081
+---  
+
+spring:
+  profiles: development
   
 ---
 
 spring:
   profiles: integrationTest
-  data:
-    elasticsearch:
-      cluster-nodes: localhost:9300

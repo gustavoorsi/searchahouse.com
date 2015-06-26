@@ -19,6 +19,7 @@ myApp.controller('PropertyAutocompleteController', function($scope, $http) {
     		$http.get("http://localhost:8081/api/v1/property?ac=true&q=" + $scope.propertySearch )
 	          .success(function(response) {
 	          $scope.properties = response;
+	          console.log($scope.properties);
 	        });
     	} else {
     		$("#propertiesResult").hide();

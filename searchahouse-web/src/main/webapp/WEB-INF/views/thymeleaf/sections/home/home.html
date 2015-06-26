@@ -87,7 +87,7 @@
 							  	
 				  		<div class="row">
 	        				<div class="col-lg-4" ng-repeat="property in properties._embedded.propertyList" >
-	        					<img class="img-circle" src="http://icons.iconarchive.com/icons/artdesigner/urban-stories/256/House-icon.png" />
+	        				<a href="http://localhost/properties/{{property.id}}" ><img class="img-circle" src="http://icons.iconarchive.com/icons/artdesigner/urban-stories/256/House-icon.png" /></a>
 	        					<h4>{{property.address.state}}, {{property.address.city}}, {{property.address.street}}</h4>
 	        				</div>
         				</div>
