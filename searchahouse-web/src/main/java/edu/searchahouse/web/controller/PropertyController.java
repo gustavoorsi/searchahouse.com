@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.searchahouse.web.model.Lead;
 import edu.searchahouse.web.model.Property;
 import edu.searchahouse.web.service.PropertyService;
 
@@ -39,6 +40,7 @@ public class PropertyController {
 		Property property = this.propertyService.findById(id);
 
 		model.put("property", property);
+		model.put("lead", new Lead());
 
 		return new ModelAndView("sections/property/property", model);
 	}

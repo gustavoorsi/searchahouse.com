@@ -35,29 +35,29 @@
 			
 			<div>
 				<h2>Lead Form</h2>
-				<form class="form-horizontal" role="form">
+				<form class="form-horizontal" role="form" th:action="@{/leads/save}" th:object="${lead}" method="POST">
 				  <div class="form-group">
 				    <label class="control-label col-sm-2" for="firstName">First Name:</label>
 				    <div class="col-sm-10">
-				      <input class="form-control" id="email" placeholder="Enter first name"/>
+				      <input class="form-control" id="email" placeholder="Enter first name" th:field="${lead.firstName}"/>
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label class="control-label col-sm-2" for="lastName">Last Name:</label>
 				    <div class="col-sm-10"> 
-				      <input class="form-control" id="lastName" placeholder="Enter Last Name"/>
+				      <input class="form-control" id="lastName" placeholder="Enter Last Name" th:field="${lead.lastName}"/>
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label class="control-label col-sm-2" for="email">Email:</label>
 				    <div class="col-sm-10">
-				      <input type="email" class="form-control" id="email" placeholder="Enter email"/>
+				      <input type="email" class="form-control" id="email" placeholder="Enter email" th:field="${lead.email}"/>
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label class="control-label col-sm-2" for="mobilePhone">Mobile Phone:</label>
 				    <div class="col-sm-10"> 
-				      <input class="form-control" id="mobilePhone" placeholder="Enter Mobile Phone"/>
+				      <input class="form-control" id="mobilePhone" placeholder="Enter Mobile Phone" th:field="${lead.mobilePhone}"/>
 				    </div>
 				  </div>
 				  <div class="form-group"> 
