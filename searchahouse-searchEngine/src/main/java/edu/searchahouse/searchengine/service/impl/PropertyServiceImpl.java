@@ -68,6 +68,12 @@ public class PropertyServiceImpl implements PropertyService {
 
         return properties;
     }
+    
+    @Override
+    public List<Property> searchPropertiesByAddress(String queryValue) {
+        List<Property> properties = this.propertyRepository.findPropertiesByAddress(queryValue);
+        return properties;
+    }
 
     @Override
     public List<Property> findPropertiesByAgentEmail(String email) {

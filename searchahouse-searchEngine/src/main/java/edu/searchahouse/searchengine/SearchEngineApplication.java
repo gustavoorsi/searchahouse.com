@@ -60,6 +60,9 @@ public class SearchEngineApplication {
         ADDRESSES.put(1, new String[] { "California", "Beverly Hills", "31340 Mulholland Dr." }); // Anderson Pamela
         ADDRESSES.put(2, new String[] { "California", "Bel Air", "846 Stradella Rd." }); // Eastwood Clint
         ADDRESSES.put(3, new String[] { "California", "Hollywood Hills", "2705 Glen Dower Ave" }); // Pitt Brad
+        ADDRESSES.put(4, new String[] { "New York", "S Ozone Park", "134-12 Linden Blvd." });
+        ADDRESSES.put(5, new String[] { "New York", "Brooklyn", "379 Kings Hwy" }); // Eastwood Clint
+        ADDRESSES.put(6, new String[] { "California", "Hollywood Hills", "2705 Glen Dower Ave" }); // Pitt Brad
     }
 
     @Profile("development")

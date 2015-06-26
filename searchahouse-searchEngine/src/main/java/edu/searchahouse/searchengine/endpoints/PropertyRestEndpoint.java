@@ -100,5 +100,35 @@ public class PropertyRestEndpoint {
 				HttpStatus.OK);
 
 	}
+	
+	/**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * GET - search "Pageable" properties
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Return a pageable list of Properties.
+     * 
+     * @param pageable
+     *            the page data. Page number and page size.
+     * @param assembler
+     *            the assembler that will construct the property resource as a pageable resource.
+     * @return A pageable list of properties in json or xml format (default to json)
+     * 
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public HttpEntity<PagedResources<PropertyResource>> searchPropertiesByPage( //
+            @RequestParam(value = "ac", required = true) final Boolean autocomplete, //
+            @RequestParam(value = "q", required = true) final String queryValue, //
+            PagedResourcesAssembler<Property> assembler //
+    ) {
+
+        List<Property> properties = this.propertyService.searchPropertiesByAddress(queryValue);
+
+        return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(new PageImpl<Property>(properties), this.propertyResourceAssembler),
+                HttpStatus.OK);
+
+    }
 
 }

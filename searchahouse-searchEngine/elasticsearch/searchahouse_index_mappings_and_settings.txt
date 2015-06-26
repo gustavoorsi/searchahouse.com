@@ -6,23 +6,14 @@ POST ->  http://localhost:9200/searchahouse
    "settings":{  
       "analysis":{  
          "analyzer":{  
-            "name_autocomplete":{  
-               "type":"custom",
-               "tokenizer":"standard",
-               "filter":[  
-                  "lowercase",
-                  "name_autocomplete_filter"
-               ]
-            },
-			"state_autocomplete":{  
-               "type":"custom",
-               "tokenizer":"standard",
-               "filter":[  
-                  "lowercase",                  
-				  "state_synonym_filter",
-                  "state_autocomplete_filter"
-               ]
-            },			
+			"generic_autocomplete":{
+				"type":"custom",
+				"tokenizer":"standard",
+				"filter":[
+					"lowercase",
+					"generic_autocomplete_filter"
+				]
+			},
             "synonym":{  
                "type":"custom",
                "tokenizer":"standard",
@@ -43,15 +34,10 @@ POST ->  http://localhost:9200/searchahouse
             }
          },
          "filter":{  
-            "name_autocomplete_filter":{  
+            "generic_autocomplete_filter":{  
                "type":"edge_ngram",
                "min_gram":1,
-               "max_gram":20
-            },
-			"state_autocomplete_filter":{  
-               "type":"edge_ngram",
-               "min_gram":1,
-               "max_gram":25
+               "max_gram":30
             },
             "synonym":{  
                "type":"synonym",
@@ -62,7 +48,7 @@ POST ->  http://localhost:9200/searchahouse
             },
 			"state_synonym_filter":{
 				"type":"synonym",
-               "synonyms":[  
+                "synonyms":[  
                   "New York, ny, nueva york, big apple, ny city"
                ]
 			}
@@ -94,7 +80,7 @@ POST ->  http://localhost:9200/searchahouse
                   },
                   "autocomplete":{  
                      "type":"string",
-                     "index_analyzer":"name_autocomplete",
+                     "index_analyzer":"generic_autocomplete",
                      "search_analyzer":"standard"
                   }
                }
@@ -115,7 +101,7 @@ POST ->  http://localhost:9200/searchahouse
                   },
                   "autocomplete":{  
                      "type":"string",
-                     "index_analyzer":"state_autocomplete",
+                     "index_analyzer":"generic_autocomplete",
                      "search_analyzer":"standard"
                   }
                }
@@ -143,12 +129,33 @@ POST ->  http://localhost:9200/searchahouse
 			"address":{
 				"type" : "object",
 				"properties":{
-					"state":{
-						"type":"string",
-						"analyzer":"state_synonym"
+					"state":{  
+					   "type":"multi_field",
+					   "fields":{  
+						  "state":{  
+							 "type":"string",
+							 "analyzer":"state_synonym"
+						  },
+						  "autocomplete":{  
+							 "type":"string",
+							 "index_analyzer":"generic_autocomplete",
+							 "search_analyzer":"standard"
+						  }
+					   }
 					},
 					"city":{
-						"type":"string"
+						"type":"multi_field",
+					    "fields":{  
+						  "city":{  
+							 "type":"string",
+							 "analyzer":"state_synonym"
+						  },
+						  "autocomplete":{  
+							 "type":"string",
+							 "index_analyzer":"generic_autocomplete",
+							 "search_analyzer":"standard"
+						  }
+					   }
 					},
 					"street":{
 						"type":"string"
@@ -199,7 +206,7 @@ POST ->  http://localhost:9200/searchahouse
                   },
                   "autocomplete":{  
                      "type":"string",
-                     "index_analyzer":"name_autocomplete",
+                     "index_analyzer":"generic_autocomplete",
                      "search_analyzer":"standard"
                   }
                }
