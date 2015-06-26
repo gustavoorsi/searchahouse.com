@@ -25,46 +25,14 @@
 			    <div class="thumbnail">
 			      <img th:src="@{${property.imageUrl}}" src="https://www.seekingsitters.com/js/homeslider/images/slide2_house.png"/>
 			      <div class="caption">
-			        <h3>Thumbnail label</h3>
-			        <p>...</p>
+			        <h3 th:text="${property.name}">Here goes the property name</h3>
+			        <h4 th:text="'Type: ' + ${property.type}">Type: Rent or Sale</h4>
+			        <p th:text="${property.description}">put some description of the property here.</p>
 			        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
 			      </div>
 			    </div>
 			  </div>
 			</div>
-		
-		
-		
-		    
-		        <div class="panel panel-default">
-				  <!-- Default panel contents -->
-				  <div class="panel-heading">Properties</div>
-				  <div class="panel-body">
-				    <p>List of properties for this agent.</p>
-				  </div>
-				
-				  <!-- Table -->
-				  <table class="table">
-				  	<thead>
-				  		<tr>
-				  			<th>#</th>
-				  			<th>Name</th>
-				  			<th>Description</th>
-				  			<th>Type</th>
-				  		</tr>
-				  	</thead>
-				  	<tbody>
-				  		<tr>
-				  			<th th:text="${property.id}" scope="row">1</th>
-				  			<td th:text="${property.name}"> <a href="#">Property 1</a></td>
-				  			<td th:text="${property.description}">Located in Beverly hills</td>
-				  			<td th:text="${property.type}">Rent</td>
-				  		</tr>
-				  	</tbody>
-				   
-				  </table>
-				</div>
-		      
 			
 			    
 	    </div><!-- /.body - content -->
