@@ -117,8 +117,6 @@ public class PropertyServiceImpl implements PropertyService {
 		try {
 			final String googleApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address.getStreet() + "," + address.getCity() + "," + address.getState() + "&sensor=false&key=AIzaSyBP6jLAQF0fnGkIZDt5__OUNPhjWXj6Fbo";
 			
-//			final String googleApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=545+macias,adrogue,buenos+aires,argentina&sensor=false&key=AIzaSyBP6jLAQF0fnGkIZDt5__OUNPhjWXj6Fbo";
-
 			ResponseEntity<String> result = this.restTemplate.exchange(googleApiUrl, HttpMethod.GET, null, String.class);
 
 			JsonNode jsonNode = new ObjectMapper().readValue(result.getBody(), JsonNode.class);

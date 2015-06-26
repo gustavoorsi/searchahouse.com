@@ -54,15 +54,15 @@ public class SearchEngineApplication {
         return restTemplate;
     }
 
-    final static Map<Integer, String[]> ADDRESSES = new HashMap<Integer, String[]>();
+    final static Map<Integer, String[][]> VALUES = new HashMap<Integer, String[][]>();
 
     {
-        ADDRESSES.put(1, new String[] { "California", "Beverly Hills", "31340 Mulholland Dr." }); // Anderson Pamela
-        ADDRESSES.put(2, new String[] { "California", "Bel Air", "846 Stradella Rd." }); // Eastwood Clint
-        ADDRESSES.put(3, new String[] { "California", "Hollywood Hills", "2705 Glen Dower Ave" }); // Pitt Brad
-        ADDRESSES.put(4, new String[] { "New York", "S Ozone Park", "134-12 Linden Blvd." });
-        ADDRESSES.put(5, new String[] { "New York", "Brooklyn", "379 Kings Hwy" }); // Eastwood Clint
-        ADDRESSES.put(6, new String[] { "California", "Hollywood Hills", "2705 Glen Dower Ave" }); // Pitt Brad
+        VALUES.put(1, new String[][] {{ "California", "Beverly Hills", "31340 Mulholland Dr." },{"http://www.hawthorne.co.nz/p7ssm_img_1/thumbs/Hawthorne-House-1_tmb.jpg"}}); // Anderson Pamela
+        VALUES.put(2, new String[][] {{ "California", "Bel Air", "846 Stradella Rd." }, {"http://www.hawthorne.co.nz/p7ssm_img_1/fullsize/Hawthorne-House-4_fs.jpg"}}); // Eastwood Clint
+        VALUES.put(3, new String[][] {{ "California", "Hollywood Hills", "2705 Glen Dower Ave" },{"http://d3ka0sx7noujy3.cloudfront.net/wp-content/uploads/2011/10/byrne-reed-house-exterior.jpg"}}); // Pitt Brad
+        VALUES.put(4, new String[][] {{ "New York", "S Ozone Park", "134-12 Linden Blvd." },{"http://www.thehouseplanshop.com/userfiles/photos/large/2659053724d87558b4ad09.jpg"}});
+        VALUES.put(5, new String[][] {{ "New York", "Brooklyn", "379 Kings Hwy" },{"https://pbs.twimg.com/profile_images/514415805652422657/VVLin2v4.png"}}); // Eastwood Clint
+        VALUES.put(6, new String[][] {{ "California", "Hollywood Hills", "2705 Glen Dower Ave" },{"http://www.avaay.com/wp-content/uploads/2015/04/bizarre-house-4.jpg"}}); // Pitt Brad
     }
 
     @Profile("development")
@@ -83,10 +83,11 @@ public class SearchEngineApplication {
 
         return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(
                 index -> {
-                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(ADDRESSES.get(Integer
-                            .valueOf(index))[0], ADDRESSES.get(Integer.valueOf(index))[1], ADDRESSES.get(Integer.valueOf(index))[2]), 100000L,
+                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(VALUES.get(Integer
+                            .valueOf(index))[0][0], VALUES.get(Integer.valueOf(index))[0][1], VALUES.get(Integer.valueOf(index))[0][2]), 100000L,
                             PropertyType.SALE, PropertyStatus.AVAILABLE);
                     property.setId(UUID.randomUUID().toString());
+                    property.setImageUrl( VALUES.get(Integer.valueOf(index))[1][0] );
                     propertyRepository.save(property);
 
                     Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);

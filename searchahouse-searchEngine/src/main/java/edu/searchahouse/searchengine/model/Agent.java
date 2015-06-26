@@ -20,6 +20,7 @@ public class Agent extends BaseEntity {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String imageUrl;
 	private Collection<Property> properties;
 	private Collection<LeadPortfolio> leads;
 
@@ -30,6 +31,14 @@ public class Agent extends BaseEntity {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public String getFirstName() {

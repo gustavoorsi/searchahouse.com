@@ -13,7 +13,7 @@ public interface PropertyRepository extends ElasticsearchRepository<Property, St
 
 	public Optional<Property> findById(final String propertyId);
 
-	@Query(name = "search_property_autocomplete", value = "{\"multi_match\" : { \"query\" : \"?0\", \"fields\" : [\"address.state.autocomplete\",\"address.city.autocomplete\",\"address.street\"] } }")
+	@Query(name = "search_property_autocomplete", value = "{\"multi_match\" : { \"query\" : \"?0\",\"fuzziness\":2,\"prefix_length\":1, \"fields\" : [\"address.state.autocomplete\",\"address.city.autocomplete\",\"address.street\"] } }")
 	public Page<Property> findPropertiesByAutocompleteAddress(final String autocompleteAddress, Pageable pageable);
 
 	public Page<Property> findByAddressStateOrAddressCityOrAddressStreet(final String stateOrCity, Pageable pageable);

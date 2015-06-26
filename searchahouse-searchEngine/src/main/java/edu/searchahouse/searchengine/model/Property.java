@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 public class Property extends BaseEntity {
 
 	private String name;
+	private String imageUrl;
 	private String description;
 	private Address address;
 	private GeoPoint location;
@@ -25,6 +26,14 @@ public class Property extends BaseEntity {
 		this.price = price;
 		this.type = type;
 		this.status = status;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public String getName() {
