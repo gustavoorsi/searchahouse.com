@@ -51,6 +51,15 @@ public class PropertyServiceImpl implements PropertyService {
         this.elasticsearchOperations = elasticsearchOperations;
         this.restTemplate = restTemplate;
     }
+    
+    
+
+    @Override
+    public Page<Property> findAll(Pageable pageable) {
+        return this.propertyRepository.findAll(pageable);
+    }
+
+
 
     @Override
     public List<Property> findPropertiesByLocation(final GeoPoint geoPoint, Double distance, final SortOrder sortOrder) {

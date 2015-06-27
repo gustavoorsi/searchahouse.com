@@ -115,6 +115,8 @@ public class PropertyRestEndpoint {
      * 
      * @param ac
      *            Flag indicating if is an auto-complete search or not.
+     * @param qt
+     *            The query type. "none" (search all), "address" search by address. 
      * @param q
      *            The query string
      * @param pageable
@@ -127,12 +129,19 @@ public class PropertyRestEndpoint {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public HttpEntity<PagedResources<ResourceSupport>> searchPropertiesByPage( //
             @RequestParam(value = "ac", required = false, defaultValue = "false") final Boolean autocomplete, //
-            @RequestParam(value = "q", required = true) final String queryValue, //
+            @RequestParam(value = "qt", required = false, defaultValue = "none") final String queryType, //
+            @RequestParam(value = "q", required = false) final String queryValue, //
             @PageableDefault(size = 10, page = 0) Pageable pageable, //
             PagedResourcesAssembler<Property> assembler //
     ) {
+        
+        Page<Property> properties = null;
 
-        Page<Property> properties = this.propertyService.searchPropertiesByAddress(queryValue, autocomplete, pageable);
+        if( queryType.trim().equals("none") ){
+            properties = this.propertyService.findAll(pageable);
+        } else if( queryType.trim().equals("address") ){
+            properties = this.propertyService.searchPropertiesByAddress(queryValue, autocomplete, pageable);
+        }
 
         return new ResponseEntity<PagedResources<ResourceSupport>>(assembler.toResource(properties, this.propertyResourceAssembler), HttpStatus.OK);
 

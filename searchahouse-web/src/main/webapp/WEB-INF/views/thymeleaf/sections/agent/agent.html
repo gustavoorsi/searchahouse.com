@@ -56,22 +56,12 @@
 				  	<tbody>
 				  		<tr ng-repeat="property in properties._embedded.propertyList">
 				  			<th scope="row">{{ property.primaryKey }}</th>
-				  			<td> <a href="{{ property._links.self.href }}" >{{ property.name }}</a></td>
+				  			<td> <a th:href="@{/properties} + '/{{property.primaryKey}}'" href="#" >{{ property.name }}</a></td>
 				  			<td>{{ property.description }}</td>
 				  			<td>{{ property.type }}</td>
 				  		</tr>
 				  	</tbody>
 				  	
-				  	
-<!-- 				  	<tbody th:unless="${#lists.isEmpty(agent.properties)}"> -->
-<!-- 				  		<tr th:each="property,status : ${agent.properties}"> -->
-<!-- 				  			<th th:text="${status.count}" scope="row">1</th> -->
-<!-- 				  			<td th:text="${property.name}"> <a href="#">Property 1</a></td> -->
-<!-- 				  			<td th:text="${property.description}">Located in Beverly hills</td> -->
-<!-- 				  			<td th:text="${property.type}">Rent</td> -->
-<!-- 				  		</tr> -->
-<!-- 				  	</tbody> -->
-				   
 				  </table>
 				</div>
 		      

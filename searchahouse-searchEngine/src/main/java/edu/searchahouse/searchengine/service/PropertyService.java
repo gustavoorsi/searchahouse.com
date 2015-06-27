@@ -12,6 +12,8 @@ import edu.searchahouse.searchengine.model.Address;
 import edu.searchahouse.searchengine.model.Property;
 
 public interface PropertyService {
+    
+    public Page<Property> findAll( final Pageable pageable );
 
 	public List<Property> findPropertiesByLocation(final GeoPoint geoPoint, final Double distance, final SortOrder sortOrder);
 

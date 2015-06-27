@@ -25,13 +25,6 @@ public class PropertyController {
 		this.propertyService = propertyService;
 	}
 
-	@RequestMapping(value = "listAll", method = RequestMethod.GET)
-	public ModelAndView getCompanies() {
-
-		return new ModelAndView("property/listAll");
-
-	}
-
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView getAgent(final @PathVariable("id") String id) {
 
