@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.searchahouse.endpoints.resources.AgentResource;
 import edu.searchahouse.endpoints.resources.assemblers.AgentResourceAssembler;
 import edu.searchahouse.model.Agent;
+import edu.searchahouse.model.Lead;
 import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.service.AgentService;
@@ -32,200 +34,229 @@ import edu.searchahouse.service.AgentService;
 @RequestMapping("/api/v1/agent")
 public class AgentRestEndpoint {
 
-	// *************************************************************//
-	// *********************** PROPERTIES **************************//
-	// *************************************************************//
-	private final AgentService agentService;
+    // *************************************************************//
+    // *********************** PROPERTIES **************************//
+    // *************************************************************//
+    private final AgentService agentService;
 
-	private final AgentResourceAssembler agentResourceAssembler;
+    private final AgentResourceAssembler agentResourceAssembler;
 
-	// *************************************************************//
-	// *********************** CONSTRUCTORS ************************//
-	// *************************************************************//
-	@Autowired
-	public AgentRestEndpoint(//
-			AgentService agentService,//
-			AgentResourceAssembler agentResourceAssembler//
-	) {
-		this.agentService = agentService;
-		this.agentResourceAssembler = agentResourceAssembler;
-	}
+    // *************************************************************//
+    // *********************** CONSTRUCTORS ************************//
+    // *************************************************************//
+    @Autowired
+    public AgentRestEndpoint(//
+            AgentService agentService,//
+            AgentResourceAssembler agentResourceAssembler//
+    ) {
+        this.agentService = agentService;
+        this.agentResourceAssembler = agentResourceAssembler;
+    }
 
-	// *************************************************************//
-	// ********************* REST ENDPOINTS ************************//
-	// *************************************************************//
+    // *************************************************************//
+    // ********************* REST ENDPOINTS ************************//
+    // *************************************************************//
 
-	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * GET - find "Pageable" agents
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Return a pageable list of agents.
-	 * 
-	 * @param pageable
-	 *            the page data. Page number and page size.
-	 * @param assembler
-	 *            the assembler that will construct the agent resource as a pageable resource.
-	 * @return A pageable list of agents in json or xml format (default to json)
-	 * 
-	 */
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public HttpEntity<PagedResources<AgentResource>> getAgentsByPage( //
-			@PageableDefault(size = 10, page = 0) Pageable pageable, //
-			PagedResourcesAssembler<Agent> assembler //
-	) {
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * GET - find "Pageable" agents
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Return a pageable list of agents.
+     * 
+     * @param pageable
+     *            the page data. Page number and page size.
+     * @param assembler
+     *            the assembler that will construct the agent resource as a pageable resource.
+     * @return A pageable list of agents in json or xml format (default to json)
+     * 
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public HttpEntity<PagedResources<AgentResource>> getAgentsByPage( //
+            @PageableDefault(size = 10, page = 0) Pageable pageable, //
+            PagedResourcesAssembler<Agent> assembler //
+    ) {
 
-		Page<Agent> agents = this.agentService.getAgentsByPage(pageable);
+        Page<Agent> agents = this.agentService.getAgentsByPage(pageable);
 
-		return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
 
-	}
-	
-	/**
-	 *
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * GET - find an Agent by property
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Get an agent by it's primary key. Throw 404 if not found.
-	 * 
-	 * @param agentId
-	 * @return An agent in json or xml format (default to json).
-	 * 
-	 */
-	@RequestMapping(value = "/property/{propertyId}", method = RequestMethod.GET)
-	public HttpEntity<AgentResource> getAgentByProperty(@PathVariable String propertyId) {
-		
-		Agent aAgent = this.agentService.findAgentByPropertyId(propertyId);
+    }
 
-		return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
-	}
+    /**
+     *
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * GET - find an Agent by property
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Get an agent by it's primary key. Throw 404 if not found.
+     * 
+     * @param agentId
+     * @return An agent in json or xml format (default to json).
+     * 
+     */
+    @RequestMapping(value = "/property/{propertyId}", method = RequestMethod.GET)
+    public HttpEntity<AgentResource> getAgentByProperty(@PathVariable String propertyId) {
 
-	/**
-	 *
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * GET - find an Agent by id
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Get an agent by it's primary key. Throw 404 if not found.
-	 * 
-	 * @param agentId
-	 * @return An agent in json or xml format (default to json).
-	 * 
-	 */
-	@RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
-	public HttpEntity<AgentResource> getAgent(@PathVariable String agentId) {
-		Agent aAgent = this.agentService.findAgentById(agentId);
+        Agent aAgent = this.agentService.findAgentByPropertyId(propertyId);
 
-		return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
-	}
+        return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
+    }
 
-	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * POST - Create an agent
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Create a new agent. Throw 422 if resource already exist.
-	 * 
-	 * @param agentId
-	 * @return 201 Created and the agent location. 422 if the agent already exist.
-	 */
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public HttpEntity<?> createAgent(@Valid @RequestBody Agent input) {
+    /**
+     *
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * GET - find an Agent by id
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Get an agent by it's primary key. Throw 404 if not found.
+     * 
+     * @param agentId
+     * @return An agent in json or xml format (default to json).
+     * 
+     */
+    @RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
+    public HttpEntity<AgentResource> getAgent(//
+            @PathVariable String agentId, //
+            @RequestParam(value = "lazy", defaultValue = "true", required = false) final Boolean lazyNested //
+    ) {
+        Agent aAgent = this.agentService.findAgentById(agentId, lazyNested);
 
-		Agent agent = this.agentService.save(input);
+        return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
+    }
 
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId())).toUri());
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * POST - Create an agent
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Create a new agent. Throw 422 if resource already exist.
+     * 
+     * @param agentId
+     * @return 201 Created and the agent location. 422 if the agent already exist.
+     */
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public HttpEntity<?> createAgent(@Valid @RequestBody Agent input) {
 
-		return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
-	}
+        Agent agent = this.agentService.save(input);
 
-	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * PUT - Add a property to an agent
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Add a property to a agent. Throw 402 if property or agent resource does not exist.
-	 * 
-	 * @param agentId
-	 * @return 204 if updated ok, 402 if resource does not exist or 403 in case the resource exist but could not be updated.
-	 */
-	@RequestMapping(value = "/{agentId}/property/{propertyId}", method = RequestMethod.PUT)
-	public HttpEntity<?> addProperty(//
-			@PathVariable final String agentId, //
-			@PathVariable final String propertyId //
-			) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId(), false)).toUri());
 
-		Property property = this.agentService.addProperty(agentId, propertyId);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+    }
 
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty( property.getId() ) ).toUri());
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * PUT - Add a property to an agent
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Add a property to a agent. Throw 402 if property or agent resource does not exist.
+     * 
+     * @param agentId
+     * @return 204 if updated ok, 402 if resource does not exist or 403 in case the resource exist but could not be updated.
+     */
+    @RequestMapping(value = "/{agentId}/property/{propertyId}", method = RequestMethod.PUT)
+    public HttpEntity<?> addProperty(//
+            @PathVariable final String agentId, //
+            @PathVariable final String propertyId //
+    ) {
 
-		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
-	}
+        Property property = this.agentService.addProperty(agentId, propertyId);
 
-	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * PUT - Update an agent
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Updates an existing agent. Throw 404 if resource does not exist or 403 in case the resource exist but could not be updated.
-	 * 
-	 * @param agentId
-	 * @return 204 if updated ok, 404 if resource does not exist or 403 in case the resource exist but could not be updated.
-	 */
-	@RequestMapping(value = "/{agentId}", method = RequestMethod.PUT)
-	public HttpEntity<?> updateAgent( //
-			@RequestBody Agent input,//
-			@PathVariable String agentId //
-	) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId())).toUri());
 
-		Agent agent = this.agentService.update(agentId, input);
+        return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
+    }
 
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId())).toUri());
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * PUT - Update an agent
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Updates an existing agent. Throw 404 if resource does not exist or 403 in case the resource exist but could not be updated.
+     * 
+     * @param agentId
+     * @return 204 if updated ok, 404 if resource does not exist or 403 in case the resource exist but could not be updated.
+     */
+    @RequestMapping(value = "/{agentId}", method = RequestMethod.PUT)
+    public HttpEntity<?> updateAgent( //
+            @RequestBody Agent input,//
+            @PathVariable String agentId //
+    ) {
 
-		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
-	}
-	
-	/**
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * PUT - Update contact status of lead for an agent.
-	 * 
-	 * ----------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Updates the contact status of a lead of an existing agent. Throw 404 if resource does not exist or 403 in case the resource exist but could not be updated.
-	 * 
-	 * @param agentId
-	 * @return 204 if updated ok, 404 if resource does not exist or 403 in case the resource exist but could not be updated.
-	 */
-	@RequestMapping(value = "/{agentId}/lead/{leadId}", method = RequestMethod.PUT)
-	public HttpEntity<?> updateAgent( //
-			@PathVariable String agentId, //
-			@PathVariable String leadId, //
-			@RequestBody LeadPortfolio input //
-	) {
+        Agent agent = this.agentService.update(agentId, input);
 
-		this.agentService.updateLeadContactStatus(agentId, leadId, input);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId(), false)).toUri());
 
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agentId).getAgent(agentId)).toUri());
+        return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
+    }
 
-		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
-	}
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * PUT - Update contact status of lead for an agent.
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Updates the contact status of a lead of an existing agent. Throw 404 if resource does not exist or 403 in case the resource exist but could not be
+     * updated.
+     * 
+     * @param agentId
+     * @return 204 if updated ok, 404 if resource does not exist or 403 in case the resource exist but could not be updated.
+     */
+    @RequestMapping(value = "/{agentId}/lead/{leadId}", method = RequestMethod.PUT)
+    public HttpEntity<?> updateAgent( //
+            @PathVariable String agentId, //
+            @PathVariable String leadId, //
+            @RequestBody LeadPortfolio input //
+    ) {
 
+        this.agentService.updateLeadContactStatus(agentId, leadId, input);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agentId).getAgent(agentId, false)).toUri());
+
+        return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * POST - Add a lead to an agent
+     * 
+     * ----------------------------------------------------------------------------------------------------------------
+     * 
+     * Create and add a lead to the agent. Throw 422 if resource already exist.
+     * 
+     * @param agentId
+     * @return 201 Created and the agent location. 422 if the agent already exist.
+     */
+    @RequestMapping(value = "/{agentId}/lead", method = RequestMethod.POST)
+    public HttpEntity<?> addLeadToAgent(//
+            @PathVariable("agentId") final String agentId, //
+            @Valid @RequestBody Lead input //
+    ) {
+
+        Agent agent = this.agentService.addLead(agentId, input);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId(), false)).toUri());
+
+        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+    }
 }

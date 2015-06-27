@@ -1,5 +1,7 @@
 package edu.searchahouse.service.impl;
 
+import java.util.Optional;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,80 +17,106 @@ import com.mongodb.WriteResult;
 import edu.searchahouse.exceptions.EntityNotFoundException;
 import edu.searchahouse.exceptions.EntityNotUpdatedException;
 import edu.searchahouse.model.Agent;
+import edu.searchahouse.model.Lead;
 import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.repository.mongo.AgentRepository;
+import edu.searchahouse.repository.mongo.LeadRepository;
 import edu.searchahouse.repository.mongo.PropertyRepository;
 import edu.searchahouse.service.AgentService;
 
 @Service
 public class AgentServiceImpl extends BaseService implements AgentService {
 
-	private final AgentRepository agentRepository;
-	private final PropertyRepository propertyRepository;
+    private final AgentRepository agentRepository;
+    private final PropertyRepository propertyRepository;
+    private final LeadRepository leadRepository;
 
-	@Autowired
-	public AgentServiceImpl(//
-			final AgentRepository agentRepository, //
-			final PropertyRepository propertyRepository, //
-			final MongoOperations mongoOperations//
-	) {
-		super(mongoOperations);
-		this.agentRepository = agentRepository;
-		this.propertyRepository = propertyRepository;
-	}
+    @Autowired
+    public AgentServiceImpl(//
+            final AgentRepository agentRepository, //
+            final PropertyRepository propertyRepository, //
+            final MongoOperations mongoOperations, //
+            final LeadRepository leadRepository //
+    ) {
+        super(mongoOperations);
+        this.agentRepository = agentRepository;
+        this.propertyRepository = propertyRepository;
+        this.leadRepository = leadRepository;
+    }
 
-	@Override
-	public Agent findAgentById(String id) {
-		return this.agentRepository.findAgentById(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Agent"));
-	}
-	
-	@Override
-	public Agent findAgentByPropertyId(String propertyId) {
-		return this.agentRepository.findAgentByProperty(new ObjectId(propertyId)).orElseThrow( () -> new EntityNotFoundException("Agent") );
-	}
+    @Override
+    public Agent findAgentById(String id, final boolean lazyNested) {
 
-	@Override
-	public Page<Agent> getAgentsByPage(Pageable pageable) {
-		return this.agentRepository.findAll(pageable);
-	}
+        Optional<Agent> agent;
 
-	@Override
-	public Agent save(Agent input) {
-		return this.agentRepository.save(input);
-	}
+        if (lazyNested) {
+            agent = this.agentRepository.findAgentByIdLazyNestedCollections(new ObjectId(id));
+        } else {
+            agent = this.agentRepository.findAgentById(new ObjectId(id));
+        }
 
-	@Override
-	public Agent update(String agentId, Agent input) {
-		return (Agent) super.update(agentId, input);
-	}
+        return agent.orElseThrow(() -> new EntityNotFoundException("Agent"));
 
-	@Override
-	public Property addProperty(final String agentId, final String propertyId) {
+    }
 
-		Agent agent = this.agentRepository.findAgentById(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
-		Property property = this.propertyRepository.findPropertyById(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Property"));
+    @Override
+    public Agent findAgentByPropertyId(String propertyId) {
+        return this.agentRepository.findAgentByProperty(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+    }
 
-		agent.addProperty(property);
+    @Override
+    public Page<Agent> getAgentsByPage(Pageable pageable) {
+        return this.agentRepository.findAll(pageable);
+    }
 
-		this.agentRepository.save(agent);
+    @Override
+    public Agent save(Agent input) {
+        return this.agentRepository.save(input);
+    }
 
-		return property;
-	}
+    @Override
+    public Agent update(String agentId, Agent input) {
+        return (Agent) super.update(agentId, input);
+    }
 
-	@Override
-	public void updateLeadContactStatus(String agentId, String leadId, LeadPortfolio leadPortfolio) {
+    @Override
+    public Agent addLead(final String agentId, Lead lead) {
 
-		Query query = new Query(Criteria.where("_id").is(agentId).and("leads.lead.$id").is(new ObjectId(leadId)));
-		Update update = new Update();
-		update.set("leads.$.contactStatus", leadPortfolio.getContactStatus());
+        Agent agent = this.agentRepository.findAgentById(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+        
+        this.leadRepository.save(lead);
+        agent.addLead(new LeadPortfolio(lead));
 
-		WriteResult writeResult = getMongoOperations().updateMulti(query, update, Agent.class);
+        return this.update(agentId, agent);
+    }
 
-		if (writeResult.getN() == 0) {
-			throw new EntityNotUpdatedException("Agent");
-		}
+    @Override
+    public Property addProperty(final String agentId, final String propertyId) {
 
-	}
+        Agent agent = this.agentRepository.findAgentById(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+        Property property = this.propertyRepository.findPropertyById(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Property"));
+
+        agent.addProperty(property);
+
+        this.agentRepository.save(agent);
+
+        return property;
+    }
+
+    @Override
+    public void updateLeadContactStatus(String agentId, String leadId, LeadPortfolio leadPortfolio) {
+
+        Query query = new Query(Criteria.where("_id").is(agentId).and("leads.lead.$id").is(new ObjectId(leadId)));
+        Update update = new Update();
+        update.set("leads.$.contactStatus", leadPortfolio.getContactStatus());
+
+        WriteResult writeResult = getMongoOperations().updateMulti(query, update, Agent.class);
+
+        if (writeResult.getN() == 0) {
+            throw new EntityNotUpdatedException("Agent");
+        }
+
+    }
 
 }

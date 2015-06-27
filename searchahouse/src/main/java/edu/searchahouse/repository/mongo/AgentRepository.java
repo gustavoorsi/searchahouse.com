@@ -10,8 +10,10 @@ import edu.searchahouse.model.Agent;
 
 public interface AgentRepository extends MongoRepository<Agent, ObjectId> {
 
-    @Query(value="{ 'id' : ?0 }", fields="{ 'properties' : 0, 'leads' : 0}")
 	Optional<Agent> findAgentById(final ObjectId id);
+    
+    @Query(value="{ 'id' : ?0 }", fields="{ 'properties' : 0, 'leads' : 0}")
+    Optional<Agent> findAgentByIdLazyNestedCollections(final ObjectId id);
     
     @Query(value="{ 'properties.id' : ?0 }", fields="{ 'properties' : 0, 'leads' : 0}")
 	Optional<Agent> findAgentByProperty(final ObjectId propertyId);

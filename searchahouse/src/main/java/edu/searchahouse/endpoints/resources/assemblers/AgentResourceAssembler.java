@@ -20,7 +20,7 @@ public class AgentResourceAssembler implements ResourceAssembler<Agent, AgentRes
 		AgentResource pr = new AgentResource(entity);
 
 		// add link to itself ( rel = self )
-		Link selfLink = linkTo(methodOn(AgentRestEndpoint.class).getAgent(entity.getId().toString())).withSelfRel();
+		Link selfLink = linkTo(methodOn(AgentRestEndpoint.class).getAgent(entity.getId().toString(), false)).withSelfRel();
 		pr.add(selfLink);
 
 		return pr;

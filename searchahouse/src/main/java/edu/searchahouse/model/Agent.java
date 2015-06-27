@@ -123,6 +123,7 @@ public class Agent extends BaseEntity {
 		put(map, this.imageUrl, "imageUrl");
 		put(map, this.firstName, "firstName");
 		put(map, this.lastName, "lastName");
+		put(map, this.leads, "leads");
 		put(map, this.properties, "properties");
 
 		return map;
