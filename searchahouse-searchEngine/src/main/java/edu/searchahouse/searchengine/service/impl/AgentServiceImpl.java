@@ -55,7 +55,7 @@ public class AgentServiceImpl implements AgentService {
     }
 
 	@Override
-	public Agent findAgentById(String id) {
+	public Agent findAgentByPrimaryKey(String id) {
 		
 		Agent agent = this.agentRepository.findOne(id);
 		

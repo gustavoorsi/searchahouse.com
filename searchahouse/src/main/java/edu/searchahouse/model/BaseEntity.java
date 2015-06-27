@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.hateoas.ResourceSupport;
 
 /**
  * 
@@ -17,24 +18,24 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  */
 @Document
-public abstract class BaseEntity {
+public abstract class BaseEntity extends ResourceSupport {
 
     @Id
-    private String id;
+    private String primaryKey;
 
     @Version
     private Long version;
 
     public String getObjectId() {
-        return id;
+        return primaryKey;
     }
 
-    public String getId() {
-        return id;
+    public String getPrimaryKey() {
+        return primaryKey;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
     }
 
     public Long getVersion() {
@@ -64,11 +65,7 @@ public abstract class BaseEntity {
 
     protected void put(Map<String, Object> map, Object field, String fieldName) {
         if (field != null) {
-            // if( field instanceof Collection ){
-            // ((Collection) field).stream().forEach( entity -> map.put( fieldName, ((BaseEntity) entity).toMap()) );
-            // } else {
             map.put(fieldName, field);
-            // }
         }
     }
 

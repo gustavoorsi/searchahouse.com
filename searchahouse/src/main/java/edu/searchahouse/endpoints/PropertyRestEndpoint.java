@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.searchahouse.endpoints.resources.PropertyResource;
 import edu.searchahouse.endpoints.resources.assemblers.PropertyResourceAssembler;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.service.PropertyService;
@@ -65,14 +65,14 @@ public class PropertyRestEndpoint {
 	 * 
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public HttpEntity<PagedResources<PropertyResource>> getPropertiesByPage( //
+	public HttpEntity<PagedResources<ResourceSupport>> getPropertiesByPage( //
 			@PageableDefault(size = 10, page = 0) Pageable pageable, //
 			PagedResourcesAssembler<Property> assembler //
 	) {
 
 		Page<Property> properties = this.propertyService.getPropertiesByPage(pageable);
 
-		return new ResponseEntity<PagedResources<PropertyResource>>(assembler.toResource(properties, this.propertyResourceAssembler), HttpStatus.OK);
+		return new ResponseEntity<PagedResources<ResourceSupport>>(assembler.toResource(properties, this.propertyResourceAssembler), HttpStatus.OK);
 
 	}
 
@@ -91,10 +91,10 @@ public class PropertyRestEndpoint {
 	 * 
 	 */
 	@RequestMapping(value = "/{propertyId}", method = RequestMethod.GET)
-	public HttpEntity<PropertyResource> getProperty(@PathVariable String propertyId) {
-		Property aProperty = this.propertyService.findPropertyById(propertyId);
+	public HttpEntity<ResourceSupport> getProperty(@PathVariable String propertyId) {
+		Property aProperty = this.propertyService.findPropertyByPrimaryKey(propertyId);
 
-		return new ResponseEntity<PropertyResource>(this.propertyResourceAssembler.toResource(aProperty), HttpStatus.OK);
+		return new ResponseEntity<ResourceSupport>(this.propertyResourceAssembler.toResource(aProperty), HttpStatus.OK);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class PropertyRestEndpoint {
 		Property property = this.propertyService.save(input);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId())).toUri());
+		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getPrimaryKey()).getProperty(property.getPrimaryKey())).toUri());
 
 		return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
 	}
@@ -141,7 +141,7 @@ public class PropertyRestEndpoint {
 		Property property = this.propertyService.update(propertyId, input);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId())).toUri());
+		httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getPrimaryKey()).getProperty(property.getPrimaryKey())).toUri());
 
 		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
 	}

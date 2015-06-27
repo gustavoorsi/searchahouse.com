@@ -15,6 +15,6 @@ public interface AgentRepository extends ElasticsearchRepository<Agent, String> 
 
     public Agent findByEmail(final String email);
     
-    public Optional<Agent> findById( final String agentId );
+    public Optional<Agent> findByPrimaryKey( final String agentPrimaryKey );
 
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.searchahouse.endpoints.resources.AgentResource;
 import edu.searchahouse.endpoints.resources.assemblers.AgentResourceAssembler;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Lead;
@@ -74,7 +74,7 @@ public class AgentRestEndpoint {
      * 
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public HttpEntity<PagedResources<AgentResource>> getAgentsByPage( //
+    public HttpEntity<PagedResources<ResourceSupport>> getAgentsByPage( //
             @PageableDefault(size = 10, page = 0) Pageable pageable, //
             PagedResourcesAssembler<Agent> assembler //
     ) {
@@ -100,11 +100,11 @@ public class AgentRestEndpoint {
      * 
      */
     @RequestMapping(value = "/property/{propertyId}", method = RequestMethod.GET)
-    public HttpEntity<AgentResource> getAgentByProperty(@PathVariable String propertyId) {
+    public HttpEntity<ResourceSupport> getAgentByProperty(@PathVariable String propertyId) {
 
         Agent aAgent = this.agentService.findAgentByPropertyId(propertyId);
 
-        return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
+        return new ResponseEntity<ResourceSupport>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
     }
 
     /**
@@ -122,13 +122,13 @@ public class AgentRestEndpoint {
      * 
      */
     @RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
-    public HttpEntity<AgentResource> getAgent(//
+    public HttpEntity<ResourceSupport> getAgent(//
             @PathVariable String agentId, //
             @RequestParam(value = "lazy", defaultValue = "true", required = false) final Boolean lazyNested //
     ) {
-        Agent aAgent = this.agentService.findAgentById(agentId, lazyNested);
+        Agent aAgent = this.agentService.findAgentByPrimaryKey(agentId, lazyNested);
 
-        return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
+        return new ResponseEntity<ResourceSupport>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
     }
 
     /**
@@ -149,7 +149,7 @@ public class AgentRestEndpoint {
         Agent agent = this.agentService.save(input);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId(), false)).toUri());
+        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getPrimaryKey()).getAgent(agent.getPrimaryKey(), false)).toUri());
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
@@ -175,7 +175,7 @@ public class AgentRestEndpoint {
         Property property = this.agentService.addProperty(agentId, propertyId);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getId()).getProperty(property.getId())).toUri());
+        httpHeaders.setLocation(linkTo(methodOn(PropertyRestEndpoint.class, property.getPrimaryKey()).getProperty(property.getPrimaryKey())).toUri());
 
         return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
     }
@@ -201,7 +201,7 @@ public class AgentRestEndpoint {
         Agent agent = this.agentService.update(agentId, input);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId(), false)).toUri());
+        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getPrimaryKey()).getAgent(agent.getPrimaryKey(), false)).toUri());
 
         return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
     }
@@ -255,7 +255,7 @@ public class AgentRestEndpoint {
         Agent agent = this.agentService.addLead(agentId, input);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getId()).getAgent(agent.getId(), false)).toUri());
+        httpHeaders.setLocation(linkTo(methodOn(AgentRestEndpoint.class, agent.getPrimaryKey()).getAgent(agent.getPrimaryKey(), false)).toUri());
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }

@@ -66,7 +66,7 @@ public class PropertyRestEndpoint {
 	@RequestMapping(value = "/{propertyId}", method = RequestMethod.GET)
 	public HttpEntity<PropertyResource> getPropertyByid(@PathVariable("propertyId") final String propertyId) {
 
-		Property property = this.propertyService.findPropertyById(propertyId);
+		Property property = this.propertyService.findPropertyByPrimaryKey(propertyId);
 
 		return new ResponseEntity<PropertyResource>(this.propertyResourceAssembler.toResource(property), HttpStatus.OK);
 	}

@@ -51,8 +51,8 @@
 				  	</thead>
 				  	<tbody>
 				  		<tr ng-repeat="agent in agents._embedded.agentList">
-				  			<th scope="row">{{ agent.id }}</th>
-				  			<td> <a href="agents/{{ agent.id }}" >{{ agent.firstName }}, {{agent.lastName}}</a></td>
+				  			<th scope="row">{{ agent.primaryKey }}</th>
+				  			<td> <a href="agents/{{ agent.primaryKey }}" >{{ agent.firstName }}, {{agent.lastName}}</a></td>
 				  			<td>{{ agent.email }}</td>
 				  		</tr>
 				  	</tbody>

@@ -2,15 +2,9 @@ package edu.searchahouse.searchengine;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.elasticsearch.common.unit.DistanceUnit;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.GeoDistanceFilterBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,10 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
-import org.springframework.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.web.client.RestTemplate;
 
 import edu.searchahouse.searchengine.model.Address;
@@ -57,14 +47,22 @@ public class SearchEngineApplication {
     final static Map<Integer, String[][]> VALUES = new HashMap<Integer, String[][]>();
 
     {
-        VALUES.put(1, new String[][] {{ "California", "Beverly Hills", "31340 Mulholland Dr." },{"http://www.hawthorne.co.nz/p7ssm_img_1/thumbs/Hawthorne-House-1_tmb.jpg"}}); // Anderson Pamela
-        VALUES.put(2, new String[][] {{ "California", "Bel Air", "846 Stradella Rd." }, {"http://www.hawthorne.co.nz/p7ssm_img_1/fullsize/Hawthorne-House-4_fs.jpg"}}); // Eastwood Clint
-        VALUES.put(3, new String[][] {{ "California", "Hollywood Hills", "2705 Glen Dower Ave" },{"http://d3ka0sx7noujy3.cloudfront.net/wp-content/uploads/2011/10/byrne-reed-house-exterior.jpg"}}); // Pitt Brad
-        VALUES.put(4, new String[][] {{ "New York", "S Ozone Park", "134-12 Linden Blvd." },{"http://www.thehouseplanshop.com/userfiles/photos/large/2659053724d87558b4ad09.jpg"}});
-        VALUES.put(5, new String[][] {{ "New York", "Brooklyn", "379 Kings Hwy" },{"https://pbs.twimg.com/profile_images/514415805652422657/VVLin2v4.png"}}); // Eastwood Clint
-        VALUES.put(6, new String[][] {{ "California", "Hollywood Hills", "2705 Glen Dower Ave" },{"http://www.avaay.com/wp-content/uploads/2015/04/bizarre-house-4.jpg"}}); // Pitt Brad
+        VALUES.put(1, new String[][] { { "California", "Beverly Hills", "31340 Mulholland Dr." },
+                { "http://www.hawthorne.co.nz/p7ssm_img_1/thumbs/Hawthorne-House-1_tmb.jpg" } }); // Anderson Pamela
+        VALUES.put(2, new String[][] { { "California", "Bel Air", "846 Stradella Rd." },
+                { "http://www.hawthorne.co.nz/p7ssm_img_1/fullsize/Hawthorne-House-4_fs.jpg" } }); // Eastwood Clint
+        VALUES.put(3, new String[][] { { "California", "Hollywood Hills", "2705 Glen Dower Ave" },
+                { "http://d3ka0sx7noujy3.cloudfront.net/wp-content/uploads/2011/10/byrne-reed-house-exterior.jpg" } }); // Pitt Brad
+        VALUES.put(4, new String[][] { { "New York", "S Ozone Park", "134-12 Linden Blvd." },
+                { "http://www.thehouseplanshop.com/userfiles/photos/large/2659053724d87558b4ad09.jpg" } });
+        VALUES.put(5,
+                new String[][] { { "New York", "Brooklyn", "379 Kings Hwy" }, { "https://pbs.twimg.com/profile_images/514415805652422657/VVLin2v4.png" } }); // Eastwood
+                                                                                                                                                             // Clint
+        VALUES.put(6, new String[][] { { "California", "Hollywood Hills", "2705 Glen Dower Ave" },
+                { "http://www.avaay.com/wp-content/uploads/2015/04/bizarre-house-4.jpg" } }); // Pitt Brad
     }
-    
+
+    @Profile( "cleanStart" )
     @Bean
     CommandLineRunner deleteAll(//
             final AgentRepository agentRepository, //
@@ -72,15 +70,14 @@ public class SearchEngineApplication {
             final LeadRepository leadRepository, //
             final LocationRepository locationRepository //
     ) {
-    	
-    	return (args) -> 
-	    			{
-	    				agentRepository.deleteAll();
-	        	        propertyRepository.deleteAll();
-	        	        leadRepository.deleteAll();
-	        	        locationRepository.deleteAll();
-	    			};
-    	
+
+        return (args) -> {
+            agentRepository.deleteAll();
+            propertyRepository.deleteAll();
+            leadRepository.deleteAll();
+            locationRepository.deleteAll();
+        };
+
     }
 
     @Profile("development")
@@ -94,57 +91,11 @@ public class SearchEngineApplication {
 
         populateLocations(locationRepository);
 
-        return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(
-                index -> {
-                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(VALUES.get(Integer
-                            .valueOf(index))[0][0], VALUES.get(Integer.valueOf(index))[0][1], VALUES.get(Integer.valueOf(index))[0][2]), 100000L,
-                            PropertyType.SALE, PropertyStatus.AVAILABLE);
-                    property.setId(UUID.randomUUID().toString());
-                    property.setImageUrl( VALUES.get(Integer.valueOf(index))[1][0] );
-                    propertyRepository.save(property);
-
-                    Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
-                    lead.setId(UUID.randomUUID().toString());
-                    leadRepository.save(lead);
-
-                    Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
-                    agent.setId(UUID.randomUUID().toString());
-
-                    agent.addLead(new LeadPortfolio(lead));
-                    agent.addProperty(property);
-
-                    agentRepository.save(agent);
-
-                    List<Agent> matchingAgents = agentRepository.findAutocompleteAgentsByFirstName("gus");
-
-                    // ////////////////////////////////////////////////////
-                    // get property by latitude and longitude and order asc
-                    GeoDistanceFilterBuilder filter = FilterBuilders.geoDistanceFilter("location")
-                            .point(property.getLocation().getLat(), property.getLocation().getLon()).distance(1, DistanceUnit.KILOMETERS);
-
-                    SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                            .withFilter(filter)
-                            .withSort(
-                                    SortBuilders.geoDistanceSort("location").point(property.getLocation().getLat(), property.getLocation().getLon())
-                                            .order(SortOrder.ASC)).build();
-
-                    searchQuery.addIndices("searchahouse");
-                    searchQuery.addTypes("property");
-
-                    List<Property> properties = elasticsearchOperations.queryForList(searchQuery, Property.class);
-                    // //////////////////////////////////////////////////
-
-                    // //////////////////////////////////////////////////
-                    // get properties by latitue and longitud
-                    CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("location").within(new GeoPoint(1, 1), "1km"));
-                    criteriaQuery.addIndices("searchahouse");
-                    criteriaQuery.addTypes("property");
-                    properties = elasticsearchOperations.queryForList(criteriaQuery, Property.class);
-                    // //////////////////////////////////////////////////
-
-                    System.out.println("");
-
-                });
+        return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(index -> {
+            Property property = createProperty(index, propertyRepository);
+            Lead lead = createLead(index, leadRepository);
+            Agent agent = createAgent(index, agentRepository, property, lead);
+        });
     }
 
     private void populateLocations(final LocationRepository locationRepository) {
@@ -168,5 +119,38 @@ public class SearchEngineApplication {
         locationRepository.save(newYorkCity);
         locationRepository.save(yonkers);
         locationRepository.save(vancouver);
+    }
+
+    private Property createProperty(String index, final PropertyRepository propertyRepository) {
+
+        Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(VALUES.get(Integer.valueOf(index))[0][0],
+                VALUES.get(Integer.valueOf(index))[0][1], VALUES.get(Integer.valueOf(index))[0][2]), 100000L, PropertyType.SALE, PropertyStatus.AVAILABLE);
+        property.setPrimaryKey(UUID.randomUUID().toString());
+        property.setImageUrl(VALUES.get(Integer.valueOf(index))[1][0]);
+        propertyRepository.save(property);
+
+        return property;
+
+    }
+
+    private Lead createLead(String index, final LeadRepository leadRepository) {
+
+        Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
+        lead.setPrimaryKey(UUID.randomUUID().toString());
+        leadRepository.save(lead);
+
+        return lead;
+    }
+
+    private Agent createAgent(String index, final AgentRepository agentRepository, Property property, Lead lead) {
+        Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
+        agent.setPrimaryKey(UUID.randomUUID().toString());
+
+        agent.addLead(new LeadPortfolio(lead));
+        agent.addProperty(property);
+
+        agentRepository.save(agent);
+
+        return agent;
     }
 }

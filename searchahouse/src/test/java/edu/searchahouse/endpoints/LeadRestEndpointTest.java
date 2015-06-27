@@ -35,11 +35,11 @@ public class LeadRestEndpointTest extends AbstractRestEndpointTest {
 	public void getLead_shouldReturn_lead_and_200_ok_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(get( "/api/v1/lead/" + aLead.getId() ))
+		mockMvc.perform(get( "/api/v1/lead/" + aLead.getPrimaryKey() ))
 			.andExpect( status().isOk() )
 			.andExpect( content().contentType( MediaTypes.HAL_JSON ) )
 			.andExpect( jsonPath( "$.firstName", containsString("Lead1") ) )
-			.andExpect( jsonPath( "$._links.self.href", endsWith("/lead/" + aLead.getId()) ) );
+			.andExpect( jsonPath( "$._links.self.href", endsWith("/lead/" + aLead.getPrimaryKey()) ) );
 		//@formatter:on
 	}
 
@@ -108,7 +108,7 @@ public class LeadRestEndpointTest extends AbstractRestEndpointTest {
 	public void updateLead_shouldReturn_204_nocontent_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(put( "/api/v1/lead/" +  aLead.getId() )
+		mockMvc.perform(put( "/api/v1/lead/" +  aLead.getPrimaryKey() )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.content( "{\"firstName\":\"updated first name\",\"email\":\"updated@example.com\"}" ))

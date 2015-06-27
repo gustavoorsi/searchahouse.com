@@ -104,7 +104,7 @@ public class AgentRestEndpoint {
 	@RequestMapping(value = "/{agentId}", method = RequestMethod.GET)
 	public HttpEntity<AgentResource> getAgent( @PathVariable("agentId") final String agentId	) {
 
-		Agent agent = this.agentService.findAgentById(agentId);
+		Agent agent = this.agentService.findAgentByPrimaryKey(agentId);
 
 		return new ResponseEntity<AgentResource>(this.agentResourceAssembler.toResource(agent), HttpStatus.OK);
 

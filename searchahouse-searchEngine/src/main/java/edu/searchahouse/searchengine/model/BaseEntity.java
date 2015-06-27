@@ -16,21 +16,21 @@ import org.springframework.data.annotation.Version;
 public abstract class BaseEntity {
 
     @Id
-    private String id;
+    private String primaryKey;
 
     @Version
     private Long version;
     
     public String getObjectId(){
-    	return id;
+    	return primaryKey;
     }
 
-    public String getId() {
-        return id;
+    public String getPrimaryKey() {
+        return primaryKey;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
     }
 
     public Long getVersion() {

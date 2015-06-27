@@ -21,7 +21,7 @@ public interface PropertyService {
 
 	public List<Property> findPropertiesByAgentId(String agentId);
 
-	Property findPropertyById(final String propertyId);
+	Property findPropertyByPrimaryKey(final String propertyId);
 
 	public Point findPointForAddress(final Address address);
 

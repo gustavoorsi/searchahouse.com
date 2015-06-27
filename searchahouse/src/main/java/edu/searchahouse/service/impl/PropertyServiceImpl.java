@@ -27,8 +27,8 @@ public class PropertyServiceImpl extends BaseService implements PropertyService 
 	}
 
 	@Override
-	public Property findPropertyById(String id) {
-		return this.propertyRepository.findPropertyById(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Property"));
+	public Property findPropertyByPrimaryKey(String id) {
+		return this.propertyRepository.findPropertyByPrimaryKey(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Property"));
 	}
 
 	@Override

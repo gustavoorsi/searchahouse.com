@@ -97,15 +97,15 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public List<Property> findPropertiesByAgentId(String agentId) {
 
-        Agent agent = this.agentRepository.findById(agentId).orElseThrow( () -> new EntityNotFoundException("Agent") );
+        Agent agent = this.agentRepository.findByPrimaryKey(agentId).orElseThrow( () -> new EntityNotFoundException("Agent") );
 
         return (List<Property>) agent.getProperties();
     }
 
 	@Override
-	public Property findPropertyById(String propertyId) {
+	public Property findPropertyByPrimaryKey(String propertyId) {
 		
-		Property property = this.propertyRepository.findById(propertyId).orElseThrow( () -> new EntityNotFoundException("Property") );
+		Property property = this.propertyRepository.findByPrimaryKey(propertyId).orElseThrow( () -> new EntityNotFoundException("Property") );
 		
 		return property;
 	}

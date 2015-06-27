@@ -27,8 +27,8 @@ public class LeadServiceImpl extends BaseService implements LeadService {
 	}
 
 	@Override
-	public Lead findLeadById(String id) {
-		return this.leadRepository.findLeadById(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Lead"));
+	public Lead findLeadByPrimaryKey(String id) {
+		return this.leadRepository.findLeadByPrimaryKey(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Lead"));
 	}
 
 	@Override

@@ -46,14 +46,14 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     }
 
     @Override
-    public Agent findAgentById(String id, final boolean lazyNested) {
+    public Agent findAgentByPrimaryKey(String id, final boolean lazyNested) {
 
         Optional<Agent> agent;
 
         if (lazyNested) {
-            agent = this.agentRepository.findAgentByIdLazyNestedCollections(new ObjectId(id));
+            agent = this.agentRepository.findAgentByPrimaryKeyLazyNestedCollections(new ObjectId(id));
         } else {
-            agent = this.agentRepository.findAgentById(new ObjectId(id));
+            agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(id));
         }
 
         return agent.orElseThrow(() -> new EntityNotFoundException("Agent"));
@@ -83,7 +83,7 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     @Override
     public Agent addLead(final String agentId, Lead lead) {
 
-        Agent agent = this.agentRepository.findAgentById(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+        Agent agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
         
         this.leadRepository.save(lead);
         agent.addLead(new LeadPortfolio(lead));
@@ -94,8 +94,8 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     @Override
     public Property addProperty(final String agentId, final String propertyId) {
 
-        Agent agent = this.agentRepository.findAgentById(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
-        Property property = this.propertyRepository.findPropertyById(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Property"));
+        Agent agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+        Property property = this.propertyRepository.findPropertyByPrimaryKey(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Property"));
 
         agent.addProperty(property);
 

@@ -31,7 +31,7 @@ public abstract class BaseService {
 			throw new EntityNotFoundException( inputEntity.getClass().getSimpleName() );
 		}
 
-		inputEntity.setId(entityId);
+		inputEntity.setPrimaryKey(entityId);
 
 		return inputEntity;
 	}

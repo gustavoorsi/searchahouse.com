@@ -52,7 +52,7 @@ public class AbstractRestEndpointTest {
                 index -> {
                     Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(), 100000L,
                             PropertyType.SALE, PropertyStatus.AVAILABLE);
-                    property.setId(UUID.randomUUID().toString());
+                    property.setPrimaryKey(UUID.randomUUID().toString());
                     propertyRepository.save(property);
                     testProperties.add(property);
                 });

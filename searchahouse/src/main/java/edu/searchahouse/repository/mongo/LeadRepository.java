@@ -9,7 +9,7 @@ import edu.searchahouse.model.Lead;
 
 public interface LeadRepository extends MongoRepository<Lead, ObjectId> {
 
-	Optional<Lead> findLeadById(final ObjectId id);
+	Optional<Lead> findLeadByPrimaryKey(final ObjectId primaryKey);
 
 	Optional<Lead> findLeadByEmail(final String email);
 

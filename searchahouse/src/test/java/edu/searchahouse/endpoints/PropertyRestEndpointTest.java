@@ -35,11 +35,11 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 	public void getProperty_shouldReturn_property_and_200_ok_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(get( "/api/v1/property/" + p1.getId() ))
+		mockMvc.perform(get( "/api/v1/property/" + p1.getPrimaryKey() ))
 			.andExpect( status().isOk() )
 			.andExpect( content().contentType( MediaTypes.HAL_JSON ) )
 			.andExpect( jsonPath( "$.name", containsString("Property1") ) )
-			.andExpect( jsonPath( "$._links.self.href", endsWith("/property/" + p1.getId()) ) );
+			.andExpect( jsonPath( "$._links.self.href", endsWith("/property/" + p1.getPrimaryKey()) ) );
 		//@formatter:on
 	}
 
@@ -94,7 +94,7 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 	public void updateProperty_shouldReturn_204_nocontent_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(put( "/api/v1/property/" +  p1.getId() )
+		mockMvc.perform(put( "/api/v1/property/" +  p1.getPrimaryKey() )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.content( "{\"name\":\"new name\",\"description\":\"some description\"}" ))

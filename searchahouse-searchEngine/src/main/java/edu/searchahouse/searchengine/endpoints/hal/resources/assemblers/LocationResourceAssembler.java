@@ -15,7 +15,7 @@ public class LocationResourceAssembler implements ResourceAssembler<Location, Lo
 
         LocationResource lr = new LocationResource(entity);
 
-        Link selfLink = new Link("http://localhost:8081/api/v1/location/" + entity.getId()).withRel("self");
+        Link selfLink = new Link("http://localhost:8081/api/v1/location/" + entity.getPrimaryKey()).withRel("self");
         lr.add(selfLink);
 
         return lr;

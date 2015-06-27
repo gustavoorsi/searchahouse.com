@@ -10,7 +10,7 @@ import edu.searchahouse.model.Property;
 
 public interface AgentService {
 
-	public Agent findAgentById(String id, boolean lazyLoadNested);
+	public Agent findAgentByPrimaryKey(String id, boolean lazyLoadNested);
 	
 	public Agent findAgentByPropertyId(String propertyId);
 

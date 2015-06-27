@@ -18,7 +18,7 @@ public class AgentResourceAssembler implements ResourceAssembler<Agent, AgentRes
 		// add link to itself ( rel = self )
 		// TODO: get the endpoint url that GET a property from micro-service CRUD. (using eureka). For now just hardcode the domain.
 		// add link to itself ( rel = self )
-		Link selfLink = new Link("http://localhost:8081/api/v1/agent/" + entity.getId()).withRel("self");
+		Link selfLink = new Link("http://localhost:8081/api/v1/agent/" + entity.getPrimaryKey()).withRel("self");
 		pr.add(selfLink);
 
 		return pr;

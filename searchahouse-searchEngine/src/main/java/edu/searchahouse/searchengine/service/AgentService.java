@@ -15,6 +15,6 @@ public interface AgentService {
 	
 	Agent findAgentByEmail( final String email );
 	
-	Agent findAgentById( final String id );
+	Agent findAgentByPrimaryKey( final String id );
 	
 }

@@ -3,27 +3,43 @@ package edu.searchahouse.endpoints.resources.assemblers;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceAssembler;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.stereotype.Component;
 
 import edu.searchahouse.endpoints.AgentRestEndpoint;
-import edu.searchahouse.endpoints.resources.AgentResource;
 import edu.searchahouse.model.Agent;
 
 @Component
-public class AgentResourceAssembler implements ResourceAssembler<Agent, AgentResource> {
+public class AgentResourceAssembler implements ResourceAssembler<Agent, ResourceSupport> {
 
-	@Override
-	public AgentResource toResource(Agent entity) {
+    private final PropertyResourceAssembler propertyResourceAssembler;
+    private final LeadResourceAssembler leadResourceAssembler;
 
-		AgentResource pr = new AgentResource(entity);
+    @Autowired
+    public AgentResourceAssembler(final PropertyResourceAssembler propertyResourceAssembler, final LeadResourceAssembler leadResourceAssembler) {
+        this.propertyResourceAssembler = propertyResourceAssembler;
+        this.leadResourceAssembler = leadResourceAssembler;
+    }
 
-		// add link to itself ( rel = self )
-		Link selfLink = linkTo(methodOn(AgentRestEndpoint.class).getAgent(entity.getId().toString(), false)).withSelfRel();
-		pr.add(selfLink);
+    @Override
+    public ResourceSupport toResource(Agent entity) {
 
-		return pr;
-	}
+        // add link to itself ( rel = self )
+        Link selfLink = linkTo(methodOn(AgentRestEndpoint.class).getAgent(entity.getPrimaryKey().toString(), false)).withSelfRel();
+        entity.add(selfLink);
+        
+        if( entity.getProperties() != null ){
+            entity.getProperties().forEach(p -> this.propertyResourceAssembler.toResource(p));
+        }
+
+        if( entity.getLeads() != null ){
+            entity.getLeads().forEach( l -> this.leadResourceAssembler.toResource(l.getLead()) );
+        }
+
+        return entity;
+    }
 
 }

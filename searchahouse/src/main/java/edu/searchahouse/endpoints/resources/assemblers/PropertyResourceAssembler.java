@@ -5,25 +5,23 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceAssembler;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.stereotype.Component;
 
 import edu.searchahouse.endpoints.PropertyRestEndpoint;
-import edu.searchahouse.endpoints.resources.PropertyResource;
 import edu.searchahouse.model.Property;
 
 @Component
-public class PropertyResourceAssembler implements ResourceAssembler<Property, PropertyResource> {
+public class PropertyResourceAssembler implements ResourceAssembler<Property, ResourceSupport> {
 
 	@Override
-	public PropertyResource toResource(Property entity) {
-
-		PropertyResource pr = new PropertyResource(entity);
+    public ResourceSupport toResource(Property entity) {
 
 		// add link to itself ( rel = self )
-		Link selfLink = linkTo(methodOn(PropertyRestEndpoint.class).getProperty(entity.getId().toString())).withSelfRel();
-		pr.add(selfLink);
+		Link selfLink = linkTo(methodOn(PropertyRestEndpoint.class).getProperty(entity.getPrimaryKey().toString())).withSelfRel();
+		entity.add(selfLink);
 
-		return pr;
+		return entity;
 	}
 
 }

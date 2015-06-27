@@ -7,7 +7,7 @@ import edu.searchahouse.model.Property;
 
 public interface PropertyService {
 
-	public Property findPropertyById(String id);
+	public Property findPropertyByPrimaryKey(String id);
 
 	public Page<Property> getPropertiesByPage(Pageable pageable);
 

@@ -24,7 +24,7 @@
 	
 		<div layout:fragment="content" ng-app="myApp" ng-controller="AgentController">
 		
-			  <input type="hidden" id="agentId" th:value="${agent.id}" />
+			  <input type="hidden" id="agentId" th:value="${agent.primaryKey}" />
 		    
 		      <div class="row featurette">
 		        <div class="col-md-7">
@@ -55,7 +55,7 @@
 				  	</thead>
 				  	<tbody>
 				  		<tr ng-repeat="property in properties._embedded.propertyList">
-				  			<th scope="row">{{ property.id }}</th>
+				  			<th scope="row">{{ property.primaryKey }}</th>
 				  			<td> <a href="{{ property._links.self.href }}" >{{ property.name }}</a></td>
 				  			<td>{{ property.description }}</td>
 				  			<td>{{ property.type }}</td>

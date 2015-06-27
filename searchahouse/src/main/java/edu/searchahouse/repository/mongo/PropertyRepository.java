@@ -9,7 +9,7 @@ import edu.searchahouse.model.Property;
 
 public interface PropertyRepository extends MongoRepository<Property, ObjectId> {
 
-	Optional<Property> findPropertyById(final ObjectId id);
+	Optional<Property> findPropertyByPrimaryKey(final ObjectId primaryKey);
 	
 	Optional<Property> findPropertyByName(final String name);
 

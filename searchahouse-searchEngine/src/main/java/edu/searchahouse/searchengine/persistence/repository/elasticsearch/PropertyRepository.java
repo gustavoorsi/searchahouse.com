@@ -11,7 +11,7 @@ import edu.searchahouse.searchengine.model.Property;
 
 public interface PropertyRepository extends ElasticsearchRepository<Property, String> {
 
-	public Optional<Property> findById(final String propertyId);
+	public Optional<Property> findByPrimaryKey(final String propertyId);
 
 	@Query(name = "search_property_autocomplete", value = "{\"multi_match\" : { \"query\" : \"?0\",\"fuzziness\":2,\"prefix_length\":1, \"fields\" : [\"address.state.autocomplete\",\"address.city.autocomplete\",\"address.street\"] } }")
 	public Page<Property> findPropertiesByAutocompleteAddress(final String autocompleteAddress, Pageable pageable);

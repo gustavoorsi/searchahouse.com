@@ -43,11 +43,11 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 	public void getAgent_shouldReturn_agent_and_200_ok_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(get( "/api/v1/agent/" + anAgent.getId() ))
+		mockMvc.perform(get( "/api/v1/agent/" + anAgent.getPrimaryKey() ))
 			.andExpect( status().isOk() )
 			.andExpect( content().contentType( MediaTypes.HAL_JSON ) )
 			.andExpect( jsonPath( "$.firstName", containsString("Agent1") ) )
-			.andExpect( jsonPath( "$._links.self.href", endsWith("/agent/" + anAgent.getId()) ) );
+			.andExpect( jsonPath( "$._links.self.href", endsWith("/agent/" + anAgent.getPrimaryKey() + "?lazy=false") ) );
 		//@formatter:on
 	}
 
@@ -131,7 +131,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 	public void updateAgent_shouldReturn_204_nocontent_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(put( "/api/v1/agent/" +  anAgent.getId() )
+		mockMvc.perform(put( "/api/v1/agent/" +  anAgent.getPrimaryKey() )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.content( "{\"firstName\":\"updated first name\",\"email\":\"updated@example.com\"}" ))
@@ -157,7 +157,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 	public void addProperty_shouldReturn_204_nocontent_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(put( "/api/v1/agent/" +  anAgent.getId() + "/property/" + aProperty.getId() )
+		mockMvc.perform(put( "/api/v1/agent/" +  anAgent.getPrimaryKey() + "/property/" + aProperty.getPrimaryKey() )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.content( "" ))
@@ -173,7 +173,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 		agentRepository.save(anAgent);
 
 		//@formatter:off
-		mockMvc.perform(put( "/api/v1/agent/" + anAgent.getId() + "/lead/" + aLead.getId() )
+		mockMvc.perform(put( "/api/v1/agent/" + anAgent.getPrimaryKey() + "/lead/" + aLead.getPrimaryKey() )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.content( "{\"contactStatus\": \"CONTACTED\"}" ))
@@ -185,7 +185,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 	public void change_lead_contactedStatus_shouldReturn_400_badrequest_httpcode() throws Exception {
 
 		//@formatter:off
-		mockMvc.perform(put( "/api/v1/agent/" + anAgent.getId() + "/lead/" + aLead.getId() )
+		mockMvc.perform(put( "/api/v1/agent/" + anAgent.getPrimaryKey() + "/lead/" + aLead.getPrimaryKey() )
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.content( "{\"contactStatus\": \"CONTACTED\"}" ))

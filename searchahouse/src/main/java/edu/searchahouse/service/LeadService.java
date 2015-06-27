@@ -7,7 +7,7 @@ import edu.searchahouse.model.Lead;
 
 public interface LeadService {
 
-	public Lead findLeadById(String id);
+	public Lead findLeadByPrimaryKey(String id);
 
 	public Page<Lead> getLeadsByPage(Pageable pageable);
 

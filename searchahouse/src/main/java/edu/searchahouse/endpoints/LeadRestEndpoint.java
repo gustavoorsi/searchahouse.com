@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.searchahouse.endpoints.resources.LeadResource;
 import edu.searchahouse.endpoints.resources.assemblers.LeadResourceAssembler;
 import edu.searchahouse.model.Lead;
 import edu.searchahouse.service.LeadService;
@@ -65,14 +65,14 @@ public class LeadRestEndpoint {
 	 * 
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public HttpEntity<PagedResources<LeadResource>> getLeadsByPage( //
+	public HttpEntity<PagedResources<ResourceSupport>> getLeadsByPage( //
 			@PageableDefault(size = 10, page = 0) Pageable pageable, //
 			PagedResourcesAssembler<Lead> assembler //
 	) {
 
 		Page<Lead> leads = this.leadService.getLeadsByPage(pageable);
 
-		return new ResponseEntity<PagedResources<LeadResource>>(assembler.toResource(leads, this.leadResourceAssembler), HttpStatus.OK);
+		return new ResponseEntity<PagedResources<ResourceSupport>>(assembler.toResource(leads, this.leadResourceAssembler), HttpStatus.OK);
 
 	}
 
@@ -91,10 +91,10 @@ public class LeadRestEndpoint {
 	 * 
 	 */
 	@RequestMapping(value = "/{leadId}", method = RequestMethod.GET)
-	public HttpEntity<LeadResource> getLead(@PathVariable String leadId) {
-		Lead aLead = this.leadService.findLeadById(leadId);
+	public HttpEntity<ResourceSupport> getLead(@PathVariable String leadId) {
+		Lead aLead = this.leadService.findLeadByPrimaryKey(leadId);
 
-		return new ResponseEntity<LeadResource>(this.leadResourceAssembler.toResource(aLead), HttpStatus.OK);
+		return new ResponseEntity<ResourceSupport>(this.leadResourceAssembler.toResource(aLead), HttpStatus.OK);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class LeadRestEndpoint {
 		Lead lead = this.leadService.save(input);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(LeadRestEndpoint.class, lead.getId()).getLead(lead.getId())).toUri());
+		httpHeaders.setLocation(linkTo(methodOn(LeadRestEndpoint.class, lead.getPrimaryKey()).getLead(lead.getPrimaryKey())).toUri());
 
 		return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
 	}
@@ -141,7 +141,7 @@ public class LeadRestEndpoint {
 		Lead lead = this.leadService.update(leadId, input);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(linkTo(methodOn(LeadRestEndpoint.class, lead.getId()).getLead(lead.getId())).toUri());
+		httpHeaders.setLocation(linkTo(methodOn(LeadRestEndpoint.class, lead.getPrimaryKey()).getLead(lead.getPrimaryKey())).toUri());
 
 		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
 	}
