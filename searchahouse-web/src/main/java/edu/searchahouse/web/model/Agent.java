@@ -18,83 +18,83 @@ import java.util.Collection;
 //@formatter:on
 public class Agent extends BaseEntity {
 
-	private String imageUrl;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private Collection<Property> properties;
-	private Collection<LeadPortfolio> leads;
+    private String imageUrl;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Collection<Property> properties;
+    private Collection<Lead> leads;
 
-	public Agent() {
-	}
+    public Agent() {
+    }
 
-	public Agent(String firstName, String lastName, String email) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-	}
+    public Agent(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public Collection<Property> getProperties() {
-		return properties;
-	}
+    public Collection<Property> getProperties() {
+        return properties;
+    }
 
-	public void setProperties(Collection<Property> properties) {
-		this.properties = properties;
-	}
+    public void setProperties(Collection<Property> properties) {
+        this.properties = properties;
+    }
 
-	public Collection<LeadPortfolio> getLeads() {
-		return leads;
-	}
+    public Collection<Lead> getLeads() {
+        return leads;
+    }
 
-	public void setLeads(Collection<LeadPortfolio> leads) {
-		this.leads = leads;
-	}
+    public void setLeads(Collection<Lead> leads) {
+        this.leads = leads;
+    }
 
-	public Collection<Property> addProperty(final Property aProperty) {
-		if (getProperties() == null) {
-			setProperties(new ArrayList<Property>());
-		}
-		getProperties().add(aProperty);
-		return getProperties();
-	}
+    public Collection<Property> addProperty(final Property aProperty) {
+        if (getProperties() == null) {
+            setProperties(new ArrayList<Property>());
+        }
+        getProperties().add(aProperty);
+        return getProperties();
+    }
 
-	public Collection<LeadPortfolio> addLead(final LeadPortfolio lead) {
-		if (getLeads() == null) {
-			setLeads(new ArrayList<LeadPortfolio>());
-		}
-		getLeads().add(lead);
-		return getLeads();
-	}
+    public Collection<Lead> addLead(final Lead lead) {
+        if (getLeads() == null) {
+            setLeads(new ArrayList<Lead>());
+        }
+        getLeads().add(lead);
+        return getLeads();
+    }
 }

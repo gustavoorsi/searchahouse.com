@@ -36,7 +36,7 @@ public class AgentResourceAssembler implements ResourceAssembler<Agent, Resource
         }
 
         if( entity.getLeads() != null ){
-            entity.getLeads().forEach( l -> this.leadResourceAssembler.toResource(l.getLead()) );
+            entity.getLeads().forEach( l -> this.leadResourceAssembler.toResource(l) );
         }
 
         return entity;

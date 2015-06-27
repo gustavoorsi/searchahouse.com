@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import edu.searchahouse.model.Address;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Lead;
-import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.model.Property.PropertyStatus;
 import edu.searchahouse.model.Property.PropertyType;
@@ -28,11 +27,11 @@ import edu.searchahouse.repository.mongo.PropertyRepository;
 @EnableAsync
 public class SearchahouseApplication {
 
-	final static Map<Integer, String[]> ADDRESSES = new HashMap<Integer, String[]>();
+    final static Map<Integer, String[]> ADDRESSES = new HashMap<Integer, String[]>();
 
-	final static Map<Integer, String[][]> VALUES = new HashMap<Integer, String[][]>();
+    final static Map<Integer, String[][]> VALUES = new HashMap<Integer, String[][]>();
 
-	//@formatter:off
+    //@formatter:off
 	{
 		VALUES.put(1, new String[][] { { "California", "Beverly Hills", "31340 Mulholland Dr." }, { "http://www.hawthorne.co.nz/p7ssm_img_1/thumbs/Hawthorne-House-1_tmb.jpg" } }); // Anderson Pamela
 		VALUES.put(2, new String[][] { { "California", "Bel Air", "846 Stradella Rd." },  		  { "http://www.hawthorne.co.nz/p7ssm_img_1/fullsize/Hawthorne-House-4_fs.jpg" } }); // Eastwood Clint
@@ -43,23 +42,23 @@ public class SearchahouseApplication {
 	}
 	//@formatter:on
 
-	public static void main(String[] args) {
-		SpringApplication.run(SearchahouseApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SearchahouseApplication.class, args);
+    }
 
-	@Profile("development")
-	@Bean
-	CommandLineRunner init(//
-			final PropertyRepository propertyRepository, //
-			final LeadRepository leadRepository, //
-			final AgentRepository agentRepository//
-	) {
+    @Profile("development")
+    @Bean
+    CommandLineRunner init(//
+            final PropertyRepository propertyRepository, //
+            final LeadRepository leadRepository, //
+            final AgentRepository agentRepository//
+    ) {
 
-		propertyRepository.deleteAll();
-		leadRepository.deleteAll();
-		agentRepository.deleteAll();
+        propertyRepository.deleteAll();
+        leadRepository.deleteAll();
+        agentRepository.deleteAll();
 
-		//@formatter:off
+        //@formatter:off
 		return (evt) -> Arrays.asList("1,2,3".split(","))
 				.forEach(
 						index -> {
@@ -81,12 +80,12 @@ public class SearchahouseApplication {
 
 							Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
 
-							agent.addLead(new LeadPortfolio(lead));
+							agent.addLead(lead);
 							agent.addProperty(property);
 
 							agentRepository.save(agent);
 						});
 		//@formatter:on
 
-	}
+    }
 }

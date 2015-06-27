@@ -16,10 +16,6 @@ public abstract class BaseEntity {
         return primaryKey;
     }
 
-    public void setObjectId(String objectId) {
-        this.primaryKey = objectId;
-    }
-
     public void setPrimaryKey(String primaryKey) {
         this.primaryKey = primaryKey;
     }

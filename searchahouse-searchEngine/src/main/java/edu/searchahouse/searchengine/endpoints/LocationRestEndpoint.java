@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.searchahouse.searchengine.endpoints.hal.resources.LocationResource;
 import edu.searchahouse.searchengine.endpoints.hal.resources.assemblers.LocationResourceAssembler;
 import edu.searchahouse.searchengine.model.Location;
 import edu.searchahouse.searchengine.service.LocationService;
@@ -66,7 +66,7 @@ public class LocationRestEndpoint {
      * 
      */
     @RequestMapping(value = "/autocomplete/{state}", method = RequestMethod.GET)
-    public HttpEntity<PagedResources<LocationResource>> getLocationsByState( //
+    public HttpEntity<PagedResources<ResourceSupport>> getLocationsByState( //
             @PathVariable String state, //
             @PageableDefault(size = 10, page = 0) Pageable pageable, //
             PagedResourcesAssembler<Location> assembler //
@@ -74,7 +74,7 @@ public class LocationRestEndpoint {
 
         List<Location> locations = this.locationService.findLocationsByState(state);
 
-        return new ResponseEntity<PagedResources<LocationResource>>(assembler.toResource(new PageImpl<Location>(locations), this.locationResourceAssembler),
+        return new ResponseEntity<PagedResources<ResourceSupport>>(assembler.toResource(new PageImpl<Location>(locations), this.locationResourceAssembler),
                 HttpStatus.OK);
 
     }

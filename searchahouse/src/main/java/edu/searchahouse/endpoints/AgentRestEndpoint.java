@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.searchahouse.endpoints.resources.assemblers.AgentResourceAssembler;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Lead;
-import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.service.AgentService;
 
@@ -223,7 +222,7 @@ public class AgentRestEndpoint {
     public HttpEntity<?> updateAgent( //
             @PathVariable String agentId, //
             @PathVariable String leadId, //
-            @RequestBody LeadPortfolio input //
+            @RequestBody Lead input //
     ) {
 
         this.agentService.updateLeadContactStatus(agentId, leadId, input);

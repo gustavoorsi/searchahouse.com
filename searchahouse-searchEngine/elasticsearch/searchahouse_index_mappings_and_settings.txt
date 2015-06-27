@@ -71,6 +71,9 @@ POST ->  http://localhost:9200/searchahouse
                "type":"string",
                "index":"not_analyzed"
             },
+            "contactStatus":{  
+               "type":"string"
+            },
             "firstName":{  
                "type":"multi_field",
                "fields":{  
@@ -174,22 +177,12 @@ POST ->  http://localhost:9200/searchahouse
             }
          }
       },
-      "leadPortfolio":{  
-         "properties":{  
-            "contactStatus":{  
-               "type":"string"
-            },
-            "lead":{  
-               "type":"nested"
-            }
-         }
-      },
       "agent":{  
          "properties":{  
             "property":{  
                "type":"nested"
             },
-            "leadPortfolio":{  
+            "lead":{  
                "type":"nested"
             },
             "lastName":{  

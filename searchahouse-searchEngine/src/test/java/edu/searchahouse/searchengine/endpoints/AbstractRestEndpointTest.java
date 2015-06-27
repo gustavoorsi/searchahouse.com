@@ -50,7 +50,7 @@ public class AbstractRestEndpointTest {
 
         Arrays.asList("1,2".split(",")).forEach(
                 index -> {
-                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(1d, 1d), new Address(), 100000L,
+                    Property property = new Property("Property" + index, "description" + index, new GeoPoint(Double.valueOf(index), Double.valueOf(index)), new Address(), 100000L,
                             PropertyType.SALE, PropertyStatus.AVAILABLE);
                     property.setPrimaryKey(UUID.randomUUID().toString());
                     propertyRepository.save(property);

@@ -18,7 +18,6 @@ import edu.searchahouse.exceptions.EntityNotFoundException;
 import edu.searchahouse.exceptions.EntityNotUpdatedException;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Lead;
-import edu.searchahouse.model.LeadPortfolio;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.repository.mongo.AgentRepository;
 import edu.searchahouse.repository.mongo.LeadRepository;
@@ -84,9 +83,9 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     public Agent addLead(final String agentId, Lead lead) {
 
         Agent agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
-        
+
         this.leadRepository.save(lead);
-        agent.addLead(new LeadPortfolio(lead));
+        agent.addLead(lead);
 
         return this.update(agentId, agent);
     }
@@ -95,7 +94,8 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     public Property addProperty(final String agentId, final String propertyId) {
 
         Agent agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
-        Property property = this.propertyRepository.findPropertyByPrimaryKey(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Property"));
+        Property property = this.propertyRepository.findPropertyByPrimaryKey(new ObjectId(propertyId)).orElseThrow(
+                () -> new EntityNotFoundException("Property"));
 
         agent.addProperty(property);
 
@@ -105,16 +105,29 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     }
 
     @Override
-    public void updateLeadContactStatus(String agentId, String leadId, LeadPortfolio leadPortfolio) {
+    public void updateLeadContactStatus(String agentId, String leadId, Lead lead) {
 
-        Query query = new Query(Criteria.where("_id").is(agentId).and("leads.lead.$id").is(new ObjectId(leadId)));
+        // update the lead entity
+        Query query = new Query(Criteria.where("_id").is(new ObjectId(leadId)) );
         Update update = new Update();
-        update.set("leads.$.contactStatus", leadPortfolio.getContactStatus());
-
-        WriteResult writeResult = getMongoOperations().updateMulti(query, update, Agent.class);
-
+        update.set("contactStatus", lead.getContactStatus());
+        
+        WriteResult writeResult = getMongoOperations().updateMulti(query, update, Lead.class);
+        
         if (writeResult.getN() == 0) {
-            throw new EntityNotUpdatedException("Agent");
+            throw new EntityNotUpdatedException("Lead");
+        }
+        
+        // update the nested lead entity in agent
+        Query queryNested = new Query(Criteria.where("_id").is(new ObjectId(agentId)).and("leads._id").is(new ObjectId(leadId)));
+        
+        Update updateNested = new Update();
+        updateNested.set("leads.0.contactStatus", lead.getContactStatus());
+        
+        WriteResult writeResultNested = getMongoOperations().updateMulti(queryNested, updateNested, Agent.class);
+        
+        if (writeResultNested.getN() == 0) {
+            throw new EntityNotUpdatedException("Nested Lead");
         }
 
     }

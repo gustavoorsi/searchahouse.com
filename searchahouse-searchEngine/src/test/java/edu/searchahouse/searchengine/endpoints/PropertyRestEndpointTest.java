@@ -34,7 +34,7 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 						.param("longitude", "1")
 						.param("latitude", "1")
 						.param("distance", "100000")
-						.param("sortOrder", "desc"))
+						.param("sortOrder", "asc"))
 			.andExpect( status().isOk() )
 			.andExpect( content().contentType(MediaTypes.HAL_JSON) )
 			.andExpect( jsonPath( "$._embedded.propertyList", hasSize(properties.size())) )

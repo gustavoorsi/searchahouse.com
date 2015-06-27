@@ -26,10 +26,6 @@ public abstract class BaseEntity extends ResourceSupport {
     @Version
     private Long version;
 
-    public String getObjectId() {
-        return primaryKey;
-    }
-
     public String getPrimaryKey() {
         return primaryKey;
     }

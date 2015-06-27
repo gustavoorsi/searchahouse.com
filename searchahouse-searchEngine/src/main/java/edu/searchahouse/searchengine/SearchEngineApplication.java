@@ -18,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import edu.searchahouse.searchengine.model.Address;
 import edu.searchahouse.searchengine.model.Agent;
 import edu.searchahouse.searchengine.model.Lead;
-import edu.searchahouse.searchengine.model.LeadPortfolio;
 import edu.searchahouse.searchengine.model.Location;
 import edu.searchahouse.searchengine.model.Property;
 import edu.searchahouse.searchengine.model.Property.PropertyStatus;
@@ -62,7 +61,7 @@ public class SearchEngineApplication {
                 { "http://www.avaay.com/wp-content/uploads/2015/04/bizarre-house-4.jpg" } }); // Pitt Brad
     }
 
-    @Profile( "cleanStart" )
+    @Profile("cleanStart")
     @Bean
     CommandLineRunner deleteAll(//
             final AgentRepository agentRepository, //
@@ -146,7 +145,7 @@ public class SearchEngineApplication {
         Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
         agent.setPrimaryKey(UUID.randomUUID().toString());
 
-        agent.addLead(new LeadPortfolio(lead));
+        agent.addLead(lead);
         agent.addProperty(property);
 
         agentRepository.save(agent);

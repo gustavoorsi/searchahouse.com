@@ -9,6 +9,7 @@ package edu.searchahouse.web.model;
  */
 public class Lead extends BaseEntity {
 
+    private Status contactStatus = Status.UNCONTACTED;
     private String firstName;
     private String lastName;
     private String email;
@@ -54,5 +55,9 @@ public class Lead extends BaseEntity {
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
+    }
+
+    public enum Status {
+        CONTACTED, UNCONTACTED;
     }
 }

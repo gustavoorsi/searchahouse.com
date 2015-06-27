@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
+import org.springframework.hateoas.ResourceSupport;
 
 /**
  * 
@@ -13,17 +14,13 @@ import org.springframework.data.annotation.Version;
  * @author Gustavo Orsi
  *
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity extends ResourceSupport {
 
     @Id
     private String primaryKey;
 
     @Version
     private Long version;
-    
-    public String getObjectId(){
-    	return primaryKey;
-    }
 
     public String getPrimaryKey() {
         return primaryKey;

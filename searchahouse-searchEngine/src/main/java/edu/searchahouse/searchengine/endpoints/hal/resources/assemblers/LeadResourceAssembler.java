@@ -5,13 +5,13 @@ import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.stereotype.Component;
 
-import edu.searchahouse.searchengine.model.Property;
+import edu.searchahouse.searchengine.model.Lead;
 
 @Component
-public class PropertyResourceAssembler implements ResourceAssembler<Property, ResourceSupport> {
+public class LeadResourceAssembler implements ResourceAssembler<Lead, ResourceSupport> {
 
     @Override
-    public ResourceSupport toResource(Property entity) {
+    public ResourceSupport toResource(Lead entity) {
 
         // add link to itself ( rel = self )
         // TODO: get the endpoint url that GET a property from micro-service CRUD. (using eureka). For now just hardcode the domain.
