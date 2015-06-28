@@ -19,6 +19,9 @@ public interface AgentRepository extends MongoRepository<Agent, ObjectId> {
     
     @Query(value="{ 'properties._id' : ?0 }", fields="{ 'properties' : 0, 'leads' : 0}")
 	Page<Agent> findAgentsByProperty(final ObjectId propertyPrimaryKey, Pageable pageable);
+    
+    @Query(value="{ 'properties._id' : ?0 }")
+    Page<Agent> findAgentsByPropertyIncludeNestedCollections(final ObjectId propertyPrimaryKey, Pageable pageable);
 
 	Optional<Agent> findAgentByEmail(final String email);
 

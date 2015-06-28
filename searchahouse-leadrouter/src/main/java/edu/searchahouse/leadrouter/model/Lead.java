@@ -57,6 +57,14 @@ public class Lead extends BaseEntity {
         this.mobilePhone = mobilePhone;
     }
 
+    public Status getContactStatus() {
+        return contactStatus;
+    }
+
+    public void setContactStatus(Status contactStatus) {
+        this.contactStatus = contactStatus;
+    }
+
     public enum Status {
         CONTACTED, UNCONTACTED;
     }

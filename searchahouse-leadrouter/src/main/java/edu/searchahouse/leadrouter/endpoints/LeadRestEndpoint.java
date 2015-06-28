@@ -1,5 +1,8 @@
 package edu.searchahouse.leadrouter.endpoints;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +18,7 @@ import edu.searchahouse.leadrouter.model.Lead;
 import edu.searchahouse.leadrouter.service.LeadRouterService;
 
 @RestController
-@RequestMapping("/api/v1/lead")
+@RequestMapping("/api/v1/leadrouter")
 public class LeadRestEndpoint {
 
     // *************************************************************//
@@ -49,20 +52,19 @@ public class LeadRestEndpoint {
      * @param assembler
      *            the assembler that will construct the agent resource as a pageable resource.
      * @return A pageable list of properties in json or xml format (default to json)
+     * @throws URISyntaxException 
      * 
      */
     @RequestMapping(value = "", method = RequestMethod.POST)
     public HttpEntity<?> routeLead( //
             @RequestBody Lead lead, //
             @RequestParam(value = "propertyId", required = true) final String propertyId //
-    ) {
+    ) throws URISyntaxException {
         
-        this.leadRouterService.routeLead(lead, propertyId);
-       
+        String agentLocation = this.leadRouterService.routeLead(lead, propertyId);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        // TODO: point to the API microservice, to the lead endpoint.
-        // httpHeaders.setLocation();
+        httpHeaders.setLocation( new URI(agentLocation) );
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }

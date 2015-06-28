@@ -14,25 +14,25 @@ import edu.searchahouse.web.service.PropertyService;
 @Service
 public class PropertyServiceImpl implements PropertyService {
 
-	private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-	@Autowired
-	public PropertyServiceImpl(final RestTemplate restTemplate) {
-		this.restTemplate = restTemplate;
-	}
+    @Autowired
+    public PropertyServiceImpl(final RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
-	@Override
-	public Property findById(String id) {
+    @Override
+    public Property findById(String id) {
 
-		String endpoint = "http://localhost:8080/api/v1/property/" + id;
+        String endpoint = "http://localhost:8080/api/v1/property/" + id;
 
-		ResponseEntity<Resource<Property>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
-				new ParameterizedTypeReference<Resource<Property>>() {
-				});
+        ResponseEntity<Resource<Property>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
+                new ParameterizedTypeReference<Resource<Property>>() {
+                });
 
-		Property property = resourceResponse.getBody().getContent();
+        Property property = resourceResponse.getBody().getContent();
 
-		return property;
-	}
+        return property;
+    }
 
 }

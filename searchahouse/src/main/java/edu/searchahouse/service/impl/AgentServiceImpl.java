@@ -60,9 +60,16 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     }
 
     @Override
-    public Page<Agent> findAgentsByPropertyId(String propertyId, Pageable pageable) {
-        return this.agentRepository.findAgentsByProperty(new ObjectId(propertyId), pageable);
+    public Page<Agent> findAgentsByPropertyId(String propertyId, Pageable pageable, final boolean lazyCollections) {
+        if( lazyCollections ){
+            return this.agentRepository.findAgentsByProperty(new ObjectId(propertyId), pageable);
+        } else {
+            return this.agentRepository.findAgentsByPropertyIncludeNestedCollections(new ObjectId(propertyId), pageable);
+        }
+        
     }
+    
+    
 
     @Override
     public Page<Agent> getAgentsByPage(Pageable pageable) {

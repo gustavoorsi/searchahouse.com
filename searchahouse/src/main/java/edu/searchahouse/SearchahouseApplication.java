@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import edu.searchahouse.model.Address;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Lead;
+import edu.searchahouse.model.Lead.Status;
 import edu.searchahouse.model.Property;
 import edu.searchahouse.model.Property.PropertyStatus;
 import edu.searchahouse.model.Property.PropertyType;
@@ -62,30 +63,64 @@ public class SearchahouseApplication {
 		return (evt) -> Arrays.asList("1,2,3".split(","))
 				.forEach(
 						index -> {
-							Property property = new Property(
-														"Property" + index, 
-														"description" + index, 
-														new Address(
-																VALUES.get(Integer.valueOf(index))[0][0],
-																VALUES.get(Integer.valueOf(index))[0][1], 
-																VALUES.get(Integer.valueOf(index))[0][2]), 
-														100000L, 
-														PropertyType.SALE,
-														PropertyStatus.AVAILABLE);
-							property.setImageUrl(VALUES.get(Integer.valueOf(index))[1][0]);
-							propertyRepository.save(property);
+							Property property = saveProperty(index, propertyRepository);
 
-							Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
-							leadRepository.save(lead);
+							Lead lead = saveLead(index, leadRepository, Status.UNCONTACTED);
+							Lead lead2 = saveLead("_"+index, leadRepository, Status.UNCONTACTED);
 
-							Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
+							Agent agent = saveAgent(index, agentRepository);
 
 							agent.addLead(lead);
 							agent.addProperty(property);
+							
+							if( agent.getFirstName().equals("Gustavo1") ){
+							    agent.addLead(lead2);
+							}
+							
+							if( agent.getFirstName().equals("Gustavo2") ){
+							    agent.addLead( saveLead("a", leadRepository, Status.CONTACTED) );
+							    agent.addLead( saveLead("b", leadRepository, Status.CONTACTED) );
+							    agent.addLead( saveLead("c", leadRepository, Status.CONTACTED) );
+							}
+							
+							if( agent.getFirstName().equals("Gustavo2") ){
+							    Property p = propertyRepository.findPropertyByName("Property1").get();
+							    agent.addProperty(p);
+							}
 
 							agentRepository.save(agent);
+							
 						});
 		//@formatter:on
-
+    }
+    
+    private Property saveProperty( final String index, final PropertyRepository propertyRepository ){
+        Property property = new Property(
+                "Property" + index, 
+                "description" + index, 
+                new Address(
+                        VALUES.get(Integer.valueOf(index))[0][0],
+                        VALUES.get(Integer.valueOf(index))[0][1], 
+                        VALUES.get(Integer.valueOf(index))[0][2]), 
+                100000L, 
+                PropertyType.SALE,
+                PropertyStatus.AVAILABLE);
+                property.setImageUrl(VALUES.get(Integer.valueOf(index))[1][0]);
+                propertyRepository.save(property);
+                
+                return property;
+    }
+    
+    private Lead saveLead( final String index, final LeadRepository leadRepository, final Lead.Status status ){
+        Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
+        lead.setContactStatus(status);
+        leadRepository.save(lead);
+        return lead;
+    }
+    
+    private Agent saveAgent( final String index, final AgentRepository agentRepository ){
+        Agent agent = new Agent("Gustavo" + index, "Orsi" + index, index + "agent@example.com");
+        agentRepository.save(agent);
+        return agent;
     }
 }

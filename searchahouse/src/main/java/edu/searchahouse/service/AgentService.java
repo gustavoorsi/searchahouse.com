@@ -11,7 +11,7 @@ public interface AgentService {
 
     public Agent findAgentByPrimaryKey(String id, boolean lazyLoadNested);
 
-    public Page<Agent> findAgentsByPropertyId(String propertyId, Pageable pageable);
+    public Page<Agent> findAgentsByPropertyId(String propertyId, Pageable pageable, final boolean lazyCollections);
 
     public Page<Agent> getAgentsByPage(Pageable pageable);
 

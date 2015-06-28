@@ -19,16 +19,8 @@ public abstract class BaseEntity extends ResourceSupport {
         return primaryKey;
     }
 
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
-    }
-
     public Long getVersion() {
         return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
 }

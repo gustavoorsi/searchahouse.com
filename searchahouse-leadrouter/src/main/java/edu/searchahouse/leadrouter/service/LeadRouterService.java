@@ -9,7 +9,8 @@ public interface LeadRouterService {
      * 
      * @param lead
      * @param propertyId
+     * @return the agent location to whom the lead was assigned.
      */
-    void routeLead(Lead lead, final String propertyId);
+    String routeLead(Lead lead, final String propertyId);
 
 }

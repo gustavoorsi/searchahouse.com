@@ -105,7 +105,7 @@ public class AgentRestEndpoint {
             PagedResourcesAssembler<Agent> assembler //
     ) {
 
-        Page<Agent> agents = this.agentService.findAgentsByPropertyId(propertyId, pageable);
+        Page<Agent> agents = this.agentService.findAgentsByPropertyId(propertyId, pageable, false);
 
         return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
     }
