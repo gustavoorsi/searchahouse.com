@@ -70,19 +70,8 @@ public class AgentServiceImpl implements AgentService {
 
     @Override
     public void addLeadToAgentForProperty(Lead lead, String propertyId) {
-
-        // String endpointGet = "http://localhost:8080/api/v1/agent/property/" + propertyId;
-        //
-        // ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpointGet, HttpMethod.GET, null,
-        // new ParameterizedTypeReference<Resource<Agent>>() {
-        // });
-        //
-        // Agent agent = resourceResponse.getBody().getContent();
-        //
-        //
-        // String endpointPut = "http://localhost:8080/api/v1/agent";
-        //
-        // Object result = this.restTemplate.put(endpointPut, request, urlVariables);
+        
+        // TODO: delegate to the "Lead Router" microservice.
 
     }
 
