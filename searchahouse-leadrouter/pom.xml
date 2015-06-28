@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>edu.searchahouse</groupId>
-	<artifactId>web</artifactId>
+	<artifactId>leadrouter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>searchahouse-web</name>
-	<description>Microservice that handle the website and interact with the rest of microservices.</description>
+	<name>searchahouse-leadrouter</name>
+	<description>Microservice that handle the routes of the leads.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -24,6 +24,7 @@
 	</properties>
 
 	<dependencies>
+
 		<!-- ....................................................................................... -->
 		<!-- START: Web and REST. .................................................................. -->
 		<!-- ....................................................................................... -->
@@ -32,37 +33,15 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<dependency>
-			<!-- Thymeleaf dependency -->
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
 
 		<dependency>
-			<!-- needed to consume the rest services that returns in hateoas format -->
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
 		</dependency>
-
-		<!-- WebJars START: bootstrap and jquery webjar artifacts are managed in 
-			org.springframework.cloud:spring-cloud-netflix:1.0.0.M2. Nevertheless it's 
-			a good idea to explicitly declare them here becuase even if we decide to 
-			get rid of netflix jar we still want to keep these webjars for our ui. -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>angularjs</artifactId>
-			<version>1.4.0</version>
-		</dependency>
-		<!-- WebJars END -->
 		<!-- ....................................................................................... -->
 		<!-- END: Web and REST...................................................................... -->
 		<!-- ....................................................................................... -->
-
+		
 		<!-- ....................................................................................... -->
 		<!--START: Test integration. ............................................................... -->
 		<!-- ....................................................................................... -->
@@ -73,18 +52,6 @@
 		</dependency>
 		<!-- ....................................................................................... -->
 		<!--END: Test integration................................................................... -->
-		<!-- ....................................................................................... -->
-
-
-		<!-- ....................................................................................... -->
-		<!-- START: Miscellaneous................................................................... -->
-		<!-- ....................................................................................... -->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-commons</artifactId>
-		</dependency>
-		<!-- ....................................................................................... -->
-		<!-- END: Miscellaneous..................................................................... -->
 		<!-- ....................................................................................... -->
 
 

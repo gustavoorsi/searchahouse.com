@@ -60,8 +60,8 @@ public class AgentServiceImpl extends BaseService implements AgentService {
     }
 
     @Override
-    public Agent findAgentByPropertyId(String propertyId) {
-        return this.agentRepository.findAgentByProperty(new ObjectId(propertyId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+    public Page<Agent> findAgentsByPropertyId(String propertyId, Pageable pageable) {
+        return this.agentRepository.findAgentsByProperty(new ObjectId(propertyId), pageable);
     }
 
     @Override

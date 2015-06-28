@@ -88,22 +88,26 @@ public class AgentRestEndpoint {
      *
      * ----------------------------------------------------------------------------------------------------------------
      * 
-     * GET - find an Agent by property
+     * GET - find all Agents by property (paged result).
      * 
      * ----------------------------------------------------------------------------------------------------------------
      * 
-     * Get an agent by it's primary key. Throw 404 if not found.
+     * Find all agents by a property id (return a paged result.). Throw 404 if not found.
      * 
-     * @param agentId
-     * @return An agent in json or xml format (default to json).
+     * @param propertyId
+     * @return A list of agents in json or xml format (default to json).
      * 
      */
     @RequestMapping(value = "/property/{propertyId}", method = RequestMethod.GET)
-    public HttpEntity<ResourceSupport> getAgentByProperty(@PathVariable String propertyId) {
+    public HttpEntity<ResourceSupport> getAgentByProperty(//
+            @PathVariable("propertyId") final String propertyId, //
+            @PageableDefault(size = 10, page = 0) Pageable pageable, //
+            PagedResourcesAssembler<Agent> assembler //
+    ) {
 
-        Agent aAgent = this.agentService.findAgentByPropertyId(propertyId);
+        Page<Agent> agents = this.agentService.findAgentsByPropertyId(propertyId, pageable);
 
-        return new ResponseEntity<ResourceSupport>(this.agentResourceAssembler.toResource(aAgent), HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toResource(agents, this.agentResourceAssembler), HttpStatus.OK);
     }
 
     /**

@@ -84,6 +84,28 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( jsonPath( "$._links.self.href", endsWith("/agent" + "{?page,size,sort}") ) );
 		//@formatter:on
     }
+    
+    @Test
+    public void getAgentsByProperty_shouldReturn_two_agents_and_200_ok_httpcode() throws Exception {
+        
+        anAgent.addProperty(aProperty);
+        this.agentRepository.save(anAgent);
+        
+        Agent anAgent2 = agentRepository.findAgentByEmail("2agent@example.com").get();
+        anAgent2.addProperty(aProperty);
+        this.agentRepository.save(anAgent2);
+
+        //@formatter:off
+        mockMvc.perform(get( "/api/v1/agent/property/" + aProperty.getPrimaryKey() ))
+            .andExpect( status().isOk() )
+            .andExpect( content().contentType(MediaTypes.HAL_JSON) )
+            .andExpect( jsonPath( "$._embedded.agentList", hasSize(2)) )
+            .andExpect( jsonPath( "$._embedded.agentList[0].firstName", containsString("Agent1") ) )
+            .andExpect( jsonPath( "$._embedded.agentList[1].firstName", containsString("Agent2") ) )
+            .andExpect( jsonPath( "$._links.self.templated", is(true)) )
+            .andExpect( jsonPath( "$._links.self.href", endsWith("/agent/property/" + aProperty.getPrimaryKey() + "{?page,size,sort}") ) );
+        //@formatter:on
+    }
 
     @Test
     public void createAgent_shouldReturn_201_created_httpcode() throws Exception {
@@ -154,7 +176,7 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 
     @Test
     public void addProperty_shouldReturn_204_nocontent_httpcode() throws Exception {
-
+        
         //@formatter:off
 		mockMvc.perform(put( "/api/v1/agent/" +  anAgent.getPrimaryKey() + "/property/" + aProperty.getPrimaryKey() )
 				.contentType(MediaType.APPLICATION_JSON)

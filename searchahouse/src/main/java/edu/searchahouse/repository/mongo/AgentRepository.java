@@ -3,6 +3,8 @@ package edu.searchahouse.repository.mongo;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -16,7 +18,7 @@ public interface AgentRepository extends MongoRepository<Agent, ObjectId> {
     Optional<Agent> findAgentByPrimaryKeyLazyNestedCollections(final ObjectId id);
     
     @Query(value="{ 'properties._id' : ?0 }", fields="{ 'properties' : 0, 'leads' : 0}")
-	Optional<Agent> findAgentByProperty(final ObjectId propertyPrimaryKey);
+	Page<Agent> findAgentsByProperty(final ObjectId propertyPrimaryKey, Pageable pageable);
 
 	Optional<Agent> findAgentByEmail(final String email);
 
