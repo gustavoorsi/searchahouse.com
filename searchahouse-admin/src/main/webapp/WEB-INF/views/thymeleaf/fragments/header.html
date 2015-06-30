@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">searchahouse.com</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<!-- Bootstrap core CSS -->
+	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+	
+	    <!-- Custom styles for this template -->
+	    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet" />
+	</head>
+	
+	<body>
+	
+			<!-- header -->
+			<div th:fragment="header">
+			
+				<nav class="navbar navbar-inverse navbar-fixed-top">
+			      <div class="container-fluid">
+			        <div class="navbar-header">
+			          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			            <span class="sr-only">Toggle navigation</span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			          </button>
+			          <a class="navbar-brand" href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Project name</a>
+			        </div>
+			        <div id="navbar" class="navbar-collapse collapse">
+			          <ul class="nav navbar-nav navbar-right">
+			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Dashboard</a></li>
+			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Settings</a></li>
+			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Profile</a></li>
+			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Help</a></li>
+			          </ul>
+			          <form class="navbar-form navbar-right">
+			            <input type="text" class="form-control" placeholder="Search..." />
+			          </form>
+			        </div>
+			      </div>
+			    </nav>
+		    </div><!-- /.header -->
+		
+		<!-- Bootstrap core JavaScript
+	    ================================================== -->
+	    <!-- Placed at the end of the document so the pages load faster -->
+	    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</body>
+	
+</html>
