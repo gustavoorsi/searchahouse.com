@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 
  * 
@@ -19,6 +21,7 @@ public abstract class BaseEntity extends ResourceSupport {
     @Id
     private String primaryKey;
 
+    @JsonIgnore
     @Version
     private Long version;
 
