@@ -50,13 +50,13 @@
 		                	<td colspan="4">
 		                		<nav>
 								  <ul class="pagination">
-								    <li th:class="${agents.number == 0} ? 'disabled' : ''" class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+								    <li th:class="${agents.number == 0} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllAgents?page=} + ${agents.number-1}" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 								    
 								    <li th:class="${agents.number == status.index} ? 'active' : ''" class="active" th:each="p,status : ${new int[agents.totalPages]}">
 								    	<a th:href="@{/admin/listAllAgents?page=} + ${status.index} + '&amp;size=' + ${agents.size}" href="#" th:text="${status.index+1}"><span class="sr-only" >x</span></a>
 							    	</li>
 							    	
-							    	<li th:class="${agents.last} ? 'disabled' : ''" class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+							    	<li th:class="${agents.last} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllAgents?page=} + ${agents.number+1}" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 								  </ul>
 								</nav>
 		                	</td>
