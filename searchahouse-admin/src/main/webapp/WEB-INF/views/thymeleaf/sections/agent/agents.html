@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html layout:decorator="layouts/basic_layout" lan="en">
+	
+	<head>
+		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Admin Agents</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+
+		<!-- Bootstrap core CSS -->
+	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+	
+	    <!-- Custom styles for this template -->
+	    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet" />		
+		
+		<link href="../../../../../resources/css/app/home/home.css" th:href="@{/resources/css/app/home/home.css}" rel="stylesheet" media="screen" />
+		
+	</head>
+	
+	<body>
+	
+		<div layout:fragment="content" >
+		
+			<div class="container-fluid">
+		      <div class="row">
+		        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		
+		          <h2 class="sub-header">Agents</h2>
+		          <div class="table-responsive">
+		            <table class="table table-striped">
+		              <thead>
+		                <tr>
+		                  <th>#</th>
+		                  <th>Name</th>
+		                  <th>Email</th>
+		                  <th>Action</th>
+		                </tr>
+		              </thead>
+		              <tbody th:unless="${#lists.isEmpty(agents)}">
+		                <tr th:each="agent : ${agents}">
+		                  <td th:text="${agent.primaryKey}">1</td>
+		                  <td th:text="${agent.fullName}">Gustavo Orsi</td>
+		                  <td th:text="${agent.email}">a@example.com</td>
+		                  <td>Delete | Edit</td>
+		                </tr>
+		                <tr>
+		                	<td colspan="4">
+		                		<nav>
+								  <ul class="pagination">
+								    <li th:class="${agents.number == 0} ? 'disabled' : ''" class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+								    
+								    <li th:class="${agents.number == status.index} ? 'active' : ''" class="active" th:each="p,status : ${new int[agents.totalPages]}">
+								    	<a th:href="@{/admin/listAllAgents?page=} + ${status.index} + '&amp;size=' + ${agents.size}" href="#" th:text="${status.index+1}"><span class="sr-only" >x</span></a>
+							    	</li>
+							    	
+							    	<li th:class="${agents.last} ? 'disabled' : ''" class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+								  </ul>
+								</nav>
+		                	</td>
+		                </tr>
+		              </tbody>
+		            </table>
+		          </div>
+		        </div>
+		      </div>
+		    
+		    
+		    <!-- Bootstrap core JavaScript
+		    ================================================== -->
+		    <!-- Placed at the end of the document so the pages load faster -->
+		    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		    <script src="../../../../../resources/js/app/home/home.js"  th:src="@{/resources/js/app/home/home.js}"></script>
+			    
+	    </div><!-- /.body - content -->
+	    
+	    </div>
+				
+	</body>
+	
+</html>

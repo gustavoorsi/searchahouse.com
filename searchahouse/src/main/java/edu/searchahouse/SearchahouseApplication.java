@@ -3,6 +3,7 @@ package edu.searchahouse;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -60,7 +61,7 @@ public class SearchahouseApplication {
         agentRepository.deleteAll();
 
         //@formatter:off
-		return (evt) -> Arrays.asList("1,2,3".split(","))
+        return (evt) -> IntStream.iterate(0, i -> i + 1).limit(100).mapToObj( Integer::toString )
 				.forEach(
 						index -> {
 							Property property = saveProperty(index, propertyRepository);
@@ -99,13 +100,13 @@ public class SearchahouseApplication {
                 "Property" + index, 
                 "description" + index, 
                 new Address(
-                        VALUES.get(Integer.valueOf(index))[0][0],
-                        VALUES.get(Integer.valueOf(index))[0][1], 
-                        VALUES.get(Integer.valueOf(index))[0][2]), 
+                        VALUES.get(Integer.valueOf(1))[0][0],
+                        VALUES.get(Integer.valueOf(1))[0][1], 
+                        VALUES.get(Integer.valueOf(1))[0][2]), 
                 100000L, 
                 PropertyType.SALE,
                 PropertyStatus.AVAILABLE);
-                property.setImageUrl(VALUES.get(Integer.valueOf(index))[1][0]);
+                property.setImageUrl(VALUES.get(Integer.valueOf(1))[1][0]);
                 propertyRepository.save(property);
                 
                 return property;

@@ -30,14 +30,14 @@
 			            <span class="icon-bar"></span>
 			            <span class="icon-bar"></span>
 			          </button>
-			          <a class="navbar-brand" href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Project name</a>
+			          <a class="navbar-brand" href="/">searchahouse.com | ADMIN</a>
 			        </div>
 			        <div id="navbar" class="navbar-collapse collapse">
 			          <ul class="nav navbar-nav navbar-right">
-			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Dashboard</a></li>
-			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Settings</a></li>
-			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Profile</a></li>
-			            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Help</a></li>
+			            <li><a href="#">Dashboard</a></li>
+			            <li><a href="#">Settings</a></li>
+			            <li><a href="#">Profile</a></li>
+			            <li><a href="#">Help</a></li>
 			          </ul>
 			          <form class="navbar-form navbar-right">
 			            <input type="text" class="form-control" placeholder="Search..." />
@@ -45,6 +45,19 @@
 			        </div>
 			      </div>
 			    </nav>
+			    
+			    <div class="container-fluid">
+			      <div class="row">
+			        <div class="col-sm-3 col-md-2 sidebar">
+			          <ul class="nav nav-sidebar">
+			          	<li th:classappend="${page == 'home' ? 'active' : ''}"><a href="#" th:href="@{/}">Home</a></li>
+			            <li th:classappend="${page == 'agents' ? 'active' : ''}"><a href="#" th:href="@{/admin/listAllAgents}">Agents</a></li>
+			            <li th:classappend="${page == 'properties' ? 'active' : ''}"><a href="#" th:href="@{/admin/listAllProperties}">Properties</a></li>
+			            <li><a href="#">Help</a></li>
+			          </ul>
+			        </div>
+		           </div>
+	             </div>
 		    </div><!-- /.header -->
 		
 		<!-- Bootstrap core JavaScript
