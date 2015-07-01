@@ -4,7 +4,7 @@
 	
 	<head>
 		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
-		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Admin Agents</title>
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Admin Properties</title>
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -16,7 +16,7 @@
 	    <!-- Custom styles for this template -->
 	    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet" />		
 		
-		<link href="../../../../../resources/css/app/agent/agent.css" th:href="@{/resources/css/app/agent/agent.css}" rel="stylesheet" media="screen" />
+		<link href="../../../../../resources/css/app/property/property.css" th:href="@{/resources/css/app/property/property.css}" rel="stylesheet" media="screen" />
 		
 	</head>
 	
@@ -28,35 +28,37 @@
 		      <div class="row">
 		        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 		
-		          <h2 class="sub-header">Agents</h2>
+		          <h2 class="sub-header">Properties</h2>
 		          <div class="table-responsive">
 		            <table class="table table-striped">
 		              <thead>
 		                <tr>
 		                  <th>#</th>
 		                  <th>Name</th>
-		                  <th>Email</th>
+		                  <th>description</th>
+		                  <th>type</th>
 		                  <th>Action</th>
 		                </tr>
 		              </thead>
-		              <tbody th:unless="${#lists.isEmpty(agents)}">
-		                <tr th:each="agent : ${agents}">
-		                  <td th:text="${agent.primaryKey}">1</td>
-		                  <td th:text="${agent.fullName}">Gustavo Orsi</td>
-		                  <td th:text="${agent.email}">a@example.com</td>
-		                  <td><a href="#" th:href="@{/admin/deleteAgent?agentId=} + ${agent.primaryKey}">Delete</a> | Edit</td>
+		              <tbody th:unless="${#lists.isEmpty(properties)}">
+		                <tr th:each="property : ${properties}">
+		                  <td th:text="${property.primaryKey}">1</td>
+		                  <td th:text="${property.name}">Property name</td>
+		                  <td th:text="${property.description}">desc</td>
+		                  <td th:text="${property.type}">Rent</td>
+		                  <td><a href="#" th:href="@{/admin/deleteProperty?propertyId=} + ${property.primaryKey}">Delete</a> | Edit</td>
 		                </tr>
 		                <tr>
 		                	<td colspan="4">
 		                		<nav>
 								  <ul class="pagination">
-								    <li th:class="${agents.number == 0} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllAgents?page=} + ${agents.number-1}" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+								    <li th:class="${properties.number == 0} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllProperties?page=} + ${properties.number-1}" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 								    
-								    <li th:class="${agents.number == status.index} ? 'active' : ''" class="active" th:each="p,status : ${new int[agents.totalPages]}">
-								    	<a th:href="@{/admin/listAllAgents?page=} + ${status.index} + '&amp;size=' + ${agents.size}" href="#" th:text="${status.index+1}"><span class="sr-only" >x</span></a>
+								    <li th:class="${properties.number == status.index} ? 'active' : ''" class="active" th:each="p,status : ${new int[properties.totalPages]}">
+								    	<a th:href="@{/admin/listAllProperties?page=} + ${status.index} + '&amp;size=' + ${properties.size}" href="#" th:text="${status.index+1}"><span class="sr-only" >x</span></a>
 							    	</li>
 							    	
-							    	<li th:class="${agents.last} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllAgents?page=} + ${agents.number+1}" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+							    	<li th:class="${properties.last} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllProperties?page=} + ${properties.number+1}" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 								  </ul>
 								</nav>
 		                	</td>
@@ -73,7 +75,7 @@
 		    <!-- Placed at the end of the document so the pages load faster -->
 		    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		    <script src="../../../../../resources/js/app/agent/agent.js"  th:src="@{/resources/js/app/agent/agent.js}"></script>
+		    <script src="../../../../../resources/js/app/property/property.js"  th:src="@{/resources/js/app/property/property.js}"></script>
 			    
 	    </div><!-- /.body - content -->
 	    

@@ -45,4 +45,11 @@ public class PropertyServiceImpl extends BaseService implements PropertyService 
 		return (Property) super.update(propertyId, input);
 	}
 
+	@Override
+	public void deleteProperty(String propertyId) {
+		
+		Property property = this.findPropertyByPrimaryKey(propertyId);
+		this.propertyRepository.delete(property);
+	}
+
 }

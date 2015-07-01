@@ -146,4 +146,24 @@ public class PropertyRestEndpoint {
 		return new ResponseEntity<>("The resource was updated ok.", httpHeaders, HttpStatus.NO_CONTENT);
 	}
 
+	/**
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * DELETE - Delete a Property
+	 * 
+	 * ----------------------------------------------------------------------------------------------------------------
+	 * 
+	 * Delete a Property. Throw 404 if resource does not exist.
+	 * 
+	 * @param propertyId
+	 * @return 200 OK. 404 if resource does not exist and 500 for any other exception (we should probably add a more specific error response)
+	 */
+	@RequestMapping(value = "/{propertyId}", method = RequestMethod.DELETE)
+	public HttpEntity<?> deleteProperty(//
+			@PathVariable("propertyId") final String propertyId //
+	) {
+		this.propertyService.deleteProperty(propertyId);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

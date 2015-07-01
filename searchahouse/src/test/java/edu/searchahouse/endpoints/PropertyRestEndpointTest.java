@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyString;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -13,12 +14,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 
+import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.Property;
+import edu.searchahouse.model.Property.PropertyStatus;
+import edu.searchahouse.model.Property.PropertyType;
 
 public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 
@@ -106,5 +112,18 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( jsonPath( "$[0].message",not( isEmptyString() )  ) );
 		//@formatter:on
 	}
+	
+	@Test
+    public void delete_property_shouldReturn_200_ok_badrequest_httpcode() throws Exception {
+    	
+    	Property property = new Property("toBeDeleted", "toBeDeleted", null, 10L, PropertyType.SALE, PropertyStatus.AVAILABLE);
+    	property.setPrimaryKey(UUID.randomUUID().toString());
+    	super.propertyRepository.save(property);
+
+        //@formatter:off
+		mockMvc.perform( delete("/api/v1/property/" + property.getPrimaryKey()) )
+			.andExpect( status().is2xxSuccessful() );
+		//@formatter:on
+    }
 
 }

@@ -73,7 +73,7 @@
 		      </div>
 		      
 		      <!-- Three columns of text below the carousel -->
-		      <div class="row">
+		      <div class="row" th:unless="${#lists.isEmpty(agents)}">
 		        <div class="col-lg-4">
 		          <img class="img-circle" src="http://ecx.images-amazon.com/images/I/410sbZ5S8LL._SY300_.jpg" alt="First Agent"  width="140" height="140"/>	
 		          <h2 th:text="${agents[0].firstName}">Heading 1</h2>

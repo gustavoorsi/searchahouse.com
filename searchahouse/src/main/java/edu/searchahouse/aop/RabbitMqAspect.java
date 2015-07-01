@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import edu.searchahouse.configuration.RabbitMqProducerConfiguration;
 import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.BaseEntity;
+import edu.searchahouse.model.BaseEntity.CrudOperation;
 import edu.searchahouse.model.Lead;
 import edu.searchahouse.model.Property;
-import edu.searchahouse.model.BaseEntity.CrudOperation;
 
 @Component
 @Aspect
@@ -58,10 +58,17 @@ public class RabbitMqAspect {
 	@After(value = "execution(* org.springframework.data.repository.*.delete(..))")
 	public void updateElasticsearch(final JoinPoint joinPoint) {
 
-		Agent entity = (Agent) joinPoint.getArgs()[0];
+		BaseEntity entity = (BaseEntity) joinPoint.getArgs()[0];
 		entity.setCrudOperation(CrudOperation.DELETE);
 
-		convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueAgent);
+		if (entity instanceof Agent) {
+			convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueAgent);
+		} else if (entity instanceof Property) {
+			convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueProperty);
+		} else if (entity instanceof Lead) {
+			convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueLead);
+		}
+
 	}
 
 	/**

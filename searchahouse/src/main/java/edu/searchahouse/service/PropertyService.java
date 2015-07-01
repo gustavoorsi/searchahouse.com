@@ -14,5 +14,7 @@ public interface PropertyService {
 	public Property save(Property input);
 
 	public Property update(final String propertyId, Property input);
+	
+	public void deleteProperty( final String propertyId );
 
 }
