@@ -20,6 +20,8 @@ public interface AgentService {
     public Agent update(final String agentId, Agent input);
 
     public Agent addLead(final String agentId, Lead lead);
+    
+    public void deleteAgent( final String agentId );
 
     public void updateLeadContactStatus(final String agentId, final String leadId, Lead lead);
 

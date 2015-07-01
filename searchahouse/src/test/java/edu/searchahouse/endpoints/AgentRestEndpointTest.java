@@ -62,15 +62,6 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
     }
 
     @Test
-    public void getAgent_shouldReturn_400_badrequest_httpcode() throws Exception {
-
-        //@formatter:off
-		mockMvc.perform(get( "/api/v1/agent/xxx" ))
-			.andExpect( status().isBadRequest() );
-		//@formatter:on
-    }
-
-    @Test
     public void getAgents_shouldReturn_two_agents_and_200_ok_httpcode() throws Exception {
 
         //@formatter:off

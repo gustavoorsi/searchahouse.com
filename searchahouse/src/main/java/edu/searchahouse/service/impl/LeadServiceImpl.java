@@ -1,6 +1,5 @@
 package edu.searchahouse.service.impl;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +27,7 @@ public class LeadServiceImpl extends BaseService implements LeadService {
 
 	@Override
 	public Lead findLeadByPrimaryKey(String id) {
-		return this.leadRepository.findLeadByPrimaryKey(new ObjectId(id)).orElseThrow(() -> new EntityNotFoundException("Lead"));
+		return this.leadRepository.findLeadByPrimaryKey(id).orElseThrow(() -> new EntityNotFoundException("Lead"));
 	}
 
 	@Override

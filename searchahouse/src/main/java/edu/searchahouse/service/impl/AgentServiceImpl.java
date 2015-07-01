@@ -2,7 +2,6 @@ package edu.searchahouse.service.impl;
 
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,116 +26,121 @@ import edu.searchahouse.service.AgentService;
 @Service
 public class AgentServiceImpl extends BaseService implements AgentService {
 
-    private final AgentRepository agentRepository;
-    private final PropertyRepository propertyRepository;
-    private final LeadRepository leadRepository;
+	private final AgentRepository agentRepository;
+	private final PropertyRepository propertyRepository;
+	private final LeadRepository leadRepository;
 
-    @Autowired
-    public AgentServiceImpl(//
-            final AgentRepository agentRepository, //
-            final PropertyRepository propertyRepository, //
-            final MongoOperations mongoOperations, //
-            final LeadRepository leadRepository //
-    ) {
-        super(mongoOperations);
-        this.agentRepository = agentRepository;
-        this.propertyRepository = propertyRepository;
-        this.leadRepository = leadRepository;
-    }
+	@Autowired
+	public AgentServiceImpl(//
+			final AgentRepository agentRepository, //
+			final PropertyRepository propertyRepository, //
+			final MongoOperations mongoOperations, //
+			final LeadRepository leadRepository //
+	) {
+		super(mongoOperations);
+		this.agentRepository = agentRepository;
+		this.propertyRepository = propertyRepository;
+		this.leadRepository = leadRepository;
+	}
 
-    @Override
-    public Agent findAgentByPrimaryKey(String id, final boolean lazyNested) {
+	@Override
+	public Agent findAgentByPrimaryKey(String id, final boolean lazyNested) {
 
-        Optional<Agent> agent;
+		Optional<Agent> agent;
 
-        if (lazyNested) {
-            agent = this.agentRepository.findAgentByPrimaryKeyLazyNestedCollections(new ObjectId(id));
-        } else {
-            agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(id));
-        }
+		if (lazyNested) {
+			agent = this.agentRepository.findAgentByPrimaryKeyLazyNestedCollections(id);
+		} else {
+			agent = this.agentRepository.findAgentByPrimaryKey(id);
+		}
 
-        return agent.orElseThrow(() -> new EntityNotFoundException("Agent"));
+		return agent.orElseThrow(() -> new EntityNotFoundException("Agent"));
 
-    }
+	}
 
-    @Override
-    public Page<Agent> findAgentsByPropertyId(String propertyId, Pageable pageable, final boolean lazyCollections) {
-        if( lazyCollections ){
-            return this.agentRepository.findAgentsByProperty(new ObjectId(propertyId), pageable);
-        } else {
-            return this.agentRepository.findAgentsByPropertyIncludeNestedCollections(new ObjectId(propertyId), pageable);
-        }
-        
-    }
-    
-    
+	@Override
+	public Page<Agent> findAgentsByPropertyId(String propertyId, Pageable pageable, final boolean lazyCollections) {
+		if (lazyCollections) {
+			return this.agentRepository.findAgentsByProperty(propertyId, pageable);
+		} else {
+			return this.agentRepository.findAgentsByPropertyIncludeNestedCollections(propertyId, pageable);
+		}
 
-    @Override
-    public Page<Agent> getAgentsByPage(Pageable pageable) {
-        return this.agentRepository.findAll(pageable);
-    }
+	}
 
-    @Override
-    public Agent save(Agent input) {
-        return this.agentRepository.save(input);
-    }
+	@Override
+	public Page<Agent> getAgentsByPage(Pageable pageable) {
+		return this.agentRepository.findAll(pageable);
+	}
 
-    @Override
-    public Agent update(String agentId, Agent input) {
-        return (Agent) super.update(agentId, input);
-    }
+	@Override
+	public Agent save(Agent input) {
+		return this.agentRepository.save(input);
+	}
 
-    @Override
-    public Agent addLead(final String agentId, Lead lead) {
+	@Override
+	public Agent update(String agentId, Agent input) {
+		return (Agent) super.update(agentId, input);
+	}
 
-        Agent agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
+	@Override
+	public Agent addLead(final String agentId, Lead lead) {
 
-        this.leadRepository.save(lead);
-        agent.addLead(lead);
+		Agent agent = this.agentRepository.findAgentByPrimaryKey(agentId).orElseThrow(() -> new EntityNotFoundException("Agent"));
 
-        return this.update(agentId, agent);
-    }
+		this.leadRepository.save(lead);
+		agent.addLead(lead);
 
-    @Override
-    public Property addProperty(final String agentId, final String propertyId) {
+		return this.update(agentId, agent);
+	}
 
-        Agent agent = this.agentRepository.findAgentByPrimaryKey(new ObjectId(agentId)).orElseThrow(() -> new EntityNotFoundException("Agent"));
-        Property property = this.propertyRepository.findPropertyByPrimaryKey(new ObjectId(propertyId)).orElseThrow(
-                () -> new EntityNotFoundException("Property"));
+	@Override
+	public void deleteAgent(String agentId) {
 
-        agent.addProperty(property);
+		Agent agent = this.findAgentByPrimaryKey(agentId, true);
 
-        this.agentRepository.save(agent);
+		this.agentRepository.delete(agent);
+	}
 
-        return property;
-    }
+	@Override
+	public Property addProperty(final String agentId, final String propertyId) {
 
-    @Override
-    public void updateLeadContactStatus(String agentId, String leadId, Lead lead) {
+		Agent agent = this.agentRepository.findAgentByPrimaryKey(agentId).orElseThrow(() -> new EntityNotFoundException("Agent"));
+		Property property = this.propertyRepository.findPropertyByPrimaryKey(propertyId).orElseThrow(() -> new EntityNotFoundException("Property"));
 
-        // update the lead entity
-        Query query = new Query(Criteria.where("_id").is(new ObjectId(leadId)) );
-        Update update = new Update();
-        update.set("contactStatus", lead.getContactStatus());
-        
-        WriteResult writeResult = getMongoOperations().updateMulti(query, update, Lead.class);
-        
-        if (writeResult.getN() == 0) {
-            throw new EntityNotUpdatedException("Lead");
-        }
-        
-        // update the nested lead entity in agent
-        Query queryNested = new Query(Criteria.where("_id").is(new ObjectId(agentId)).and("leads._id").is(new ObjectId(leadId)));
-        
-        Update updateNested = new Update();
-        updateNested.set("leads.0.contactStatus", lead.getContactStatus());
-        
-        WriteResult writeResultNested = getMongoOperations().updateMulti(queryNested, updateNested, Agent.class);
-        
-        if (writeResultNested.getN() == 0) {
-            throw new EntityNotUpdatedException("Nested Lead");
-        }
+		agent.addProperty(property);
 
-    }
+		this.agentRepository.save(agent);
+
+		return property;
+	}
+
+	@Override
+	public void updateLeadContactStatus(String agentId, String leadId, Lead lead) {
+
+		// update the lead entity
+		Query query = new Query(Criteria.where("_id").is(leadId));
+		Update update = new Update();
+		update.set("contactStatus", lead.getContactStatus());
+
+		WriteResult writeResult = getMongoOperations().updateMulti(query, update, Lead.class);
+
+		if (writeResult.getN() == 0) {
+			throw new EntityNotUpdatedException("Lead");
+		}
+
+		// update the nested lead entity in agent
+		Query queryNested = new Query(Criteria.where("_id").is(agentId).and("leads._id").is(leadId));
+
+		Update updateNested = new Update();
+		updateNested.set("leads.0.contactStatus", lead.getContactStatus());
+
+		WriteResult writeResultNested = getMongoOperations().updateMulti(queryNested, updateNested, Agent.class);
+
+		if (writeResultNested.getN() == 0) {
+			throw new EntityNotUpdatedException("Nested Lead");
+		}
+
+	}
 
 }

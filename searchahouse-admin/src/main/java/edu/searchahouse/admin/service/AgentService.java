@@ -8,5 +8,7 @@ import edu.searchahouse.admin.model.Agent;
 public interface AgentService {
 
 	Page<Agent> findAllAgents(final Pageable pageable);
+	
+	void deleteAgent( final String agentId );
 
 }

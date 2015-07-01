@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.searchahouse.admin.model.Agent;
@@ -40,6 +41,14 @@ public class AdminController {
 		model.put("page", "agents");
 
 		return new ModelAndView("sections/agent/agents", model);
+	}
+
+	@RequestMapping(value = "/deleteAgent", method = RequestMethod.GET)
+	public ModelAndView deleteAgent(@RequestParam("agentId") final String agentId) {
+
+		this.agentService.deleteAgent(agentId);
+
+		return listAgents(null);
 	}
 
 	@RequestMapping(value = "/listAllProperties", method = RequestMethod.GET)

@@ -44,7 +44,7 @@
 		                  <td th:text="${agent.primaryKey}">1</td>
 		                  <td th:text="${agent.fullName}">Gustavo Orsi</td>
 		                  <td th:text="${agent.email}">a@example.com</td>
-		                  <td>Delete | Edit</td>
+		                  <td><a href="#" th:href="@{/admin/deleteAgent?agentId=} + ${agent.primaryKey}">Delete</a> | Edit</td>
 		                </tr>
 		                <tr>
 		                	<td colspan="4">

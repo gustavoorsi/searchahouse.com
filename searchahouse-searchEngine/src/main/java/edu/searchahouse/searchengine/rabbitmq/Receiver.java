@@ -16,7 +16,7 @@ import edu.searchahouse.searchengine.persistence.repository.elasticsearch.Proper
 import edu.searchahouse.searchengine.service.PropertyService;
 
 // we don't want to execute the listener while testing.
-@Profile({"test","!integrationTest"})
+@Profile({"!test","!integrationTest"})
 @Component
 public class Receiver {
 

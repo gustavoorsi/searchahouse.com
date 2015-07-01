@@ -55,15 +55,6 @@ public class LeadRestEndpointTest extends AbstractRestEndpointTest {
 	}
 	
 	@Test
-    public void getLead_shouldReturn_400_badRequest_httpcode() throws Exception {
-
-        //@formatter:off
-        mockMvc.perform(get( "/api/v1/lead/xxx" ))
-            .andExpect( status().isBadRequest() );
-        //@formatter:on
-    }
-
-	@Test
 	public void getLeads_shouldReturn_two_leads_and_200_ok_httpcode() throws Exception {
 
 		//@formatter:off

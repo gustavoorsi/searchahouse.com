@@ -1,6 +1,7 @@
 package edu.searchahouse.endpoints;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -50,13 +51,16 @@ public class AbstractRestEndpointTest {
     }
 
     protected void createPropertiesForTest() {
-        propertyRepository.deleteAll();
+        this.propertyRepository.deleteAll();
 
         Arrays.asList("1,2".split(",")).forEach(
                 index -> {
                     Property property = new Property("Property" + index, "description" + index, new Address("CA", "test city", "test street"), 100000L, PropertyType.SALE,
                             PropertyStatus.AVAILABLE);
-                    propertyRepository.save(property);
+                    
+                    property.setPrimaryKey(UUID.randomUUID().toString());
+                    
+                    this.propertyRepository.save(property);
                 });
     }
 
@@ -66,6 +70,8 @@ public class AbstractRestEndpointTest {
         Arrays.asList("1,2".split(",")).forEach(index -> {
             Lead lead = new Lead("Lead" + index, "last name " + index, index + "lead@example.com", "012345678" + index);
 
+            lead.setPrimaryKey(UUID.randomUUID().toString());
+            
             leadRepository.save(lead);
         });
     }
@@ -75,6 +81,8 @@ public class AbstractRestEndpointTest {
 
         Arrays.asList("1,2".split(",")).forEach(index -> {
             Agent agent = new Agent("Agent" + index, "last name" + index, index + "agent@example.com");
+            
+            agent.setPrimaryKey(UUID.randomUUID().toString());
 
             agentRepository.save(agent);
         });

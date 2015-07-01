@@ -55,15 +55,6 @@ public class PropertyRestEndpointTest extends AbstractRestEndpointTest {
 	}
 	
 	@Test
-    public void getProperty_shouldReturn_400_badRequest_httpcode() throws Exception {
-
-        //@formatter:off
-        mockMvc.perform(get( "/api/v1/property/xxx" ))
-            .andExpect( status().isBadRequest() );
-        //@formatter:on
-    }
-
-	@Test
 	public void getProperties_shouldReturn_two_properties_and_200_ok_httpcode() throws Exception {
 
 		//@formatter:off
