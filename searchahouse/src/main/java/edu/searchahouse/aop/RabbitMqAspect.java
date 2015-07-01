@@ -1,5 +1,7 @@
 package edu.searchahouse.aop;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import edu.searchahouse.model.Agent;
 import edu.searchahouse.model.BaseEntity;
 import edu.searchahouse.model.Lead;
 import edu.searchahouse.model.Property;
+import edu.searchahouse.model.BaseEntity.CrudOperation;
 
 @Component
 @Aspect
@@ -34,6 +37,7 @@ public class RabbitMqAspect {
 	 */
 	@AfterReturning(value = "execution(* edu.searchahouse.repository.mongo.*.*(..))", returning = "entity")
 	public void updateElasticsearch(final Property entity) {
+		entity.setCrudOperation(CrudOperation.CREATE);
 		convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueProperty);
 	}
 
@@ -47,6 +51,16 @@ public class RabbitMqAspect {
 	 */
 	@AfterReturning(value = "execution(* edu.searchahouse.repository.mongo.*.*(..))", returning = "entity")
 	public void updateElasticsearch(final Agent entity) {
+		entity.setCrudOperation(CrudOperation.CREATE);
+		convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueAgent);
+	}
+
+	@After(value = "execution(* org.springframework.data.repository.*.delete(..))")
+	public void updateElasticsearch(final JoinPoint joinPoint) {
+
+		Agent entity = (Agent) joinPoint.getArgs()[0];
+		entity.setCrudOperation(CrudOperation.DELETE);
+
 		convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueAgent);
 	}
 
@@ -60,6 +74,7 @@ public class RabbitMqAspect {
 	 */
 	@AfterReturning(value = "execution(* edu.searchahouse.repository.mongo.*.*(..))", returning = "entity")
 	public void updateElasticsearch(final Lead entity) {
+		entity.setCrudOperation(CrudOperation.CREATE);
 		convertAndSend(entity, RabbitMqProducerConfiguration.amqpQueueLead);
 	}
 

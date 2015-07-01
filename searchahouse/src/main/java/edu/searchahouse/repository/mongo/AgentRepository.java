@@ -23,5 +23,5 @@ public interface AgentRepository extends MongoRepository<Agent, String> {
 	Page<Agent> findAgentsByPropertyIncludeNestedCollections(final String propertyPrimaryKey, Pageable pageable);
 
 	Optional<Agent> findAgentByEmail(final String email);
-
+	
 }

@@ -9,9 +9,12 @@ import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -204,5 +207,21 @@ public class AgentRestEndpointTest extends AbstractRestEndpointTest {
 			.andExpect( status().isBadRequest() );
 		//@formatter:on
     }
+    
+    
+    @Test
+    public void delete_agent_shouldReturn_200_ok_badrequest_httpcode() throws Exception {
+    	
+    	Agent agent = new Agent("toBeDeleted", "toBeDeleted", "toBeDeleted@example.com");
+        agent.setPrimaryKey(UUID.randomUUID().toString());
+        agentRepository.save(agent);
+
+        //@formatter:off
+		mockMvc.perform( delete("/api/v1/agent/" + agent.getPrimaryKey()) )
+			.andExpect( status().is2xxSuccessful() );
+		//@formatter:on
+    }
+    
 
 }
+
