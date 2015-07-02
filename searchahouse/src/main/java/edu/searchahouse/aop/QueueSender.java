@@ -22,7 +22,7 @@ public class QueueSender {
     }
 
     @Async
-    public void convertAndSend(final BaseEntity entity, final String routingKey) {
+    public void convertAndSend(final EntityWrapperAmqp<? extends BaseEntity> entity, final String routingKey) {
         this.rabbitMessagingTemplate.setMessageConverter(this.mappingJackson2MessageConverter);
         this.rabbitMessagingTemplate.convertAndSend(RabbitMqProducerConfiguration.amqpTopicExchange, routingKey, entity);
     }

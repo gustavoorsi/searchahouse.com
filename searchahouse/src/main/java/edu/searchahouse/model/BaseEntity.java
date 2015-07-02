@@ -20,63 +20,49 @@ import org.springframework.hateoas.ResourceSupport;
 @Document
 public abstract class BaseEntity extends ResourceSupport {
 
-	@Id
-	private String primaryKey;
+    @Id
+    private String primaryKey;
 
-	@Version
-	private Long version;
+    @Version
+    private Long version;
 
-	private CrudOperation crudOperation;
+    public String getPrimaryKey() {
+        return primaryKey;
+    }
 
-	public String getPrimaryKey() {
-		return primaryKey;
-	}
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
+    }
 
-	public void setPrimaryKey(String primaryKey) {
-		this.primaryKey = primaryKey;
-	}
+    public Long getVersion() {
+        return version;
+    }
 
-	public Long getVersion() {
-		return version;
-	}
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
-	public void setVersion(Long version) {
-		this.version = version;
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
 
-	public CrudOperation getCrudOperation() {
-		return crudOperation;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, false);
+    }
 
-	public void setCrudOperation(CrudOperation crudOperation) {
-		this.crudOperation = crudOperation;
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
-	}
+    public abstract Map<String, Object> toMap();
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj, false);
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public abstract Map<String, Object> toMap();
-
-	protected void put(Map<String, Object> map, Object field, String fieldName) {
-		if (field != null) {
-			map.put(fieldName, field);
-		}
-	}
-
-	public enum CrudOperation {
-		CREATE, UPDATE, DELETE;
-	}
+    protected void put(Map<String, Object> map, Object field, String fieldName) {
+        if (field != null) {
+            map.put(fieldName, field);
+        }
+    }
 
 }
