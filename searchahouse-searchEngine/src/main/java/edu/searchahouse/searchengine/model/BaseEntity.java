@@ -18,56 +18,42 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public abstract class BaseEntity extends ResourceSupport {
 
-	@Id
-	private String primaryKey;
+    @Id
+    private String primaryKey;
 
-	@JsonIgnore
-	@Version
-	private Long version;
+    @JsonIgnore
+    @Version
+    private Long version;
 
-	private CrudOperation crudOperation;
+    public String getPrimaryKey() {
+        return primaryKey;
+    }
 
-	public String getPrimaryKey() {
-		return primaryKey;
-	}
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
+    }
 
-	public void setPrimaryKey(String primaryKey) {
-		this.primaryKey = primaryKey;
-	}
+    public Long getVersion() {
+        return version;
+    }
 
-	public Long getVersion() {
-		return version;
-	}
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
-	public void setVersion(Long version) {
-		this.version = version;
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
 
-	public CrudOperation getCrudOperation() {
-		return crudOperation;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, false);
+    }
 
-	public void setCrudOperation(CrudOperation crudOperation) {
-		this.crudOperation = crudOperation;
-	}
-
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj, false);
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public enum CrudOperation {
-		CREATE, UPDATE, DELETE;
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }

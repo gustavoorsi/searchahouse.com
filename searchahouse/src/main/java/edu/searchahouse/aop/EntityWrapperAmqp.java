@@ -1,7 +1,11 @@
 package edu.searchahouse.aop;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+
 import edu.searchahouse.model.BaseEntity;
 
+@JsonAutoDetect( fieldVisibility = Visibility.ANY )
 public class EntityWrapperAmqp<E extends BaseEntity> {
 
     private E entity;
