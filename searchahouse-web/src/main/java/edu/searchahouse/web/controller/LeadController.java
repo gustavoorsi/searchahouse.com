@@ -22,11 +22,11 @@ public class LeadController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView saveNewLead(Lead lead, @RequestParam( value="propertyId", required=true) String propertyId) {
+	public String saveNewLead(Lead lead, @RequestParam( value="propertyId", required=true) String propertyId) {
 		
 		this.agentService.addLeadToAgentForProperty(lead, propertyId);
 		
-		return new ModelAndView("sections/property/property");
+		return "redirect:/properties/" + propertyId;
 	}
 
 }

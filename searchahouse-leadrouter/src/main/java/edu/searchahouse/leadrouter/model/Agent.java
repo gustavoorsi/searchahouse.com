@@ -17,13 +17,67 @@ import java.util.Collection;
 //@formatter:on
 public class Agent extends BaseEntity {
 
-    private Collection<Lead> leads;
+	private String firstName;
 
-    public Agent() {
-    }
+	private String lastName;
 
-    public Collection<Lead> getLeads() {
-        return leads;
-    }
+	private String email;
+
+	private String imageUrl;
+
+	private Collection<Property> properties;
+
+	private Collection<Lead> leads;
+
+	public Agent() {
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public Collection<Property> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Collection<Property> properties) {
+		this.properties = properties;
+	}
+
+	public Collection<Lead> getLeads() {
+		return leads;
+	}
+
+	public void setLeads(Collection<Lead> leads) {
+		this.leads = leads;
+	}
 
 }

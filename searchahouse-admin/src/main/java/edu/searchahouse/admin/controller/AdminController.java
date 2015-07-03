@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.searchahouse.admin.model.Agent;
+import edu.searchahouse.admin.model.Lead;
 import edu.searchahouse.admin.model.Property;
 import edu.searchahouse.admin.service.AgentService;
+import edu.searchahouse.admin.service.LeadsService;
 import edu.searchahouse.admin.service.PropertyService;
 
 @Controller
@@ -25,11 +27,13 @@ public class AdminController {
 
 	private final AgentService agentService;
 	private final PropertyService propertyService;
+	private final LeadsService leadService;
 
 	@Autowired
-	public AdminController(final AgentService agentService, final PropertyService propertyService) {
+	public AdminController(final AgentService agentService, final PropertyService propertyService, final LeadsService leadService) {
 		this.agentService = agentService;
 		this.propertyService = propertyService;
+		this.leadService = leadService;
 	}
 
 	@RequestMapping(value = "/listAllAgents", method = RequestMethod.GET)
@@ -72,6 +76,19 @@ public class AdminController {
 		this.propertyService.deleteProperty(propertyId);
 
 		return listProperties(new PageRequest(0, 10));
+	}
+	
+	@RequestMapping(value = "/listAllLeads", method = RequestMethod.GET)
+	public ModelAndView listLeads(@PageableDefault(size = 10, page = 0) final Pageable pageable) {
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		Page<Lead> leads = this.leadService.findAllLeads(pageable);
+
+		model.put("leads", leads);
+		model.put("page", "leads");
+
+		return new ModelAndView("sections/lead/leads", model);
 	}
 
 }

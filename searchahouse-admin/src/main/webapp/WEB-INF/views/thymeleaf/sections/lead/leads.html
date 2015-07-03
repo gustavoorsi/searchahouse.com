@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html layout:decorator="layouts/basic_layout" lan="en">
+	
+	<head>
+		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Admin Leads</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+
+		<!-- Bootstrap core CSS -->
+	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+	
+	    <!-- Custom styles for this template -->
+	    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet" />		
+		
+		<link href="../../../../../resources/css/app/lead/lead.css" th:href="@{/resources/css/app/lead/lead.css}" rel="stylesheet" media="screen" />
+		
+	</head>
+	
+	<body>
+	
+		<div layout:fragment="content" >
+		
+			<div class="container-fluid">
+		      <div class="row">
+		        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		
+		          <h2 class="sub-header">Leads</h2>
+		          <div class="table-responsive">
+		            <table class="table table-striped">
+		              <thead>
+		                <tr>
+		                  <th>#</th>
+		                  <th>Name</th>
+		                  <th>Email</th>
+		                  <th>Action</th>
+		                </tr>
+		              </thead>
+		              <tbody th:unless="${#lists.isEmpty(leads)}">
+		                <tr th:each="lead : ${leads}">
+		                  <td th:text="${lead.primaryKey}">1</td>
+		                  <td th:text="${lead.firstName + ', ' + lead.lastName}">Gustavo Orsi</td>
+		                  <td th:text="${lead.email}">a@example.com</td>
+		                  <td><a href="#" th:href="@{/admin/deleteLead?leadId=} + ${lead.primaryKey}">Delete</a> | Edit</td>
+		                </tr>
+		                <tr>
+		                	<td colspan="4">
+		                		<nav>
+								  <ul class="pagination">
+								    <li th:class="${leads.number == 0} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllLeads?page=} + ${leads.number-1}" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+								    
+								    <li th:class="${leads.number == status.index} ? 'active' : ''" class="active" th:each="p,status : ${new int[leads.totalPages]}">
+								    	<a th:href="@{/admin/listAllLeads?page=} + ${status.index} + '&amp;size=' + ${leads.size}" href="#" th:text="${status.index+1}"><span class="sr-only" >x</span></a>
+							    	</li>
+							    	
+							    	<li th:class="${leads.last} ? 'disabled' : ''" class="disabled"><a th:href="@{/admin/listAllLeads?page=} + ${leads.number+1}" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+								  </ul>
+								</nav>
+		                	</td>
+		                </tr>
+		              </tbody>
+		            </table>
+		          </div>
+		        </div>
+		      </div>
+		    
+		    
+		    <!-- Bootstrap core JavaScript
+		    ================================================== -->
+		    <!-- Placed at the end of the document so the pages load faster -->
+		    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		    <script src="../../../../../resources/js/app/lead/lead.js"  th:src="@{/resources/js/app/lead/lead.js}"></script>
+			    
+	    </div><!-- /.body - content -->
+	    
+	    </div>
+				
+	</body>
+	
+</html>

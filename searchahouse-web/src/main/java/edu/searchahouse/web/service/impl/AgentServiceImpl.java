@@ -19,60 +19,67 @@ import edu.searchahouse.web.service.AgentService;
 @Service
 public class AgentServiceImpl implements AgentService {
 
-    private final RestTemplate restTemplate;
+	private final RestTemplate restTemplate;
 
-    @Autowired
-    public AgentServiceImpl(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+	@Autowired
+	public AgentServiceImpl(final RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
 
-    @Override
-    public Collection<Agent> findTopAgents(int n) {
+	@Override
+	public Collection<Agent> findTopAgents(int n) {
 
-        String endpoint = "http://localhost:8081/api/v1/agent";
+		String endpoint = "http://localhost:8081/api/v1/agent";
 
-        ResponseEntity<PagedResources<Resource<Agent>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
-                new ParameterizedTypeReference<PagedResources<Resource<Agent>>>() {
-                });
+		ResponseEntity<PagedResources<Resource<Agent>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
+				new ParameterizedTypeReference<PagedResources<Resource<Agent>>>() {
+				});
 
-        Collection<Agent> agents = pagedResourceResponse.getBody().getContent().stream().map(Resource::getContent).collect(Collectors.toList());
+		Collection<Agent> agents = pagedResourceResponse.getBody().getContent().stream().map(Resource::getContent)
+				.collect(Collectors.toList());
 
-        return agents;
-    }
+		return agents;
+	}
 
-    @Override
-    public Agent findById(final String id) {
+	@Override
+	public Agent findById(final String id) {
 
-        String endpoint = "http://localhost:8081/api/v1/agent/" + id;
+		String endpoint = "http://localhost:8081/api/v1/agent/" + id;
 
-        ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
-                new ParameterizedTypeReference<Resource<Agent>>() {
-                });
+		ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
+				new ParameterizedTypeReference<Resource<Agent>>() {
+				});
 
-        Agent agent = resourceResponse.getBody().getContent();
+		Agent agent = resourceResponse.getBody().getContent();
 
-        return agent;
-    }
+		return agent;
+	}
 
-    @Override
-    public Agent findByEmail(final String email) {
+	@Override
+	public Agent findByEmail(final String email) {
 
-        String endpoint = "http://localhost:8081/api/v1/agent?email=" + email;
+		String endpoint = "http://localhost:8081/api/v1/agent?email=" + email;
 
-        ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
-                new ParameterizedTypeReference<Resource<Agent>>() {
-                });
+		ResponseEntity<Resource<Agent>> resourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
+				new ParameterizedTypeReference<Resource<Agent>>() {
+				});
 
-        Agent agent = resourceResponse.getBody().getContent();
+		Agent agent = resourceResponse.getBody().getContent();
 
-        return agent;
-    }
+		return agent;
+	}
 
-    @Override
-    public void addLeadToAgentForProperty(Lead lead, String propertyId) {
-        
-        // TODO: delegate to the "Lead Router" microservice.
+	@Override
+	public void addLeadToAgentForProperty(Lead lead, String propertyId) {
 
-    }
+		String endpoint = "http://localhost:9090/api/v1/leadrouter?propertyId=" + propertyId;
+
+		ResponseEntity<?> response = this.restTemplate.postForEntity(endpoint, lead, ResponseEntity.class);
+
+		if (!response.getStatusCode().is2xxSuccessful()) {
+			throw new RuntimeException("Could not assign lead to an agent.");
+		}
+
+	}
 
 }
