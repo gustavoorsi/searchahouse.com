@@ -106,8 +106,7 @@ public class LeadRouterServiceImpl implements LeadRouterService {
 
 		// get a new instance of restTemplate and set the jackson2 message converter (which does not supports hal format).
 		// NOTE: The jackson2 message converter we used before had an object mapper that support hal format (which was ok for GET the list of agents because
-		// they
-		// are returned in hal format) but here we are sending (POST) in plain json (not hal) format.
+		// they are returned in hal format from other microservice) but here we are sending (POST) in plain json (not hal) format.
 		RestTemplate restTemplate = new RestTemplate(Arrays.asList(new MappingJackson2HttpMessageConverter()));
 
 		// assign the lead to the agent.
