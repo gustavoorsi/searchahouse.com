@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="searchahouse-spaweb" ng-cloak="ng-cloak">
+
+<head>
+<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+<title>searchahouse.com</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- CSS resources -->
+<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+<link href="http://getbootstrap.com/examples/carousel/carousel.css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+
+	<!-- global container -->
+	<div>
+
+		<div ng-include src="'views/header.html'"></div>
+		<!-- header -->
+		<div ng-include src="'views/carousel.html'"></div>
+		<!-- carousel -->
+		<div ng-view></div>
+		<!-- body - content -->
+		<div ng-include src="'views/footer.html'"></div>
+		<!-- footer -->
+
+	</div>
+	<!-- /.global container -->
+
+
+	<!-- javascript resources -->
+	<script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+	<script src="http://cdn.jsdelivr.net/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>
+	<script src="../../../../../resources/js/app.js"></script>
+	<script src="../../../../../resources/js/sections/home/HomeController.js"></script>
+	<script src="../../../../../resources/js/sections/about/AboutController.js"></script>
+	<script src="../../../../../resources/js/sections/agent/AgentController.js"></script>
+	<script src="../../../../../resources/js/sections/agent/AgentListController.js"></script>
+	<script src="../../../../../resources/js/sections/property/PropertyController.js"></script>
+	<script src="../../../../../resources/js/sections/property/PropertyListController.js"></script>
+
+</body>
+</html>

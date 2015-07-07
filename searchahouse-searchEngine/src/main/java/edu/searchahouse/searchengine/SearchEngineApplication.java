@@ -71,12 +71,12 @@ public class SearchEngineApplication {
 		leadRepository.deleteAll();
 		locationRepository.deleteAll();
 
-		populateLocations(locationRepository);
+//		populateLocations(locationRepository);
 
 		return (evt) -> Arrays.asList("1,2,4,5,6".split(",")).forEach(index -> {
-			Property property = createProperty(index, propertyRepository);
-			Lead lead = createLead(index, leadRepository);
-			Agent agent = createAgent(index, agentRepository, property, lead);
+//			Property property = createProperty(index, propertyRepository);
+//			Lead lead = createLead(index, leadRepository);
+//			Agent agent = createAgent(index, agentRepository, property, lead);
 		});
 	}
 

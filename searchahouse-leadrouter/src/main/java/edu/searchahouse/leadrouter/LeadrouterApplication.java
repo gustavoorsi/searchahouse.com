@@ -12,24 +12,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootApplication
 public class LeadrouterApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LeadrouterApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LeadrouterApplication.class, args);
+    }
 
-	@Bean
-	public MappingJackson2HttpMessageConverter jackson2Converter() {
-		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-		converter.setObjectMapper(objectMapper());
-		return converter;
-	}
+//    @Bean
+//    public MappingJackson2HttpMessageConverter jackson2Converter() {
+//        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+////        converter.setObjectMapper(halObjectMapper());
+//        return converter;
+//    }
 
-	@Bean
-	public ObjectMapper objectMapper() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		objectMapper.registerModule(new Jackson2HalModule()); // support hal+json
-
-		return objectMapper;
-	}
+//    @Bean
+//    public ObjectMapper halObjectMapper() {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        objectMapper.registerModule(new Jackson2HalModule()); // support hal+json
+//
+//        return objectMapper;
+//    }
 
 }

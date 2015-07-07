@@ -1,150 +1,178 @@
 <!DOCTYPE html>
 
 <html layout:decorator="layouts/basic_layout" lan="en">
-	
-	<head>
-		<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
-		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Layout title</title>
-		<meta charset="utf-8"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		
-		<!-- CSS resources -->
-		<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-		<link href="http://getbootstrap.com/examples/carousel/carousel.css" rel="stylesheet"/>
-		<link href="../../../../../resources/css/app/home/home.js" th:href="@{/resources/css/app/home/home.css}" rel="stylesheet" media="screen" />
-		
-	</head>
-	
-	<body>
-	
-	
-		<div layout:fragment="content" ng-app="myApp" >
-		    
-			<!-- Marketing messaging and featurettes
+
+<head>
+<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Layout title</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- CSS resources -->
+<link href="http://cdn.jsdelivr.net/bootstrap/3.3.5/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link href="http://getbootstrap.com/examples/carousel/carousel.css" rel="stylesheet" />
+<link href="../../../../../resources/css/app/home/home.js" th:href="@{/resources/css/app/home/home.css}" rel="stylesheet" media="screen" />
+
+</head>
+
+<body>
+
+
+	<div layout:fragment="content" ng-app="myApp">
+
+		<!-- Marketing messaging and featurettes
 		    ================================================== -->
-		    <!-- Wrap the rest of the page in another container to center all the content. -->
-		
-		    <div class="container marketing" >
-		
-				
-				<div id="searchByPropertyAddressDiv" ng-controller="PropertyAutocompleteController" ng-cloak="ng-cloak">
-				
-					<div class="row">
-						  <div class="col-lg-12">
-						    <div class="input-group">
-						      <input type="text" class="form-control" placeholder="Search for properties by address (state, city or street)..." ng-model="propertySearch" ng-keydown="change()" onclick="select()" autofocus="autofocus" id="propertySearchInput" />
-						      <span class="input-group-btn">
-						        <button class="btn btn-default" type="button">Go!</button>
-						      </span>
-						    </div><!-- /input-group -->
-						    
-						  </div><!-- /.col-lg-6 -->
-						  
-					</div><!-- /.row -->
-					
-					
-					
-					<div ng-if="properties.page.totalElements > 0" id="propertiesResult">
-					
-						<hr class="featurette-divider" />
-							  	
-				  		<div class="row">
-	        				<div class="col-lg-4" ng-repeat="property in properties._embedded.propertyList" >
-	        				<a href="http://localhost/properties/{{property.primaryKey}}" ><img class="img-circle" src="http://icons.iconarchive.com/icons/artdesigner/urban-stories/256/House-icon.png" /></a>
-	        					<h4>{{property.address.state}}, {{property.address.city}}, {{property.address.street}}</h4>
-	        				</div>
-        				</div>
-					  
+		<!-- Wrap the rest of the page in another container to center all the content. -->
+
+		<div class="container marketing">
+
+
+			<div id="searchByPropertyAddressDiv" ng-controller="PropertyAutocompleteController" ng-cloak="ng-cloak">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search for properties by address (state, city or street)..."
+								ng-model="propertySearch" ng-keydown="change()" onclick="select()" autofocus="autofocus" id="propertySearchInput" /> <span
+								class="input-group-btn">
+								<button class="btn btn-default" type="button">Go!</button>
+							</span>
+						</div>
+						<!-- /input-group -->
+
 					</div>
-					  
-					  <div ng-show="!propertySearch">
-				        No results found.
-				      </div>
-			      
-			      </div>				
-				
-				<hr class="featurette-divider" />
-		      
-		      <div class="row">
-		      	<div class="col-lg-12">
-		      		<p>Top 3 agents</p>
-		      	</div>
-		      </div>
-		      
-		      <!-- Three columns of text below the carousel -->
-		      <div class="row" th:unless="${#lists.isEmpty(agents)}">
-		        <div class="col-lg-4">
-		          <img class="img-circle" src="http://ecx.images-amazon.com/images/I/410sbZ5S8LL._SY300_.jpg" alt="First Agent"  width="140" height="140"/>	
-		          <h2 th:text="${agents[0].firstName}">Heading 1</h2>
-		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[0].primaryKey})}" role="button">View details »</a></p>
-		        </div><!-- /.col-lg-4 -->
-		        <div class="col-lg-4">
-		          <img class="img-circle" src="https://slm-assets3.secondlife.com/assets/5904652/lightbox/Captain%20America%20from%20The%20Avengers%20v.jpg?1342192256" alt="Second Agent"  width="140" height="140"/>
-		          <h2 th:text="${agents[1].firstName}">Heading 2</h2>
-		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[1].primaryKey})}" role="button">View details »</a></p>
-		        </div><!-- /.col-lg-4 -->
-		        <div class="col-lg-4">
-		          <img class="img-circle" src="http://images5.fanpop.com/image/photos/30800000/Iron-Man-the-avengers-30880583-471-500.jpg" alt="Third Agent"  width="140" height="140"/>
-		          <h2 th:text="${agents[2].firstName}">Heading 3</h2>
-		          <p><a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[2].primaryKey})}" role="button">View details »</a></p>
-		        </div><!-- /.col-lg-4 -->
-		      </div><!-- /.row -->
-		      
-		      
-		      
-		      
-		      
-		
-		
-		      <!-- START THE FEATURETTES -->
-		
-		      <hr class="featurette-divider" />
-		
-		      <div class="row featurette">
-		        <div class="col-md-7">
-		          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-		          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-		        </div>
-		        <div class="col-md-5">
-		          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image"/>
-		        </div>
-		      </div>
-		
-		      <hr class="featurette-divider" />
-		
-		      <div class="row featurette">
-		        <div class="col-md-7 col-md-push-5">
-		          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-		          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-		        </div>
-		        <div class="col-md-5 col-md-pull-7">
-		          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image"/>
-		        </div>
-		      </div>
-		
-		      <hr class="featurette-divider" />
-		
-		      <div class="row featurette">
-		        <div class="col-md-7">
-		          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-		          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-		        </div>
-		        <div class="col-md-5">
-		          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image"/>
-		        </div>
-		      </div>
-		
-		      <hr class="featurette-divider" />
-		
-		      <!-- /END THE FEATURETTES -->
-		
-		    </div><!-- /.container -->
-		    
-		    <script src="../../../../../resources/js/app/home/home.js"  th:src="@{/resources/js/app/home/home.js}"></script>
-			    
-	    </div><!-- /.body - content -->
-				
-	</body>
-	
+					<!-- /.col-lg-6 -->
+
+				</div>
+				<!-- /.row -->
+
+
+
+				<div ng-if="properties.page.totalElements > 0" id="propertiesResult">
+
+					<hr class="featurette-divider" />
+
+					<div class="row">
+						<div class="col-lg-4" ng-repeat="property in properties._embedded.propertyList">
+							<a href="http://localhost/properties/{{property.primaryKey}}"><img class="img-circle"
+								src="http://icons.iconarchive.com/icons/artdesigner/urban-stories/256/House-icon.png" /></a>
+							<h4>{{property.address.state}}, {{property.address.city}}, {{property.address.street}}</h4>
+						</div>
+					</div>
+
+				</div>
+
+				<div ng-show="!propertySearch">No results found.</div>
+
+			</div>
+
+			<hr class="featurette-divider" />
+
+			<div class="row">
+				<div class="col-lg-12">
+					<p>Top 3 agents</p>
+				</div>
+			</div>
+
+			<!-- Three columns of text below the carousel -->
+			<div class="row" th:unless="${#lists.isEmpty(agents)}">
+				<div class="col-lg-4">
+					<img class="img-circle" src="http://ecx.images-amazon.com/images/I/410sbZ5S8LL._SY300_.jpg" alt="First Agent" width="140" height="140" />
+					<h2 th:text="${agents[0].firstName}">Heading 1</h2>
+					<p>
+						<a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[0].primaryKey})}" role="button">View details »</a>
+					</p>
+				</div>
+				<!-- /.col-lg-4 -->
+				<div class="col-lg-4">
+					<img class="img-circle"
+						src="https://slm-assets3.secondlife.com/assets/5904652/lightbox/Captain%20America%20from%20The%20Avengers%20v.jpg?1342192256"
+						alt="Second Agent" width="140" height="140" />
+					<h2 th:text="${agents[1].firstName}">Heading 2</h2>
+					<p>
+						<a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[1].primaryKey})}" role="button">View details »</a>
+					</p>
+				</div>
+				<!-- /.col-lg-4 -->
+				<div class="col-lg-4">
+					<img class="img-circle" src="http://images5.fanpop.com/image/photos/30800000/Iron-Man-the-avengers-30880583-471-500.jpg"
+						alt="Third Agent" width="140" height="140" />
+					<h2 th:text="${agents[2].firstName}">Heading 3</h2>
+					<p>
+						<a class="btn btn-default" href="#" th:href="@{/agents/{agentId}(agentId=${agents[2].primaryKey})}" role="button">View details »</a>
+					</p>
+				</div>
+				<!-- /.col-lg-4 -->
+			</div>
+			<!-- /.row -->
+
+
+
+
+
+
+
+			<!-- START THE FEATURETTES -->
+
+			<hr class="featurette-divider" />
+
+			<div class="row featurette">
+				<div class="col-md-7">
+					<h2 class="featurette-heading">
+						First featurette heading. <span class="text-muted">It'll blow your mind.</span>
+					</h2>
+					<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
+						commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+				</div>
+				<div class="col-md-5">
+					<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image" />
+				</div>
+			</div>
+
+			<hr class="featurette-divider" />
+
+			<div class="row featurette">
+				<div class="col-md-7 col-md-push-5">
+					<h2 class="featurette-heading">
+						Oh yeah, it's that good. <span class="text-muted">See for yourself.</span>
+					</h2>
+					<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
+						commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+				</div>
+				<div class="col-md-5 col-md-pull-7">
+					<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image" />
+				</div>
+			</div>
+
+			<hr class="featurette-divider" />
+
+			<div class="row featurette">
+				<div class="col-md-7">
+					<h2 class="featurette-heading">
+						And lastly, this one. <span class="text-muted">Checkmate.</span>
+					</h2>
+					<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
+						commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+				</div>
+				<div class="col-md-5">
+					<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image" />
+				</div>
+			</div>
+
+			<hr class="featurette-divider" />
+
+			<!-- /END THE FEATURETTES -->
+
+		</div>
+		<!-- /.container -->
+
+		<script src="../../../../../resources/js/app/home/home.js" th:src="@{/resources/js/app/home/home.js}"></script>
+
+	</div>
+	<!-- /.body - content -->
+
+</body>
+
 </html>

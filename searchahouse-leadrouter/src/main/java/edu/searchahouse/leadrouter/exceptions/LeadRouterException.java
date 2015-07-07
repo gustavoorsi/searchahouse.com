@@ -11,9 +11,9 @@ package edu.searchahouse.leadrouter.exceptions;
  */
 @SuppressWarnings("serial")
 public class LeadRouterException extends RuntimeException {
-
+    
 	public LeadRouterException(String message) {
-		super("");
+		super(message);
 	}
 	
 	public LeadRouterException( Exception e, String message ){

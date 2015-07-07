@@ -59,10 +59,6 @@ public class AgentServiceImpl implements AgentService {
 		
 		Agent agent = this.agentRepository.findOne(id);
 		
-		// TODO: find a way to exclude nested list from agent (properties, leads) in the repository layer.
-		agent.setProperties(null);
-		agent.setLeads(null);
-
         return agent;
 	}
 	

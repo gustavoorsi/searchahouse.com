@@ -1,0 +1,122 @@
+<div>
+
+	<div class="container marketing">
+
+
+		<div id="searchByPropertyAddressDiv">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search for properties by address (state, city or street)..."
+							ng-model="propertySearch" ng-keydown="change()" onclick="select()" autofocus="autofocus" id="propertySearchInput" /> <span
+							class="input-group-btn">
+							<button class="btn btn-default" type="button">Go!</button>
+						</span>
+					</div>
+					<!-- /input-group -->
+
+				</div>
+				<!-- /.col-lg-6 -->
+
+			</div>
+			<!-- /.row -->
+
+
+
+			<div ng-if="properties.page.totalElements > 0" id="propertiesResult">
+
+				<hr class="featurette-divider" />
+
+				<div class="row">
+					<div class="col-lg-4" ng-repeat="property in properties._embedded.propertyList">
+						<a href="#/property/{{property.primaryKey}}"><img class="img-circle"
+							src="http://icons.iconarchive.com/icons/artdesigner/urban-stories/256/House-icon.png" /></a>
+						<h4>{{property.address.state}}, {{property.address.city}}, {{property.address.street}}</h4>
+					</div>
+				</div>
+
+			</div>
+
+			<div ng-show="!propertySearch">No results found.</div>
+
+		</div>
+
+		<hr class="featurette-divider" />
+
+		<div class="row">
+			<div class="col-lg-12">
+				<p>Top 3 agents</p>
+			</div>
+		</div>
+
+		<!-- Three columns of text below the carousel -->
+		<div class="row" >
+			<div class="col-lg-4" ng-repeat="agent in agents">
+				<img class="img-circle" src="http://ecx.images-amazon.com/images/I/410sbZ5S8LL._SY300_.jpg" alt="First Agent" width="140" height="140" />
+				<h2>{{agent.firstName}}</h2>
+				<p>
+					<a class="btn btn-default" ng-href="#/agent/{{agent.primaryKey}}" role="button">View details »</a>
+				</p>
+			</div>
+		</div>
+		<!-- /.row -->
+
+
+
+		<!-- START THE FEATURETTES -->
+
+		<hr class="featurette-divider" />
+
+		<div class="row featurette">
+			<div class="col-md-7">
+				<h2 class="featurette-heading">
+					First featurette heading. <span class="text-muted">It'll blow your mind.</span>
+				</h2>
+				<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
+					commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+			</div>
+			<div class="col-md-5">
+				<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image" />
+			</div>
+		</div>
+
+		<hr class="featurette-divider" />
+
+		<div class="row featurette">
+			<div class="col-md-7 col-md-push-5">
+				<h2 class="featurette-heading">
+					Oh yeah, it's that good. <span class="text-muted">See for yourself.</span>
+				</h2>
+				<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
+					commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+			</div>
+			<div class="col-md-5 col-md-pull-7">
+				<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image" />
+			</div>
+		</div>
+
+		<hr class="featurette-divider" />
+
+		<div class="row featurette">
+			<div class="col-md-7">
+				<h2 class="featurette-heading">
+					And lastly, this one. <span class="text-muted">Checkmate.</span>
+				</h2>
+				<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
+					commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+			</div>
+			<div class="col-md-5">
+				<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image" />
+			</div>
+		</div>
+
+		<hr class="featurette-divider" />
+
+		<!-- /END THE FEATURETTES -->
+
+	</div>
+	<!-- /.container -->
+
+</div>
+<!-- /.body - content -->

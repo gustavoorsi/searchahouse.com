@@ -1,0 +1,47 @@
+<div>
+
+	<input type="hidden" id="agentId" value="{{agent.primaryKey}}" />
+
+	<div class="row featurette">
+		<div class="col-md-7">
+			<h2 class="featurette-heading">
+				First featurette heading. <span class="text-muted">It'll blow your mind.</span>
+			</h2>
+			<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo
+				cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+		</div>
+		<div class="col-md-5">
+			<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image" />
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">Properties</div>
+		<div class="panel-body">
+			<p>List of properties for this agent.</p>
+		</div>
+
+		<!-- Table -->
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="property in agent.properties">
+					<th scope="row">{{ property.primaryKey }}</th>
+					<td><a ng-href="#/property/{{property.primaryKey}}">{{ property.name }}</a></td>
+					<td>{{ property.description }}</td>
+					<td>{{ property.type }}</td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
+
+</div>
