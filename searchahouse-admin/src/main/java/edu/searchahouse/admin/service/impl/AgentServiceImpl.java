@@ -31,7 +31,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public Page<Agent> findAllAgents(Pageable pageable) {
 
-		String endpoint = "http://localhost:8080/api/v1/agent?page=" + pageable.getPageNumber() + "&size=" + pageable.getPageSize()
+		String endpoint = "http://localhost:7070/api/v1/agent?page=" + pageable.getPageNumber() + "&size=" + pageable.getPageSize()
 				+ (pageable.getSort() == null ? "" : "&sort=" + pageable.getSort());
 
 		ResponseEntity<PagedResources<Resource<Agent>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
@@ -48,7 +48,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public void deleteAgent(String agentId) {
 
-		final String endpoint = "http://localhost:8080/api/v1/agent/" + agentId;
+		final String endpoint = "http://localhost:7070/api/v1/agent/" + agentId;
 
 		this.restTemplate.delete(endpoint);
 

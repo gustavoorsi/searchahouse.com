@@ -30,7 +30,7 @@ public class LeadServiceImpl implements LeadsService {
 
 	@Override
 	public Page<Lead> findAllLeads(Pageable pageable) {
-		String endpoint = "http://localhost:8080/api/v1/lead?page=" + pageable.getPageNumber() + "&size=" + pageable.getPageSize()
+		String endpoint = "http://localhost:7070/api/v1/lead?page=" + pageable.getPageNumber() + "&size=" + pageable.getPageSize()
 				+ (pageable.getSort() == null ? "" : "&sort=" + pageable.getSort());
 
 		ResponseEntity<PagedResources<Resource<Lead>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
@@ -46,7 +46,7 @@ public class LeadServiceImpl implements LeadsService {
 
 	@Override
 	public void deleteLead(String leadId) {
-		final String endpoint = "http://localhost:8080/api/v1/lead/" + leadId;
+		final String endpoint = "http://localhost:7070/api/v1/lead/" + leadId;
 
 		this.restTemplate.delete(endpoint);
 

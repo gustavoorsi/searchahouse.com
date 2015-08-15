@@ -30,7 +30,7 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public Page<Property> findAllProperties(Pageable pageable) {
-		String endpoint = "http://localhost:8080/api/v1/property?page=" + pageable.getPageNumber() + "&size=" + pageable.getPageSize()
+		String endpoint = "http://localhost:7070/api/v1/property?page=" + pageable.getPageNumber() + "&size=" + pageable.getPageSize()
 				+ (pageable.getSort() == null ? "" : "&sort=" + pageable.getSort());
 
 		ResponseEntity<PagedResources<Resource<Property>>> pagedResourceResponse = this.restTemplate.exchange(endpoint, HttpMethod.GET, null,
@@ -46,7 +46,7 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public void deleteProperty(String propertyId) {
-		final String endpoint = "http://localhost:8080/api/v1/property/" + propertyId;
+		final String endpoint = "http://localhost:7070/api/v1/property/" + propertyId;
 
 		this.restTemplate.delete(endpoint);
 
